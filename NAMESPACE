@@ -1,0 +1,19 @@
+
+
+
+import(lattice)
+importFrom(stats, as.formula)
+
+export(gplot, gplotArgs, "gplotArgs<-")
+
+S3method(gplot, default)
+
+S3method(gplotArgs, default)
+S3method(gplotArgs, data.frame)
+
+S3method("gplotArgs<-", default)
+S3method("gplotArgs<-", data.frame)
+
+### Local variables:
+### mode: R
+### End:

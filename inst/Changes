@@ -1,0 +1,6 @@
+
+
+ o new generic function 'gplot' -- like 'plot', but meant to produce a
+   `grouped' Trellis plot.  Methods can be defined for objects that
+    already have a 'plot' method.  API Currently unstable.
+
