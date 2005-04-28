@@ -44,7 +44,7 @@ panel.df.fn <-               # factor ~ numeric
 }
 
 panel.df.nn <-               # numeric ~ numeric
-    function(x, y, lines = type == "p", type = "p", ...)
+    function(x, y, lines = all(type == "p"), type = "p", ...)
 {
     panel.xyplot(x, y, type = type, ...)
     if (lines)

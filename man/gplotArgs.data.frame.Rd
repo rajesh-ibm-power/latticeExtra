@@ -12,8 +12,8 @@ gplotArgs.data.frame(x, display.formula, outer = FALSE, inner = FALSE,
 }
 \usage{
 \method{gplotArgs}{data.frame}(x, display.formula,
-                outer = FALSE, inner = FALSE, \dots)
-gplotArgs(x) <- value)
+          outer = FALSE, inner = FALSE, \dots)
+\method{gplotArgs}{data.frame}(x) <- value
 }
 \arguments{
   \item{x}{ an object of class ``data.frame'' }
@@ -27,29 +27,29 @@ gplotArgs(x) <- value)
     attributes of \code{x}, including but not limited to
 
     \describe{
-      \item{formula}{
+      \item{formula:}{
         a model formula with a response, covariate and grouping
         variable, i.e. of the form \code{y ~ x | g}, where \code{x}
         could be \code{1}
       }
 
-      \item{order.groups}{
+      \item{order.groups:}{
         logical, defaults to \code{TRUE}, whether levels of \code{g}
         will be reordered for the plot
       }
-      \item{FUN}{ a function of \code{x} used to reorder levels of
+      \item{FUN:}{ a function of \code{x} used to reorder levels of
         \code{g}, applied to subsets of \code{x} determined by \code{g}
       }
-      \item{outer}{ one-sided formula, defaults to \code{NULL}}
-      \item{inner}{one-sided formula, defaults to \code{NULL}}
-      \item{labels}{
+      \item{outer:}{ one-sided formula, defaults to \code{NULL}}
+      \item{inner:}{one-sided formula, defaults to \code{NULL}}
+      \item{labels:}{
         list of character strings (or expressions?) with named
         comonents, specifying variable names used in plot labels.  The
         component names must be variables in the data frame.  Not all
         variables need be present (if not, the variable names will be
         used for labels).
       }
-      \item{units}{
+      \item{units:}{
         list, similar to \code{labels}, but specifying the units of
         measurement (if present, used in constructing labels)
       }
