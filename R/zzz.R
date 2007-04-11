@@ -18,38 +18,16 @@
 ### MA 02111-1307, USA
 
 
-
-
-
-# .onLoad <- function(lib, pkg) 
-# {
-#     library.dynam(pkg, pkg, lib )
-#     lattice.options(.defaultLatticeOptions())
-#     lattice.setStatus(.defaultLatticeStatus())
-# }
-
 ## .noGenerics <- TRUE
 .noGenerics <- FALSE
 
-# .onUnload <- function(libpath)
-#     library.dynam.unload("lattice", libpath)
-
-
-
-
-
-
-## .First.lib will be used if the NAMESPACE file is missing.  This is
+## .First.lib can be used if the NAMESPACE file is missing.  This is
 ## useful during development, thanks to C-c C-l in Emacs/ESS. It won't
 ## be used if NAMESPACE is present.
 
 
-.First.lib <- function(lib, pkg) 
-{
-    ## library.dynam(pkg, pkg, lib )
-    require(lattice)
-}
-
-
-
+## .First.lib <- function(lib, pkg) 
+## {
+##     require(lattice)
+## }
 

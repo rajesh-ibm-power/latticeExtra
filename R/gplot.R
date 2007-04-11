@@ -61,6 +61,7 @@ gplot.default <- function(x, ...)
     if (!is.null(callList$display.formula))
     {
         callList$x <- callList$display.formula
+        ## callList$formula <- callList$display.formula
         callList$display.formula <- NULL
     }
     if (is.null(plotFun))
