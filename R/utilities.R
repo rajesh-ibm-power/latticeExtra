@@ -3,25 +3,12 @@
 
 
 updateList <-
-    function(x, val)
+    function (x, val)
 {
-    if (is.null(x)) x <- list()
-    if (!is.list(x)) stop("x must be NULL or a list")
-    if (!is.list(val)) stop("val must be a list")
-    xnames <- names(x)
-    for (v in names(val))
-    {
-        existing <- v %in% xnames
-        if (existing && is.list(x[[v]]) && is.list(val[[v]]))
-            x[[v]] <- updateList(x[[v]], val[[v]])
-        else 
-            x[[v]] <- val[[v]]
-    }
-    x
+    if (is.null(x))
+        x <- list()
+    modifyList(x, val)
 }
-
-
-
 
 
 
