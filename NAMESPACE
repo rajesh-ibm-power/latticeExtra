@@ -1,32 +1,31 @@
 
 
-
 import(grid)
 import(lattice)
 
-## import(hexbin)
-
 importFrom(stats, as.formula)
+
+export(dendrogramGrob) ## FIXME: add some variant of heatmap
+
+export(rootogram, panel.rootogram, prepanel.rootogram)
+export(ecdfplot, panel.ecdfplot, prepanel.ecdfplot)
+
+S3method(rootogram, formula)
+S3method(ecdfplot, formula)
+S3method(ecdfplot, numeric)
+
+
+## obsolete, will go away at some point
 
 export(gplot, gplotArgs, "gplotArgs<-")
 
-
-export(
-       ## hexbinplot, prepanel.hexbinplot, panel.hexbinplot, hexlegendGrob,
-       rootogram, panel.rootogram, prepanel.rootogram)
-
-
 S3method(gplot, default)
-
 S3method(gplotArgs, default)
 S3method(gplotArgs, data.frame)
 
 S3method("gplotArgs<-", default)
 S3method("gplotArgs<-", data.frame)
 
-
-## S3method(hexbinplot, formula)
-S3method(rootogram, formula)
 
 
 ### Local variables:
