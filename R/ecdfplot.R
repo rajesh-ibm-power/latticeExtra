@@ -28,7 +28,8 @@ panel.ecdfplot <-
     nobs <- sum(!is.na(x))
     if (!is.null(groups))
     {
-        panel.superpose(x, y = NULL, f.value = f.value,
+        panel.superpose(x, y = NULL,
+                        f.value = f.value, type = type,
                         distribution = distribution, 
                         qtype = qtype,
                         groups = groups,
