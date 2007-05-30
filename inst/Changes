@@ -1,4 +1,5 @@
 
+ o dendrogramGrob to produce a dendrogram that can be used as a legend
 
  o new generic function 'gplot' -- like 'plot', but meant to produce a
    `grouped' Trellis plot.  Methods can be defined for objects that

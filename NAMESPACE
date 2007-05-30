@@ -14,6 +14,9 @@ S3method(rootogram, formula)
 S3method(ecdfplot, formula)
 S3method(ecdfplot, numeric)
 
+export(panel.3dbars, panel.3dpolygon)
+
+
 
 ## obsolete, will go away at some point
 
