@@ -1,4 +1,5 @@
 \name{panel.3dmisc}
+\alias{panel.3dtext}
 \alias{panel.3dbars}
 \alias{panel.3dpolygon}
 \title{Miscellanous panel utilities for three dimensional Trellis Displays}
@@ -33,6 +34,10 @@ panel.3dpolygon(x, y, z, rot.mat = diag(4), distance,
                 font, fontface, 
                 ...)
 
+panel.3dtext(x, y, z, labels = seq_along(x),
+             rot.mat = diag(4), distance, ...)
+
+
 }
 \arguments{
   \item{x, y, z}{
@@ -41,6 +46,7 @@ panel.3dpolygon(x, y, z, rot.mat = diag(4), distance,
   \item{rot.mat, distance}{
     arguments controlling projection
   }
+  \item{labels}{ character or expression vectors to be uses as labels }
   \item{xlim, ylim, zlim}{ 
     limits in the original scale
   }
@@ -86,6 +92,16 @@ library(lattice)
 cloud(VADeaths, panel.3d.cloud = panel.3dbars,
       col.facet = "grey", xbase = 0.4, ybase = 0.4,
       screen = list(z = 40, x = -30))
+
+cloud(as.table(prop.table(Titanic, margin = 1:3)[,,,2]),
+      type = c("p", "h"),
+      zlab = "Proportion\nSurvived",
+      panel.3d.cloud = panel.3dbars,
+      xbase = 0.4, ybase = 0.4,
+      aspect = c(1, 0.3),
+      scales = list(distance = 2),
+      panel.aspect = 0.5)
+
 }
 
 \keyword{dplot}

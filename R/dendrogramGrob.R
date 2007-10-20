@@ -77,6 +77,7 @@ dendrogramGrob <-
              type = c("rectangle", "triangle"),
              ...)
 {
+    if (size <= 0) return(textGrob(label = NULL))
     type <- match.arg(type)
     native.height <- attr(x, "height")
     native.xscale <- c(1, length(ord)) + c(-1, 1) * lattice.getOption("axis.padding")$factor
