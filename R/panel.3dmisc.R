@@ -181,3 +181,33 @@ panel.3dpolygon <-
 }
 
 
+
+
+panel.3dtext <-
+    function(x, y, z, labels = seq_along(x),
+             rot.mat = diag(4), distance, ...)
+{
+    if (all(is.na(x) | is.na(y) | is.na(z))) return()
+    m <- ltransform3dto3d(rbind(x, y, z), rot.mat, distance)
+    ord <- sort.list(m[3,])
+    panel.text(x = m[1, ord], y = m[2, ord], ...)
+}
+
+
+
+## d <- data.frame(x = rnorm(10),
+##                 y = rnorm(10),
+##                 z = rnorm(10))
+## rownames(d) <- letters[1:10]
+
+## cloud(z ~ x * y, d, panel.3d.cloud = panel.3dtext)
+## cloud(z ~ x * y, d, panel.3d.cloud = panel.3dtext,
+##       labels = rownames(d), col = "red")
+
+## ## for multipanel plots
+
+## cloud(z ~ x * y, d,
+##       panel.3d.cloud = function(..., subscripts) {
+##           panel.3dtext(..., labels = rownames(d)[subscripts])
+##       })
+
