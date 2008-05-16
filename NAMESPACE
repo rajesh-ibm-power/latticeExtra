@@ -10,10 +10,12 @@ export(dendrogramGrob) ## FIXME: add some variant of heatmap
 export(rootogram, panel.rootogram, prepanel.rootogram)
 export(ecdfplot, panel.ecdfplot, prepanel.ecdfplot)
 export(mapplot, panel.mapplot, prepanel.mapplot)
+export(segplot, prepanel.segplot, panel.segplot)
 
 S3method(rootogram, formula)
 S3method(ecdfplot, formula)
 S3method(ecdfplot, numeric)
+S3method(segplot, formula)
 
 S3method(mapplot, formula)
 

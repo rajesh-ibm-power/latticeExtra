@@ -25,7 +25,7 @@ mapplot(x, data, \dots)
 
 
 prepanel.mapplot(x, y, map, \dots)
-panel.mapplot(x, y, map, breaks, colramp, lwd = 0.01, \dots)
+panel.mapplot(x, y, map, breaks, colramp, lwd = 0.5, \dots)
 
 
 }
