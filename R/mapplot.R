@@ -6,7 +6,7 @@ prepanel.mapplot <- function(x, y, map, ...) {
 
 panel.mapplot <-
     function(x, y, map, breaks, colramp,
-             lwd = 0.01, ...)
+             lwd = 0.5, ...)
 {
     names(x) <- as.character(y)
     interval <-
