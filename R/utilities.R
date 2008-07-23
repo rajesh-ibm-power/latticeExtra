@@ -16,7 +16,9 @@ updateList <-
 useOuterStrips <-
     function(x,
              strip = strip.default,
-             strip.left = strip.custom(horizontal = FALSE))
+             strip.left = strip.custom(horizontal = FALSE),
+             strip.lines = 1,
+             strip.left.lines = strip.lines)
 {
     dimx <- dim(x)
     stopifnot(inherits(x, "trellis"))
@@ -25,10 +27,10 @@ useOuterStrips <-
     par.settings <-
         modifyList(opar,
                    list(layout.heights =
-                        if (x$as.table) list(strip = c(1, rep(0, dimx[2]-1)))
+                        if (x$as.table) list(strip = c(strip.lines, rep(0, dimx[2]-1)))
                         else list(strip = c(rep(0, dimx[2]-1), 1)),
                         layout.widths =
-                        list(strip.left = c(1, rep(0, dimx[1]-1)))))
+                        list(strip.left = c(strip.left.lines, rep(0, dimx[1]-1)))))
     if (is.character(strip))
         strip <- get(strip)
     if (is.logical(strip) && strip)
