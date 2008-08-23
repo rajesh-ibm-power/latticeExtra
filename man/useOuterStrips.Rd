@@ -14,7 +14,9 @@
 
 useOuterStrips(x,
                strip = strip.default,
-               strip.left = strip.custom(horizontal = FALSE))
+               strip.left = strip.custom(horizontal = FALSE),
+               strip.lines = 1,
+               strip.left.lines = strip.lines)
 
 resizePanels(x, h = 1, w = 1)
 
@@ -26,6 +28,9 @@ resizePanels(x, h = 1, w = 1)
     would be appropriate \code{strip} and \code{strip.left} arguments
     respectively in a high level lattice function call (see
     \code{\link{xyplot}}) }
+  \item{strip.lines, strip.left.lines}{ height of strips in number of
+    lines; helpful for multi-line text or mathematical annotation in
+    strips. }
   \item{h}{ numeric vector specifying panel heights}
   \item{w}{ numeric vector specifying of panel widths}
 }
