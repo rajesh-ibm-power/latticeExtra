@@ -49,7 +49,7 @@
   a new trellis object.
 }
 \author{ Felix Andrews \email{felix@nfrac.org} }
-\seealso{ \code{\link{marginals}} was the original motivating application,
+\seealso{ \code{\link{marginal.plot}} was the original motivating application,
   \code{\link[lattice]{print.trellis}},
   \code{\link[lattice]{update.trellis}},
   \code{\link[lattice]{trellis.object}} }
@@ -60,52 +60,53 @@ c(wireframe(volcano), contourplot(volcano))
 
 ## a table as both frequencies and proportions
 ## (together contains the same information as mosaic plot)
-## remove last row (containing totals)
 
 data(postdoc)
+## remove last row (containing totals)
 postdoc <- postdoc[1:(nrow(postdoc)-1),]
-pdprops <- barchart(prop.table(postdoc, margin=1), xlab="Proportion",
-                   auto.key=list(adj=1))
+pdprops <- barchart(prop.table(postdoc, margin = 1),
+                    auto.key = list(adj = 1))
 pdmargin <- barchart(margin.table(postdoc, 1))
 pdboth <- c(pdprops, pdmargin)
-update(pdboth, xlab=c("Proportion", "Freq"))
+update(pdboth, xlab = c("Proportion", "Freq"))
 
 ## conditioned 'quakes' plot combined with histogram
 qua <- xyplot(lat ~ long | equal.count(depth, 3), quakes,
-    aspect="iso", pch=".", cex=2, xlab=NULL, ylab=NULL)
-qua <- c(qua, depth=histogram(quakes$depth))
+    aspect = "iso", pch = ".", cex = 2, xlab = NULL, ylab = NULL)
+qua <- c(qua, depth = histogram(quakes$depth))
 ## suppress scales on the first 3 panels
-update(qua, scales=list(at=c(rep(list(NULL), 3), NA),
-                 y=list(draw=FALSE)))
+update(qua, scales = list(at = list(NULL, NULL, NULL, NA),
+                 y = list(draw = FALSE)))
 
 ## visualise statistical and spatial distributions
+library(maps)
 vars <- as.data.frame(state.x77)
 StateName <- tolower(state.name)
 form <- StateName ~ Population + Income + Illiteracy +
    `Life Exp` + Murder + `HS Grad` + Frost + sqrt(Area)
 ## construct independent maps of each variable
-library(maps)
 statemap <- map("state", plot = FALSE, fill = TRUE)
 statemap$names <- gsub(":.*", "", statemap$names)
-colkey <- draw.colorkey(list(col=heat.colors(100),
-    at=0:100, labels=list(labels=c("min","max"), at=c(0,100))))
+colkey <- draw.colorkey(list(col = heat.colors(100),
+    at = 0:100, labels = list(labels = c("min","max"), at = c(0,100))))
 panel.mapplot.each <- function(x, breaks, ...)
-   panel.mapplot(x=x, breaks=quantile(x), ...)
-vmaps <- mapplot(form, vars, map=statemap, colramp=heat.colors,
-  panel=panel.mapplot.each, colorkey=FALSE,
-  legend=list(right=list(fun=colkey)), xlab=NULL)
+   panel.mapplot(x = x, breaks = quantile(x), ...)
+vmaps <- mapplot(form, vars, map = statemap, colramp = heat.colors,
+  panel = panel.mapplot.each, colorkey = FALSE,
+  legend = list(right = list(fun = colkey)), xlab = NULL)
 ## construct independent densityplots of each variable
-vdens <- densityplot(form[-2], vars, outer=TRUE,
-   prepanel=function(...)
-      list(xlim=c(0, max(prepanel.default.densityplot(...)$xlim))),
-   scales=list(relation="free", x=list(axs="i")), cex=0.5, ref=TRUE)
+vdens <- densityplot(form[-2], vars, outer = TRUE,
+   prepanel = function(...)
+      list(xlim = c(0, max(prepanel.default.densityplot(...)$xlim))),
+   scales = list(relation = "free", x = list(axs = "i")),
+   cex = 0.5, ref = TRUE)
 ## combine panels from both plots
 combo <- c(vmaps, vdens)
 ## rearrange in pairs
 n <- length(vars)
-npairs <- rep(1:n, each=2) + c(0,n)
-update(combo[npairs], scales=list(draw=FALSE),
-       layout=c(4,4), between = list(x = c(0, 0.5), y = 0.5))
+npairs <- rep(1:n, each = 2) + c(0, n)
+update(combo[npairs], scales = list(draw = FALSE),
+       layout = c(4, 4), between = list(x = c(0, 0.5), y = 0.5))
 
 ## this example can be done with lattice anyway, as something like:
 ## xyplot(Petal.Length + Sepal.Length ~ Petal.Width + Sepal.Width,

@@ -30,10 +30,9 @@ export(custom.theme)
 ## contributions from Felix Andrews (mostly useful in conjunction with
 ## the playwith package)
 
-export(layer,
-       layer1, layer2, layer3, layer4, layer5, 
-       undoLayer, flattenPanel,
-       marginals)
+export(tileplot, panel.voronoi, panel.levelplot.points,
+       marginal.plot,
+       layer, flattenPanel)
 
 S3method(c, trellis)
 S3method("+", trellis)

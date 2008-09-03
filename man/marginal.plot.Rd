@@ -1,27 +1,27 @@
-\name{marginals}
-\alias{marginals}
+\name{marginal.plot}
+\alias{marginal.plot}
 \title{ Display marginal distributions }
 \description{
   Display marginal distributions of several variables,
   which may be numeric and/or categorical, on one plot.
 }
 \usage{
-marginals(data,
-          reorder = TRUE,
-          plot.points = FALSE,
-          ref = TRUE,
-          origin = 0,
-          levels.fos = NULL,
-          xlab = NULL, ylab = NULL,
-          cex = 0.5,
-          ...,
-          subset = TRUE,
-          as.table = TRUE,
-          subscripts = TRUE,
-          default.scales = list(
-            x = list(relation="free", abbreviate=TRUE,
-                     rot=60, cex=0.5, tick.number=3),
-            y = list(relation="free", draw=FALSE)))
+marginal.plot(data,
+              reorder = TRUE,
+              plot.points = FALSE,
+              ref = TRUE,
+              origin = 0,
+              levels.fos = NULL,
+              xlab = NULL, ylab = NULL,
+              cex = 0.5,
+              ...,
+              subset = TRUE,
+              as.table = TRUE,
+              subscripts = TRUE,
+              default.scales = list(
+                x = list(relation="free", abbreviate=TRUE,
+                         rot=60, cex=0.5, tick.number=3),
+                y = list(relation="free", draw=FALSE)))
 }
 \arguments{
   \item{data}{ a data frame. }
@@ -38,7 +38,7 @@ marginals(data,
 }
 \details{
   In the case of mixed numeric and categorical variables,
-  the trellis objects from \code{dotplot()} and \code{densityplot}
+  the trellis objects from \code{dotplot()} and \code{densityplot()}
   are merged.
 }
 \value{
@@ -50,8 +50,8 @@ marginals(data,
 \examples{
 enviro <- environmental
 ## make an ordered factor (so it will not be reordered)
-enviro$smell <- cut(enviro$ozone, breaks=c(0,30,50,Inf),
-    labels=c("ok","hmmm","yuck"), ordered=TRUE)
-marginals(enviro)
+enviro$smell <- cut(enviro$ozone, breaks = c(0, 30, 50, Inf),
+    labels = c("ok", "hmmm", "yuck"), ordered = TRUE)
+marginal.plot(enviro)
 }
 \keyword{ hplot }
