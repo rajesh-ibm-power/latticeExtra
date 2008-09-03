@@ -1,25 +1,26 @@
+##
+## Copyright (c) 2008 Felix Andrews <felix@nfrac.org>
+## GPL version 2 or newer
 
-## Copyright (C) 2008 Felix Andrews <felix@nfrac.org>
-## GPL >= 2
-
-layer <- function(..., data = NULL, under = FALSE, layer = NULL)
+layer <- function(..., data = NULL, under = FALSE, style = NULL)
 {
     foo <- match.call()
     ## set layer to quoted expressions in `...`
-    foo$layer <- NULL
+    foo$style <- NULL
     foo$data <- NULL
     foo$under <- NULL
     foo <- as.expression(as.list(foo)[-1])
-    ## if 'layer' specified, wrap some code around it
-    if (is.numeric(layer) && (layer > 0)) {
-        setlayer <- substitute({
+    ## if 'style' specified, wrap some code around it
+    if (is.numeric(style) && (style > 0)) {
+        setstyle <- substitute({
             .TRELLISPAR <- trellis.par.get()
             trellis.par.set(plot.line = Rows(trellis.par.get("superpose.line"), N),
                             add.line = Rows(trellis.par.get("superpose.line"), N),
+                            add.text = Rows(trellis.par.get("superpose.line"), N),
                             plot.symbol = Rows(trellis.par.get("superpose.symbol"), N),
                             plot.polygon = Rows(trellis.par.get("superpose.polygon"), N))
-            }, list(N=layer))
-        foo <- c(setlayer, foo,
+            }, list(N = style))
+        foo <- c(setstyle, foo,
                  quote(trellis.par.set(.TRELLISPAR)))
     }
     attr(foo, "data") <- data
@@ -36,7 +37,6 @@ print.layer <- print.default
 {
     e1 <- x
     e2 <- lay
-
     e1.layer <- (inherits(e1, "layer"))
     e2.layer <- (inherits(e2, "layer"))
     if (e1.layer && e2.layer) {
@@ -76,63 +76,19 @@ print.layer <- print.default
     ## a flag to indicate this panel function has layers
     ## (used by flattenPanel and undoLayer)
     .is.a.layer <- TRUE
-    newpanel <- function(...) {
+    newpanel <- function(..., subscripts = TRUE) {
         dots <- list(...)
         with(dots, for (foo in rev(layer))
              if (attr(foo, "under") == TRUE)
              eval(foo, attr(foo, "data"),
                   environment()))
-        panel(...)
+        panel(..., subscripts = subscripts)
         with(dots, for (foo in layer)
              if (attr(foo, "under") == FALSE)
              eval(foo, attr(foo, "data"),
                   environment()))
     }
     update(object, panel=newpanel)
-}
-
-layer1 <- function(...) {
-    ccall <- match.call()
-    ccall$layer <- 1
-    ccall[[1]] <- quote(layer)
-    eval.parent(ccall)
-}
-
-layer2 <- function(...) {
-    ccall <- match.call()
-    ccall$layer <- 2
-    ccall[[1]] <- quote(layer)
-    eval.parent(ccall)
-}
-
-layer3 <- function(...) {
-    ccall <- match.call()
-    ccall$layer <- 3
-    ccall[[1]] <- quote(layer)
-    eval.parent(ccall)
-}
-
-layer4 <- function(...) {
-    ccall <- match.call()
-    ccall$layer <- 4
-    ccall[[1]] <- quote(layer)
-    eval.parent(ccall)
-}
-
-layer5 <- function(...) {
-    ccall <- match.call()
-    ccall$layer <- 5
-    ccall[[1]] <- quote(layer)
-    eval.parent(ccall)
-}
-
-undoLayer <- function(x)
-{
-    stopifnot(is.function(x$panel))
-    env <- environment(x$panel)
-    if (!exists(".is.a.layer", env, inherits=FALSE))
-        stop("does not look like a layer")
-    update(x, panel=env$panel)
 }
 
 flattenPanel <- function(x)
@@ -155,15 +111,13 @@ flattenPanel <- function(x)
     as.call(c(quote(`{`), flat))
 }
 
-## TODO: needs documentation
-panel.refline <-
-    function(...,
-             col.line = ref.line$col,
-             lty = ref.line$lty,
-             lwd = ref.line$lwd,
-             alpha = ref.line$alpha)
+## not exported -- I do not think this is really useful
+undoLayer <- function(x)
 {
-    ref.line <- trellis.par.get("reference.line")
-    panel.abline(..., col.line=col.line, lty=lty,
-                 lwd=lwd, alpha=alpha)
+    stopifnot(is.function(x$panel))
+    env <- environment(x$panel)
+    if (!exists(".is.a.layer", env, inherits=FALSE))
+        stop("does not look like a layer")
+    update(x, panel=env$panel)
 }
+

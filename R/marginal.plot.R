@@ -1,4 +1,3 @@
-## playwith: interactive plots in R using GTK+
 ##
 ## Copyright (c) 2007 Felix Andrews <felix@nfrac.org>
 ## GPL version 2 or newer
@@ -8,7 +7,7 @@ is.categorical <- function (x)
     is.factor(x) || is.shingle(x) || is.character(x) || is.logical(x)
 }
 
-marginals <-
+marginal.plot <-
     function(data,
              reorder = TRUE,
              plot.points = FALSE,
@@ -66,6 +65,7 @@ marginals <-
                     as.table = as.table,
                     default.scales = default.scales,
                     xlab=xlab, ylab=ylab)
+        factobj$call <- match.call()
         if (all(iscat)) return(factobj)
     }
     if (any(!iscat)) {
@@ -80,10 +80,12 @@ marginals <-
                         as.table = as.table,
                         default.scales = default.scales,
                         xlab=xlab, ylab=ylab)
+        factobj$call <- match.call()
         if (all(!iscat)) return(numobj)
     }
-    ## if there is a mixture of categorical and numerics,
+    ## if there are both categoricals and numerics,
     ## merge the trellis objects
-    return(c(factobj, numobj))
+    obj <- c(factobj, numobj)
+    obj$call <- match.call()
+    obj
 }
-

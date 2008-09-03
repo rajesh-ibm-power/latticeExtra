@@ -1,18 +1,19 @@
-## playwith: interactive plots in R using GTK+
 ##
 ## Copyright (c) 2007 Felix Andrews <felix@nfrac.org>
 ## GPL version 2 or newer
 
-c.trellis <- function(..., x.same=FALSE, y.same=FALSE, recursive=FALSE)
+c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
+                      recursive = FALSE)
 {
     objs <- list(...)
     if (length(objs) == 0) return(NULL)
     if (length(objs) == 1) return(objs[[1]])
-    if (length(objs) > 2)
-        return(c(
-                 c(objs[[1]], objs[[2]]),
-                 do.call("c", objs[-(1:2)])
-                 ))
+    if (length(objs) > 2) {
+        ## merge first two objects, and call again
+        objs <- c(list(do.call("c", objs[1:2])),
+                       objs[-(1:2)])
+        return(do.call("c", objs))
+    }
     ## now exactly 2 objects
     obj1 <- objs[[1]]
     obj2 <- objs[[2]]
@@ -129,7 +130,7 @@ c.trellis <- function(..., x.same=FALSE, y.same=FALSE, recursive=FALSE)
     obj1$packet.sizes <- c(obj1$packet.sizes, obj2$packet.sizes)
     ## turn strips on if either object has strips
     if (identical(obj1$strip, FALSE) &&
-        !identical(obj1$strip, FALSE))
+        !identical(obj2$strip, FALSE))
         obj1$strip <- obj2$strip
     if (identical(obj1$strip, FALSE) &&
         !is.null(names(objs)))
