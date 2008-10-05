@@ -7,7 +7,14 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
 {
     objs <- list(...)
     if (length(objs) == 0) return(NULL)
-    if (length(objs) == 1) return(objs[[1]])
+    if (length(objs) == 1) {
+        ## only one object
+        obj <- objs[[1]]
+        ## set dimnames if given and only one panel
+        if (!is.null(names(objs)) && (prod(dim(obj)) == 1))
+            rownames(obj) <- names(objs)
+        return(obj)
+    }
     if (length(objs) > 2) {
         ## merge first two objects, and call again
         objs <- c(list(do.call("c", objs[1:2])),
@@ -128,7 +135,7 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
     ## the actual data
     obj1$panel.args <- c(obj1$panel.args, obj2$panel.args)
     obj1$packet.sizes <- c(obj1$packet.sizes, obj2$packet.sizes)
-    ## turn strips on if either object has strips
+    ## turn strips on if either object has strips, or names given
     if (identical(obj1$strip, FALSE) &&
         !identical(obj2$strip, FALSE))
         obj1$strip <- obj2$strip
