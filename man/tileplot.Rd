@@ -58,7 +58,7 @@ tmp$Income <- state.x77[,"Income"]
 tileplot(Income ~ x * y, tmp, border = "black",
   panel = function(x, y, ...) {
     panel.voronoi(x, y, ..., points = FALSE)
-    panel.text(x, y, state.abb)
+    panel.text(x, y, state.abb, cex = 0.6)
   })
 }
 \keyword{ hplot }

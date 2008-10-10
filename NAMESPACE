@@ -32,12 +32,12 @@ export(custom.theme)
 
 export(tileplot, panel.voronoi, panel.levelplot.points,
        marginal.plot,
-       layer, flattenPanel)
+       layer, flattenPanel, as.layer)
 
 S3method(c, trellis)
 S3method("+", trellis)
 S3method(print, layer)
-
+S3method(as.layer, trellis)
 
 
 

@@ -34,7 +34,7 @@ panel.levelplot.points(x, y, z, subscripts = TRUE, at = pretty(z),
   \item{points}{ whether to draw the (x, y) points. }
   \item{border}{ colour for polygon borders. }
   \item{na.rm}{ if \code{TRUE}, points with missing \code{z} values will
-    be excluded from the calculation of polygons. If \code{na.rm = FALSE},
+    be excluded from the calculation of polygons. If \code{FALSE},
     those polygons are calculated but are not drawn (i.e. are
     transparent). }
   \item{win.expand}{ defines the rectangular window bounding the
@@ -72,9 +72,15 @@ levelplot(depth ~ long + lat | Magnitude, data = quakes.ordered,
          aspect = "iso", prepanel = prepanel.default.xyplot)
 
 ## a levelplot with jittered cells
-xyz <- expand.grid(x = 1:9, y = 1:9)
+
+xyz <- expand.grid(x = 0:9, y = 0:9)
 xyz[] <- jitter(as.matrix(xyz))
 xyz$z <- with(xyz, sqrt((x - 5)^2 + (y - 5)^2))
+levelplot(z ~ x * y, xyz, panel = panel.voronoi, points = FALSE)
+
+## hexagonal cells
+
+xyz$y <- xyz$y + c(0, 0.5)
 levelplot(z ~ x * y, xyz, panel = panel.voronoi, points = FALSE)
 }
 \keyword{ hplot }

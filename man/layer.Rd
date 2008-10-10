@@ -7,8 +7,7 @@
 \description{
   A mechanism to add new layers to a trellis object,
   optionally using a new data source.
-  This works by augmenting the panel function with arbitrary
-  expressions, defined using the \code{layer()} function.
+  This works by adding arbitrary expressions to the panel function.
   It can simplify programmatic augmentation of trellis objects.
 }
 \usage{
@@ -44,7 +43,7 @@ flattenPanel(x)
 
   A typical example would be adding a reference line
   to each panel: \code{layer(panel.refline(h = 0))}. Note that the
-  expressions are quoted, so if you need to include local variables they
+  expressions are quoted, so if you have local variables they
   will need to be passed in via the \code{data} object:
   \code{layer(panel.refline(h = myVal), data = list(myVal = myVal))}.
   Alternatively,
@@ -56,7 +55,7 @@ flattenPanel(x)
   better option for interactive use is to edit the panel function
   directly.
 
-  When the \code{data} argument is \code{TRUE}, an attempt is made to use
+  When the \code{data} argument is \code{TRUE}, an attempt is made to extract
   the object passed as a \code{data} argument in the original lattice
   plot call.
 
@@ -73,9 +72,8 @@ flattenPanel(x)
   object.
 }
 \author{ Felix Andrews \email{felix@nfrac.org} }
-\seealso{ \code{\link[lattice]{update.trellis}} }
+\seealso{ \code{\link[lattice]{update.trellis}}, \code{\link{as.layer}} }
 \examples{
-
 foo <- xyplot(ozone ~ wind, environmental)
 
 ## overlay reference lines
@@ -121,6 +119,5 @@ newdat$dist <- with(newdat, sqrt((gridlat - -36.87)^2 +
                                  (gridlon - 174.75)^2))
 qua + layer(panel.contourplot(gridlon, gridlat, dist,
    contour = TRUE, subscr = TRUE), data = newdat, under = TRUE)
-
 }
 \keyword{ aplot }

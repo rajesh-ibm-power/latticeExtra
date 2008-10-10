@@ -13,9 +13,8 @@
     panel strips.
   }
   \item{x.same}{ if \code{TRUE}, fix the x scales to those in the
-    first object, as long as that has
-    \code{scales$relation = "same"}.
-    Otherwise, the x scales in each panel
+    first object (as long as that has \code{scales$relation = "same"}).
+    If \code{FALSE}, the default, the x scales in each panel
     will be as they were in the original objects
     (so in general not the same).
   }
@@ -110,14 +109,14 @@ update(combo[npairs], scales = list(draw = FALSE),
 
 ## this example can be done with lattice anyway, as something like:
 ## xyplot(Petal.Length + Sepal.Length ~ Petal.Width + Sepal.Width,
-##        iris, groups=Species, outer=TRUE, scales="free")[c(1,4)]
+##        iris, groups=Species, outer = TRUE, scales = "free")[c(1,4)]
 ## but here is another way to do it:
-sepals <- xyplot(Sepal.Length ~ Sepal.Width, iris, groups=Species,
-  xlab="Width", ylab="Height")
-petals <- xyplot(Petal.Length ~ Petal.Width, iris, groups=Species)
-c(Sepals=sepals, Petals=petals)
+sepals <- xyplot(Sepal.Length ~ Sepal.Width, iris, groups = Species,
+  xlab = "Width", ylab = "Height")
+petals <- xyplot(Petal.Length ~ Petal.Width, iris, groups = Species)
+c(Sepals = sepals, Petals = petals)
 ## if 'same' scales are requested, these are taken from first object
-c(Sepals=sepals, Petals=petals, x.same=TRUE, y.same=TRUE)
+c(Sepals = sepals, Petals = petals, x.same = TRUE, y.same = TRUE)
 
 }
 \keyword{ aplot }

@@ -42,7 +42,7 @@ dendrogramGrob(x, ord = order.dendrogram(x),
     with a straight line (\code{"triangle"}) or as a \dQuote{stair} with
     two lines (\code{"rectangle"})
   }
-  \item{\dots}{ ~~Describe \code{\dots} here~~ }
+  \item{\dots}{ Extra arguments.  Currently ignored. }
 }
 \details{
   The \code{add} argument can be used for additional annotation at the
