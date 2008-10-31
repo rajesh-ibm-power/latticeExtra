@@ -1,4 +1,10 @@
 
+Changes in Version 0.5-4
+
+ o marginal.plot now handles table objects sensibly.
+
+ o marginal.plot now applies 'subset' to 'groups', as it should.
+
 Changes in Version 0.5-3
 
  o improvements to marginal.plot including support for groups.
