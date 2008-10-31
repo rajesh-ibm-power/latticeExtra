@@ -11,7 +11,7 @@ marginal.plot <-
     function(x,
              data = NULL,
              groups = NULL,
-             reorder = TRUE,
+             reorder = !is.table(x),
              plot.points = FALSE,
              ref = TRUE,
              origin = 0,
@@ -27,44 +27,72 @@ marginal.plot <-
                  rot = 60, cex = 0.5, tick.number = 3),
                y = list(relation = "free", draw = FALSE)))
 {
+    if (is.table(data))
+        data <- as.data.frame(data)
     ## assume first term of formula is the data object; ignore rest
     if (inherits(x, "formula"))
         x <- eval(x[[2]], data, environment(x))
-    if (!is.data.frame(x))
-        x <- as.data.frame(x)
     ## groups and subset are subject to non-standard evaluation:
     groups <- eval(substitute(groups), data, parent.frame())
     ## note unusual cases e.g.
     ## evalq(marginal.plot(dat, subset = complete.cases(dat)), myEnv)
     subset <- eval(substitute(subset), data, parent.frame())
     ## apply subset
-    if (!isTRUE(subset)) x <- x[subset,]
+    if ((length(subset) > 0) && !isTRUE(subset)) {
+        x <- x[subset,]
+        if (!is.null(groups))
+            groups <- groups[subset]
+    }
     ## divide into categoricals and numerics
-    iscat <- sapply(x, is.categorical)
+    if (is.table(x)) {
+        iscat <- TRUE
+    } else {
+        iscat <- sapply(x, is.categorical)
+    }
     ## reorder factor levels
     if (reorder) {
-        for (nm in names(x)[iscat]) {
-            val <- x[[nm]]
-            if (is.character(val))
-                x[[nm]] <- factor(val)
-            if (!is.ordered(val) &&
-                !is.shingle(val) &&
-                nlevels(val) > 1)
-            {
-                x[[nm]] <- reorder(val, val, function(z) -length(z))
+        if (is.table(x)) {
+            x <- reorderTableByFreq(x)
+        } else {
+            for (nm in names(x)[iscat]) {
+                val <- x[[nm]]
+                if (is.character(val))
+                    x[[nm]] <- factor(val)
+                if (!is.ordered(val) &&
+                    !is.shingle(val) &&
+                    nlevels(val) > 1)
+                {
+                    x[[nm]] <- reorder(val, val, function(z) -length(z))
+                }
             }
         }
     }
     if (any(iscat)) {
         ## handle categorical variables
         ## make a list of dotplot trellis objects
+        if (is.table(x)) {
+            margins <- seq(length = length(dim(x)))
+            names(margins) <- names(dimnames(x))
+        } else {
+            margins <- which(iscat)
+            names(margins) <- colnames(x)[iscat]
+        }
         dotobjs <-
-            lapply(x[iscat], function(x)
+            lapply(margins,
+                   function(i)
                {
-                   if (!is.null(groups)) {
-                       tab <- table(Value = x, groups = groups)
+                   if (is.table(x)) {
+                       nm <- names(dimnames(x))[i]
+                       form <- paste("Freq ~", nm)
+                       if (!is.null(groups))
+                           form <- paste(form, "+ groups")
+                       tab <- xtabs(as.formula(form), x)
                    } else {
-                       tab <- table(Value = x)
+                       if (!is.null(groups)) {
+                           tab <- table(Value = x[[i]], groups = groups)
+                       } else {
+                           tab <- table(Value = x[[i]])
+                       }
                    }
                    dotplot(tab, horizontal = FALSE,
                            groups = !is.null(groups),
@@ -113,3 +141,13 @@ marginal.plot <-
     obj$call <- match.call()
     obj
 }
+
+reorderTableByFreq <- function(x)
+{
+    stopifnot(is.table(x))
+    df <- as.data.frame(x)
+    i <- which(names(df) == "Freq")
+    df[-i] <- lapply(df[-i], reorder, - df$Freq)
+    xtabs(Freq ~ ., df)
+}
+
