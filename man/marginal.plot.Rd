@@ -19,15 +19,20 @@ marginal.plot(x,
               subset = TRUE,
               as.table = TRUE,
               subscripts = TRUE,
-              par.settings = simpleTheme(cex = 0.6),
               default.scales = list(
-                x = list(relation = "free", abbreviate = TRUE,
-                  rot = 60, cex = 0.5, tick.number = 3),
-                y = list(relation = "free", draw = FALSE)))
+                relation = "free",
+                abbreviate = TRUE, minlength = 5,
+                rot = 30, cex = 0.75, tick.number = 3,
+                y = list(draw = FALSE)),
+             lattice.options = list(
+               layout.heights = list(
+                 axis.xlab.padding = list(x = 0),
+                 xlab.key.padding = list(x = 0))))
 }
 \arguments{
   \item{x}{ a data frame or table, or a formula of which the first term
-    is a data frame or table. }
+    is a data frame or table. Otherwise coerced with
+    \code{as.data.frame}. }
   \item{data}{ an optional data source in which groups and subset may be
     be evaluated. }
   \item{groups}{ term, to be evaluated in \code{data}, that is used as a
@@ -36,11 +41,13 @@ marginal.plot(x,
   \item{subset}{ data subset expression, evaluated in \code{data}. }
   \item{plot.points, ref}{ passed to \code{panel.densityplot}. }
   \item{origin, type}{ passed to \code{panel.dotplot}. }
-  \item{xlab, ylab, as.table,
-    subscripts, par.settings, default.scales}{
+  \item{xlab, ylab, as.table, subscripts}{
     see \code{\link[lattice]{xyplot}}.
   }
-  \item{\dots}{ passed to \code{\link[lattice]{panel.densityplot}} and
+  \item{default.scales, lattice.options}{
+    see \code{\link[lattice]{xyplot}}.
+  }
+  \item{\dots}{ passed to \code{\link[lattice]{panel.densityplot}} and/or
     \code{\link[lattice]{panel.dotplot}}. }
 }
 \details{
@@ -71,6 +78,6 @@ marginal.plot(enviro[,1:5], data = enviro, groups = is.windy,
 marginal.plot(Titanic)
 ## table with groups
 marginal.plot(~ Titanic, data = Titanic, groups = Survived,
-    auto.key = list(title = "Survived?"))
+    type = "b", auto.key = list(title = "Survived?"))
 }
 \keyword{ hplot }

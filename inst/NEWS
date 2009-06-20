@@ -1,4 +1,22 @@
 
+Changes in Version 0.6-0
+
+ o new function xyplot.list, to create and merge multiple plots
+   (and not just xyplots).
+
+ o c.trellis will now set same scales properly when x/y.same=TRUE.
+
+ o new function doubleYScale, to easily overlay two plot series.
+
+ o new functions panel.lmlineq and panel.ablineq for line equations.
+
+ o marginal.plot handles non-syntactic variable names;
+   also now coerces to data.frame (so e.g. works with a matrix).
+
+ o changes to default axis style in marginal.plot.
+
+ o new dataset EastAuClimate.
+
 Changes in Version 0.5-4
 
  o marginal.plot now handles table objects sensibly.

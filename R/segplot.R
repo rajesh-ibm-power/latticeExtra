@@ -29,10 +29,11 @@ panel.segplot <-
     function(x, y, z, level = NULL, subscripts,
              at,
              draw.bands = is.factor(z),
-             col = if (!is.null(level)) plot.polygon$col else plot.line$col,
-             lty = if (!is.null(level)) plot.polygon$lty else plot.line$lty,
-             lwd = if (!is.null(level)) plot.polygon$lwd else plot.line$lwd,
-             border = if (!is.null(level)) plot.polygon$border else "transparent",
+             col = if (draw.bands) plot.polygon$col else plot.line$col,
+             alpha = if (draw.bands) plot.polygon$alpha else plot.line$alpha,
+             lty = if (draw.bands) plot.polygon$lty else plot.line$lty,
+             lwd = if (draw.bands) plot.polygon$lwd else plot.line$lwd,
+             border = if (draw.bands) plot.polygon$border else "transparent",
              col.regions = regions$col,
              band.height = 0.6,
              horizontal = TRUE,
@@ -58,14 +59,14 @@ panel.segplot <-
             panel.rect(x = 0.5 * (x1 + x2),
                        width = x2 - x1,
                        y = as.numeric(z), height = band.height,
-                       border = border, col = col,
+                       border = border, col = col, alpha = alpha,
                        lty = lty, lwd = lwd,
                        ...)
         else 
             panel.rect(y = 0.5 * (x1 + x2),
                        height = x2 - x1,
                        x = as.numeric(z), width = band.height,
-                       border = border, col = col,
+                       border = border, col = col, alpha = alpha,
                        lty = lty, lwd = lwd,
                        ...)
     }
@@ -73,11 +74,11 @@ panel.segplot <-
     {
         if (horizontal)
             panel.segments(x1, as.numeric(z), x2, as.numeric(z), 
-                           col = col, lty = lty, lwd = lwd,
+                           col = col, alpha = alpha, lty = lty, lwd = lwd,
                            ...)
         else
             panel.segments(as.numeric(z), x1, as.numeric(z), x2,
-                           col = col, lty = lty, lwd = lwd,
+                           col = col, alpha = alpha, lty = lty, lwd = lwd,
                            ...)
 
     }

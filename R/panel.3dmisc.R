@@ -190,7 +190,7 @@ panel.3dtext <-
     if (all(is.na(x) | is.na(y) | is.na(z))) return()
     m <- ltransform3dto3d(rbind(x, y, z), rot.mat, distance)
     ord <- sort.list(m[3,])
-    panel.text(x = m[1, ord], y = m[2, ord], ...)
+    panel.text(x = m[1, ord], y = m[2, ord], labels = labels, ...)
 }
 
 

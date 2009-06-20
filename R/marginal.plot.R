@@ -21,17 +21,24 @@ marginal.plot <-
              subset = TRUE,
              as.table = TRUE,
              subscripts = TRUE,
-             par.settings = simpleTheme(cex = 0.6),
              default.scales = list(
-               x = list(relation = "free", abbreviate = TRUE,
-                 rot = 60, cex = 0.5, tick.number = 3),
-               y = list(relation = "free", draw = FALSE)))
+               relation = "free",
+               abbreviate = TRUE, minlength = 5,
+               rot = 30, cex = 0.75, tick.number = 3,
+               y = list(draw = FALSE)),
+             lattice.options = list(
+               layout.heights = list(
+                 axis.xlab.padding = list(x = 0),
+                 xlab.key.padding = list(x = 0))))
 {
     if (is.table(data))
         data <- as.data.frame(data)
     ## assume first term of formula is the data object; ignore rest
     if (inherits(x, "formula"))
         x <- eval(x[[2]], data, environment(x))
+    ## x must be either a data.frame or a table
+    if (!is.data.frame(x) && !is.table(x))
+        x <- as.data.frame(x)
     ## groups and subset are subject to non-standard evaluation:
     groups <- eval(substitute(groups), data, parent.frame())
     ## note unusual cases e.g.
@@ -83,6 +90,7 @@ marginal.plot <-
                {
                    if (is.table(x)) {
                        nm <- names(dimnames(x))[i]
+                       nm <- deparse(as.symbol(nm), backtick = TRUE)
                        form <- paste("Freq ~", nm)
                        if (!is.null(groups))
                            form <- paste(form, "+ groups")
@@ -101,8 +109,8 @@ marginal.plot <-
                            type = type,
                            origin = origin,
                            as.table = as.table,
-                           par.settings = par.settings,
                            default.scales = default.scales,
+                           lattice.options = lattice.options,
                            xlab = xlab, ylab = ylab)
                })
         ## merge the list of trellis objects into one
@@ -113,8 +121,11 @@ marginal.plot <-
     if (any(!iscat)) {
         ## handle numeric variables
         ## construct formula with all numeric variables
-        numform <- paste("~", paste(names(x)[!iscat],
-                                    collapse = " + "))
+        nms <- names(x)[!iscat]
+        symbolStr <- function(nm)
+            deparse(as.symbol(nm), backtick = TRUE)
+        nms <- sapply(nms, symbolStr)
+        numform <- paste("~", paste(nms, collapse = " + "))
         numobj <-
             densityplot(as.formula(numform), x, outer = TRUE,
                         subscripts = TRUE,
@@ -122,8 +133,8 @@ marginal.plot <-
                         ...,
                         plot.points = plot.points, ref = ref,
                         as.table = as.table,
-                        par.settings = par.settings,
                         default.scales = default.scales,
+                        lattice.options = lattice.options,
                         xlab = xlab, ylab = ylab)
         ## set strip name if only one panel
         if (prod(dim(numobj)) == 1)

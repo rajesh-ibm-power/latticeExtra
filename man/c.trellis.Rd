@@ -1,25 +1,39 @@
 \name{c.trellis}
 \alias{c.trellis}
+\alias{xyplot.list}
 \title{ Merge trellis objects }
 \description{
   Combine the panels of multiple trellis objects into one.
 }
 \usage{
-\S3method{c}{trellis}(..., x.same = FALSE, y.same = FALSE, recursive = FALSE)
+\S3method{c}{trellis}(..., x.same = NA, y.same = NA,
+    layout = NULL, recursive = FALSE)
+
+xyplot.list(x, data = NULL, ..., FUN = xyplot,
+    y.same = TRUE, x.same = NA, layout = NULL)
 }
 \arguments{
   \item{\dots}{ two or more trellis objects. If these are
     named arguments, the names will be used in the corresponding
     panel strips.
   }
-  \item{x.same}{ if \code{TRUE}, fix the x scales to those in the
-    first object (as long as that has \code{scales$relation = "same"}).
-    If \code{FALSE}, the default, the x scales in each panel
+  \item{x.same}{ if \code{TRUE}, set the x scale relation to
+    \code{"same"} and recalculate panel limits using data
+    from all panels. Otherwise, the x scales in each panel
     will be as they were in the original objects
-    (so in general not the same).
+    (so in general not the same), the default behaviour.
   }
-  \item{y.same}{ as above, for y scales. }
+  \item{y.same}{ as above, for y scales.
+    Note that \code{xyplot.list} defaults to same y scales. Set to
+    \code{NA} to leave them alone. }
+  \item{layout}{ value for \code{layout} of the new plot; see
+    \code{\link{xyplot}}. }
   \item{recursive}{ for consistency with the generic method, ignored. }
+  \item{x}{ a \code{list}; the function \code{FUN}, which defaults to
+    \code{\link{xyplot}}, will be called on each element of \code{x}, and the
+    resulting plots combined into one. }
+  \item{FUN, data}{ a lattice plot function, to be called on each element of
+    the list \code{x}, along with \code{data} and \code{...} }
 }
 \details{
   This mechanism attempts to merge the panels from multiple trellis
@@ -48,18 +62,40 @@
   a new trellis object.
 }
 \author{ Felix Andrews \email{felix@nfrac.org} }
-\seealso{ \code{\link{marginal.plot}} was the original motivating application,
+\seealso{
+  \code{\link{marginal.plot}} was the original motivating application,
   \code{\link[lattice]{print.trellis}},
   \code{\link[lattice]{update.trellis}},
-  \code{\link[lattice]{trellis.object}} }
+  \code{\link[lattice]{trellis.object}}
+}
 \examples{
 
-## combine different types of plots
+## Combine different types of plots.
 c(wireframe(volcano), contourplot(volcano))
 
-## a table as both frequencies and proportions
-## (together contains the same information as mosaic plot)
+## Combine two xyplots.
+sepals <- xyplot(Sepal.Length ~ Sepal.Width, iris, groups = Species,
+    xlab = "Width", ylab = "Height")
+petals <- xyplot(Petal.Length ~ Petal.Width, iris, groups = Species)
+c(Sepals = sepals, Petals = petals)
 
+## Use same scales (re-calculate panel limits from merged data):
+c(Sepals = sepals, Petals = petals, x.same = TRUE, y.same = TRUE)
+
+## Or - create xyplots from a list of formulas
+xyplot.list(list(Sepals = Sepal.Length ~ Sepal.Width,
+                 Petals = Petal.Length ~ Petal.Width),
+             data = iris, groups = Species, x.same = TRUE,
+             xlab = "Width", ylab = "Height")
+
+## Create histograms from a list of objects, and merge them.
+xyplot.list(iris, FUN = histogram)
+
+## Create cumulative distribution plots from a list of objects
+xyplot.list(iris[1:4], FUN = qqmath, groups = iris$Species,
+            auto.key = TRUE)
+
+## Display a table as both frequencies and proportions:
 data(postdoc)
 ## remove last row (containing totals)
 postdoc <- postdoc[1:(nrow(postdoc)-1),]
@@ -69,7 +105,7 @@ pdmargin <- barchart(margin.table(postdoc, 1))
 pdboth <- c(pdprops, pdmargin)
 update(pdboth, xlab = c("Proportion", "Freq"))
 
-## conditioned 'quakes' plot combined with histogram
+## Conditioned 'quakes' plot combined with histogram.
 qua <- xyplot(lat ~ long | equal.count(depth, 3), quakes,
     aspect = "iso", pch = ".", cex = 2, xlab = NULL, ylab = NULL)
 qua <- c(qua, depth = histogram(quakes$depth))
@@ -77,7 +113,8 @@ qua <- c(qua, depth = histogram(quakes$depth))
 update(qua, scales = list(at = list(NULL, NULL, NULL, NA),
                  y = list(draw = FALSE)))
 
-## visualise statistical and spatial distributions
+## Visualise statistical and spatial distributions
+## (advanced!)
 library(maps)
 vars <- as.data.frame(state.x77)
 StateName <- tolower(state.name)
@@ -106,17 +143,5 @@ n <- length(vars)
 npairs <- rep(1:n, each = 2) + c(0, n)
 update(combo[npairs], scales = list(draw = FALSE),
        layout = c(4, 4), between = list(x = c(0, 0.5), y = 0.5))
-
-## this example can be done with lattice anyway, as something like:
-## xyplot(Petal.Length + Sepal.Length ~ Petal.Width + Sepal.Width,
-##        iris, groups=Species, outer = TRUE, scales = "free")[c(1,4)]
-## but here is another way to do it:
-sepals <- xyplot(Sepal.Length ~ Sepal.Width, iris, groups = Species,
-  xlab = "Width", ylab = "Height")
-petals <- xyplot(Petal.Length ~ Petal.Width, iris, groups = Species)
-c(Sepals = sepals, Petals = petals)
-## if 'same' scales are requested, these are taken from first object
-c(Sepals = sepals, Petals = petals, x.same = TRUE, y.same = TRUE)
-
 }
 \keyword{ aplot }
