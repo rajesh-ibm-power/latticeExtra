@@ -27,18 +27,21 @@ export(panel.3dbars, panel.3dpolygon, panel.3dtext)
 export(useOuterStrips, resizePanels)
 export(custom.theme)
 
-## contributions from Felix Andrews (mostly useful in conjunction with
-## the playwith package)
+## contributions from Felix Andrews
 
-export(tileplot, panel.voronoi, panel.levelplot.points,
-       marginal.plot,
-       layer, flattenPanel, as.layer)
+export(tileplot, panel.voronoi, panel.levelplot.points)
 
+export(panel.lmlineq, panel.ablineq)
+
+export(marginal.plot)
 S3method(c, trellis)
+export(xyplot.list) ## not just an S3 method
+
+export(doubleYScale)
+export(layer, as.layer, flattenPanel)
 S3method("+", trellis)
 S3method(print, layer)
 S3method(as.layer, trellis)
-
 
 
 ## obsolete, will go away at some point

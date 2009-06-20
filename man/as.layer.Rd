@@ -1,14 +1,14 @@
 \name{as.layer}
 \alias{as.layer}
 \alias{as.layer.trellis}
-\title{ Overplot data with different scales }
+\title{ Overlay panels with different scales }
 \description{
-  Simplifies overlaying of plots with different scales.
+  Allows overlaying of lattice plots with different scales.
   The overlaid plots include custom axes and may be drawn in a different
   style.
 
-  \emph{Note:} drawing plots with multiple scales is often a bad idea
-  as it can be misleading.
+  \bold{Note:} in most cases you should use \code{\link{doubleYScale}},
+  and NOT this function.
 }
 \usage{
 as.layer(x, ...)
@@ -48,72 +48,51 @@ as.layer(x, ...)
   an updated trellis object.
 }
 \author{ Felix Andrews \email{felix@nfrac.org} }
-\seealso{ \code{\link{layer}}, \code{\link[lattice]{panel.axis}} }
+\seealso{
+  \code{\link{doubleYScale}},
+  \code{\link{layer}},
+  \code{\link[lattice]{panel.axis}}
+}
 \examples{
 set.seed(1)
-foo <- list(x = 1:100, y = cumsum(rnorm(100)))
-obj1 <- xyplot(y ~ x, foo, type = "l")
-obj2 <- xyplot(y^2 ~ x, foo, type = "l")
+foo <- list(x = as.Date(1:100, "2000-01-01"),
+            y = cumsum(rnorm(100)))
+obj1 <- xyplot(y ~ x, foo, type = "l",
+  scales = list(format = "\%Y \%b"))
+obj2 <- xyplot(jitter(y, amount = 3) ~ I(x + 360), foo,
+  type = "l", scales = list(format = "\%Y \%b"))
 
 ## simple case: no axes for the overlaid plot
 obj1 + as.layer(obj2, style = 2, axes = NULL)
 
-## draw y axis inside (opposite); remove original ticks from right
+## draw x axis inside (opposite); remove original ticks from top
 update(obj1, scales = list(tck = c(1,0))) +
-    as.layer(obj2, style = 2, axes = "y")
+    as.layer(obj2, style = 2, axes = "x")
 
 ## draw original axis in that series' style color
 col1 <- trellis.par.get("superpose.line")$col[1]
 obj1 <- update(obj1, scales = list(tck = c(1,0),
-    y = list(col = col1, col.line = col1) ))
+    x = list(col = col1, col.line = col1) ))
 
-## draw y axis outside (opposite); need extra space
-update(obj1, lattice.options = list(layout.widths =
-    list(right.padding = list(x = 2)))) +
-  as.layer(obj2, style = 2, axes = "y", outside = TRUE)
+## draw x axis outside (opposite); need extra space
+update(obj1, lattice.options = list(layout.heights =
+    list(top.padding = list(x = 2)))) +
+  as.layer(obj2, style = 2, axes = "x", outside = TRUE)
 
 ## or draw both series as layers, over a blank "dummy" plot
-yAxPad <- list(layout.widths = list(
-    axis.left = list(x = 2.5, units = "char"),
-    axis.right = list(x = 2.5, units = "char")))
+xAxPad <- list(layout.heights = list(
+    axis.bottom = list(x = 2.5, units = "char"),
+    axis.top = list(x = 2.5, units = "char")))
 dummy <- update(obj1, panel = function(...) NULL,
-    scales = list(y = list(draw = FALSE)),
-    lattice.options = yAxPad)
+    scales = list(x = list(draw = FALSE)),
+    lattice.options = xAxPad)
 dummy +
-  as.layer(obj1, style = 1, axes = "y", out = TRUE, opp = FALSE) +
-  as.layer(obj2, style = 2, axes = "y", out = TRUE)
-
-## multi-panel example
-## a variant of Figure 5.13 from Sarkar (2008)
-## http://lmdvr.r-forge.r-project.org/figures/figures.html?chapter=05;figure=05_13
-data(SeatacWeather)
-temp <- xyplot(min.temp + max.temp ~ day | month,
-               data = SeatacWeather, type = "l", layout = c(3, 1))
-rain <- xyplot(precip ~ day | month, data = SeatacWeather, type = "h")
-
-merged <- temp + as.layer(rain, axes = "y", outside = TRUE, style = 3)
-merged <- update(merged, lattice.options = list(layout.widths =
-    list(right.padding = list(x = 2))),
-    scales = list(y = list(tck = c(1,0))))
-merged
-
-## setting free scales now only applies to the first object!
-## (rain still has same scales in all panels)
-update(merged, scales = "free")
-
-## multi-panel example with free scales (axes on all panels)
-## this plot is getting really messy now...
-temp.f <- update(temp, scales = "free")
-rain.f <- update(rain, scales = "free")
-merged.f <- temp.f +
-    as.layer(rain.f, axes = "y", outside = TRUE, style = 3)
-update(merged.f, between = list(x = 2),
-    lattice.options = list(layout.widths =
-        list(right.padding = list(x = 2))))
+  as.layer(obj1, style = 1, axes = "x", out = TRUE, opp = FALSE) +
+  as.layer(obj2, style = 2, axes = "x", out = TRUE)
 
 ## applying one panel layer to several panels of another object
 xyplot(Sepal.Length + Sepal.Width ~ Petal.Length + Petal.Width | Species,
        data = iris, scales = "free") +
-as.layer(levelplot(volcano), under = TRUE)
+   as.layer(levelplot(volcano), under = TRUE)
 }
 \keyword{ aplot }

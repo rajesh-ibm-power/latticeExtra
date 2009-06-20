@@ -2,8 +2,33 @@
 ## Copyright (c) 2007 Felix Andrews <felix@nfrac.org>
 ## GPL version 2 or newer
 
-c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
-                      recursive = FALSE)
+
+xyplot.list <-
+    function(x, data = NULL, ..., FUN = xyplot,
+             y.same = TRUE, x.same = NA, layout = NULL)
+{
+    if (length(x) == 0) return(NULL)
+    ## NOTE lapply here causes problems with eval.parent and `...` later.
+    #objs <- lapply(x, FUN, data = data, ...)
+    objs <- vector(mode = "list", length = length(x))
+    for (i in as.numeric(seq_along(x))) {
+        ## use substitute to get reasonable ylab (but still has [[1]])
+        ## and to avoid warnings about 'data' in e.g. qqmath.numeric
+        objs[[i]] <- eval.parent(substitute(FUN(x[[i]], data = data, ...)))
+    }
+    names(objs) <- names(x)
+    ok <- unlist(lapply(objs, inherits, "trellis"))
+    if (any(!ok))
+        stop("FUN returned object of class ",
+             toString(class(objs[[ which(!ok)[1] ]])),
+             ", not trellis.")
+    do.call("c", c(objs,
+                   x.same = x.same, y.same = y.same, layout = layout))
+}
+
+c.trellis <-
+    function(..., x.same = NA, y.same = NA,
+             layout = NULL, recursive = FALSE)
 {
     objs <- list(...)
     if (length(objs) == 0) return(NULL)
@@ -17,9 +42,12 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
     }
     if (length(objs) > 2) {
         ## merge first two objects, and call again
-        objs <- c(list(do.call("c", objs[1:2])),
-                       objs[-(1:2)])
-        return(do.call("c", objs))
+        first2Merged <-
+            do.call("c", c(objs[1:2],
+                           x.same = x.same, y.same = y.same))
+        return(do.call("c", c(list(first2Merged), objs[-(1:2)],
+                              x.same = x.same, y.same = y.same,
+                              layout = layout)))
     }
     ## now exactly 2 objects
     obj1 <- objs[[1]]
@@ -42,6 +70,7 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
             PANEL1(...)
         else PANEL2(...)
     }
+    ## TODO: treat 'prepanel' the same way as 'panel'?
     ## flatten the trellis objects (make 1 dimensional)
     flatIC <- function(index.cond) {
         dim <- sapply(index.cond, length)
@@ -72,6 +101,7 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
     obj1$condlevels <- list(c(flatCL(obj1$condlevels, names(objs)[1]),
                               flatCL(obj2$condlevels, names(objs)[2])))
     obj1$perm.cond <- 1
+
     ## make scales nominally "free", so they look like original objects
     makeFreeScales <- function(obj, npack, x.y)
     {
@@ -93,21 +123,21 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
     ## or if the limits in the two objects are not identical
     xlimItems <- c("x.limits", "x.num.limit", "x.used.at")
     ylimItems <- c("y.limits", "y.num.limit", "y.used.at")
-    if (missing(x.same)) {
+    if (is.na(x.same)) {
         x.same <- FALSE
         if (!is.list(obj1$x.limits) &&
             identical(unclass(obj1)[xlimItems],
                       unclass(obj2)[xlimItems]))
-            x.same <- TRUE
+            x.same <- NA
     }
-    if (missing(y.same)) {
+    if (is.na(y.same)) {
         y.same <- FALSE
         if (!is.list(obj1$y.limits) &&
             identical(unclass(obj1)[ylimItems],
                       unclass(obj2)[ylimItems]))
-            y.same <- TRUE
+            y.same <- NA
     }
-    if ((x.same == FALSE) ||
+    if (identical(x.same, FALSE) ||
         is.list(obj1$x.limits))
     {
         obj1 <- makeFreeScales(obj1, npack=NPACK1, x.y="x")
@@ -116,7 +146,7 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
         obj1$x.num.limit <- c(obj1$x.num.limit, obj2$x.num.limit)
         obj1$x.used.at <- c(obj1$x.used.at, obj2$x.used.at)
     }
-    if ((y.same == FALSE) ||
+    if (identical(y.same, FALSE) ||
         is.list(obj1$y.limits))
     {
         obj1 <- makeFreeScales(obj1, npack=NPACK1, x.y="y")
@@ -125,23 +155,41 @@ c.trellis <- function(..., x.same = FALSE, y.same = FALSE,
         obj1$y.num.limit <- c(obj1$y.num.limit, obj2$y.num.limit)
         obj1$y.used.at <- c(obj1$y.used.at, obj2$y.used.at)
     }
+
     ## merge common panel args into panel.args
-    ## TODO: check for identical() args
+    ## check for identical() args
+    commonNames <- intersect(names(obj1$panel.args.common),
+                             names(obj2$panel.args.common))
+    identNames <- commonNames[unlist(lapply(commonNames, function(x)
+                                     identical(obj1$panel.args.common[[x]],
+                                               obj2$panel.args.common[[x]])))]
+    obj1Common <- names(obj1$panel.args.common) %in% identNames
+    obj2Common <- names(obj2$panel.args.common) %in% identNames
     obj1$panel.args <- lapply(obj1$panel.args, c,
-                              obj1$panel.args.common)
+                              obj1$panel.args.common[!obj1Common])
     obj2$panel.args <- lapply(obj2$panel.args, c,
-                              obj2$panel.args.common)
-    obj1$panel.args.common <- list()
+                              obj2$panel.args.common[!obj2Common])
+    obj1$panel.args.common <- obj1$panel.args.common[obj1Common]
     ## the actual data
     obj1$panel.args <- c(obj1$panel.args, obj2$panel.args)
     obj1$packet.sizes <- c(obj1$packet.sizes, obj2$packet.sizes)
-    ## turn strips on if either object has strips, or names given
+
+    ## recalculate panel limits using all data
+    if ((isTRUE(x.same) || isTRUE(y.same))) {
+        scalesSpec <- list()
+        if (isTRUE(x.same)) scalesSpec$x$relation <- "same"
+        if (isTRUE(y.same)) scalesSpec$y$relation <- "same"
+        obj1 <- update(obj1, scales = scalesSpec)
+    }
+
+    ## turn strips on if either object has strips, or names were given
     if (identical(obj1$strip, FALSE) &&
         !identical(obj2$strip, FALSE))
         obj1$strip <- obj2$strip
     if (identical(obj1$strip, FALSE) &&
         !is.null(names(objs)))
         obj1$strip <- "strip.default"
+    obj1$layout <- layout
     obj1$call <- call("c", obj1$call, obj2$call)
     obj1
 }

@@ -12,9 +12,8 @@ prepanel.segplot(x, y, z, subscripts, horizontal = TRUE, ...)
 panel.segplot(x, y, z, level = NULL, subscripts, 
               at,
               draw.bands = is.factor(z),
-              col,
-              lty,
-              lwd,
+              col, alpha, 
+              lty, lwd,
               border,
               col.regions = regions$col,
               band.height = 0.6,
@@ -43,8 +42,8 @@ panel.segplot(x, y, z, level = NULL, subscripts,
   \item{at}{ values of \code{level} where color code changes }
   \item{draw.bands}{ logical, whether to draw rectangles instead of
     lines }
-  \item{col, lty, lwd, border}{ graphical parameters.  Defaults to
-    parameter settings for \code{"plot.line"} or \code{"bar.fill"} for
+  \item{col, alpha, lty, lwd, border}{ graphical parameters.  Defaults to
+    parameter settings for \code{"plot.line"} or \code{"plot.polygon"} for
     segments and rectangles respectively.  \code{col} is overridden by
     \code{col.regions} if \code{level} is not null. }
   \item{col.regions}{ vector of colors as in \code{\link[lattice]{levelplot}} }
@@ -55,7 +54,8 @@ panel.segplot(x, y, z, level = NULL, subscripts,
 
 }
 \value{
-  For \code{prepanel.segplot} a list with components \code{xlim} and \code{ylim}
+  For \code{prepanel.segplot} a list with components \code{xlim} and
+  \code{ylim}
 }
 
 \author{ Deepayan Sarkar \email{deepayan.sarkar@r-project.org} }
