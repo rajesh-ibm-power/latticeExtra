@@ -1,6 +1,6 @@
 Package: latticeExtra
-Version: 0.6-0
-Date: 2009/06/20
+Version: 0.6-1
+Date: 2009/06/21
 Title: Extra Graphical Utilities Based on Lattice
 Author: Deepayan Sarkar <deepayan.sarkar@r-project.org>, Felix Andrews
         <felix@nfrac.org>
@@ -12,6 +12,6 @@ Suggests: maps, mapproj, deldir, tripack
 LazyLoad: yes
 LazyData: no
 License: GPL (>= 2)
-Packaged: 2009-06-20 01:50:53 UTC; andrewsf
+Packaged: 2009-06-22 04:03:43 UTC; andrewsf
 Repository: CRAN
-Date/Publication: 2009-06-20 09:53:07
+Date/Publication: 2009-06-22 07:35:41

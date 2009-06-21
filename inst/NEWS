@@ -1,4 +1,8 @@
 
+Changes in Version 0.6-1
+
+ o fixed 'layout' argument to 'xyplot.list' and 'c.trellis'.
+
 Changes in Version 0.6-0
 
  o new function xyplot.list, to create and merge multiple plots
