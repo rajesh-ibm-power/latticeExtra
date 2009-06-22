@@ -1,5 +1,5 @@
 \name{panel.lmlineq}
-\Rdversion{1.1}
+%% \Rdversion{1.1}
 \alias{panel.lmlineq}
 \alias{panel.ablineq}
 \title{
@@ -88,12 +88,12 @@ panel.lmlineq(x, y, ...)
     number of decimal places to show for coefficients in equation.
   }
   \item{r.squared, sep, sep.end}{
-    the R^2 statistic to display along with the equation of a line.
+    the \eqn{R^2} statistic to display along with the equation of a line.
     This can be given directly as a number, or \code{TRUE}, in which
     case the function expects a model object (typically
-    \code{\link{lm}}) and extracts the R^2 statistic from it.
+    \code{\link{lm}}) and extracts the \eqn{R^2} statistic from it.
 
-    The R^2 value is separated from the equation by \code{sep}, and
+    The \eqn{R^2} value is separated from the equation by \code{sep}, and
     also \code{sep.end} is added to the end. For example:
     \code{panel.ablineq(lm(y ~ x), r.squared = TRUE, sep = " (", sep.end
     = ")")}.

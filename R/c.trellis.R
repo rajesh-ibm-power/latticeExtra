@@ -23,7 +23,7 @@ xyplot.list <-
              toString(class(objs[[ which(!ok)[1] ]])),
              ", not trellis.")
     do.call("c", c(objs,
-                   x.same = x.same, y.same = y.same, layout = layout))
+                   list(x.same = x.same, y.same = y.same, layout = layout)))
 }
 
 c.trellis <-
@@ -43,11 +43,11 @@ c.trellis <-
     if (length(objs) > 2) {
         ## merge first two objects, and call again
         first2Merged <-
-            do.call("c", c(objs[1:2],
-                           x.same = x.same, y.same = y.same))
-        return(do.call("c", c(list(first2Merged), objs[-(1:2)],
-                              x.same = x.same, y.same = y.same,
-                              layout = layout)))
+            do.call("c.trellis", c(objs[1:2],
+                           list(x.same = x.same, y.same = y.same)))
+        return(do.call("c.trellis", c(list(first2Merged), objs[-(1:2)],
+                              list(x.same = x.same, y.same = y.same,
+                                   layout = layout))))
     }
     ## now exactly 2 objects
     obj1 <- objs[[1]]
