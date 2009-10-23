@@ -173,6 +173,15 @@ c.trellis <-
     ## the actual data
     obj1$panel.args <- c(obj1$panel.args, obj2$panel.args)
     obj1$packet.sizes <- c(obj1$packet.sizes, obj2$packet.sizes)
+    ## some prepanel functions require a 'subscripts' argument in each 'panel.args'
+    if ("subscripts" %in% c(names(formals(obj1$prepanel.default)),
+                            names(formals(obj1$prepanel)))) {
+        for (i in seq_along(obj1$panel.args)) {
+            if ("subscripts" %in% names(obj1$panel.args[[i]]) == FALSE) {
+                obj1$panel.args[[i]]$subscripts <- TRUE
+            }
+        }
+    }
 
     ## recalculate panel limits using all data
     if ((isTRUE(x.same) || isTRUE(y.same))) {

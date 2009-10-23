@@ -1,4 +1,14 @@
 
+Changes in Version 0.6-2 (in development)
+
+ o new functions 'panel.xblocks', 'panel.qqmath.tails',
+   'panel.xyarea' and 'panel.qqmath.xyarea'.
+
+ o added explicit 'layout' argument to 'marginal.plot'
+   (was clobbered by the default NULL in 'c.trellis').
+
+ o 'c.trellis' handles 'subscripts' argument to prepanel functions.
+
 Changes in Version 0.6-1
 
  o fixed 'layout' argument to 'xyplot.list' and 'c.trellis'.

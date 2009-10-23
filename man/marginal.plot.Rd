@@ -11,7 +11,7 @@ marginal.plot(x,
               groups = NULL,
               reorder = !is.table(x),
               plot.points = FALSE,
-              ref = TRUE,
+              ref = TRUE, cut = 1,
               origin = 0,
               xlab = NULL, ylab = NULL,
               type = c("p", if (is.null(groups)) "h"),
@@ -24,6 +24,7 @@ marginal.plot(x,
                 abbreviate = TRUE, minlength = 5,
                 rot = 30, cex = 0.75, tick.number = 3,
                 y = list(draw = FALSE)),
+             layout = NULL,
              lattice.options = list(
                layout.heights = list(
                  axis.xlab.padding = list(x = 0),
@@ -39,12 +40,12 @@ marginal.plot(x,
     grouping variable. }
   \item{reorder}{ whether to reorder factor variables by frequency. }
   \item{subset}{ data subset expression, evaluated in \code{data}. }
-  \item{plot.points, ref}{ passed to \code{panel.densityplot}. }
+  \item{plot.points, ref, cut}{ passed to \code{panel.densityplot}. }
   \item{origin, type}{ passed to \code{panel.dotplot}. }
   \item{xlab, ylab, as.table, subscripts}{
     see \code{\link[lattice]{xyplot}}.
   }
-  \item{default.scales, lattice.options}{
+  \item{default.scales, layout, lattice.options}{
     see \code{\link[lattice]{xyplot}}.
   }
   \item{\dots}{ passed to \code{\link[lattice]{panel.densityplot}} and/or
