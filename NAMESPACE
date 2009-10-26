@@ -31,11 +31,19 @@ export(custom.theme)
 
 export(tileplot, panel.voronoi, panel.levelplot.points)
 
+export(panel.xblocks)
+S3method(panel.xblocks, default)
+S3method(panel.xblocks, ts)
+export(panel.xyarea)
+export(panel.qqmath.xyarea)
+
+export(panel.qqmath.tails)
+
 export(panel.lmlineq, panel.ablineq)
 
 export(marginal.plot)
 S3method(c, trellis)
-export(xyplot.list) ## not just an S3 method
+export(xyplot.list) ## Note: not just an S3 method
 
 export(doubleYScale)
 export(layer, as.layer, flattenPanel)

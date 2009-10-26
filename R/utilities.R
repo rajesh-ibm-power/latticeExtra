@@ -28,7 +28,7 @@ useOuterStrips <-
         modifyList(opar,
                    list(layout.heights =
                         if (x$as.table) list(strip = c(strip.lines, rep(0, dimx[2]-1)))
-                        else list(strip = c(rep(0, dimx[2]-1), 1)),
+                        else list(strip = c(rep(0, dimx[2]-1), strip.lines)),
                         layout.widths =
                         list(strip.left = c(strip.left.lines, rep(0, dimx[1]-1)))))
     if (is.character(strip))

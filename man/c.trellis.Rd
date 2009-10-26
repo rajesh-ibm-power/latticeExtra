@@ -73,13 +73,22 @@ xyplot.list(x, data = NULL, ..., FUN = xyplot,
 ## Combine different types of plots.
 c(wireframe(volcano), contourplot(volcano))
 
+## Merging levelplot with xyplot
+levObj <- levelplot(prop.table(WorldPhones, 1) * 100)
+xyObj <- xyplot(Phones ~ Year, data.frame(Phones = rowSums(WorldPhones),
+      Year = row.names(WorldPhones)), type="b", ylim = c(0, 150000))
+## NOTE: prepanel.levelplot (from first object) is used for entire plot.
+cObj <- c(levObj, xyObj, layout = 1:2)
+update(cObj, scales = list(y = list(rot = 0)),
+       ylab = c("proportional distribution", "number of phones"))
+
 ## Combine two xyplots.
 sepals <- xyplot(Sepal.Length ~ Sepal.Width, iris, groups = Species,
     xlab = "Width", ylab = "Height")
 petals <- xyplot(Petal.Length ~ Petal.Width, iris, groups = Species)
 c(Sepals = sepals, Petals = petals)
 
-## Use same scales (re-calculate panel limits from merged data):
+## Force same scales (re-calculate panel limits from merged data):
 c(Sepals = sepals, Petals = petals, x.same = TRUE, y.same = TRUE)
 
 ## Or - create xyplots from a list of formulas
