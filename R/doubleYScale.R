@@ -13,10 +13,10 @@ doubleYScale <-
     stopifnot(inherits(obj2, "trellis"))
 
     ## force same x scales
-    xlim1 <- obj1$x.limits
-    if (is.list(xlim1))
-        xlim1 <- rep(xlim1, length = prod(dim(obj2)))
-    obj2 <- update(obj2, xlim = xlim1, ylim = obj2$y.limits)
+    #xlim1 <- obj1$x.limits
+    #if (is.list(xlim1))
+    #    xlim1 <- rep(xlim1, length = prod(dim(obj2)))
+    #obj2 <- update(obj2, xlim = xlim1, ylim = obj2$y.limits)
     ## TODO - ylim only here to workaround bug in lattice 0.17-15
 
     if (!is.null(auto.key)) {
@@ -69,7 +69,8 @@ doubleYScale <-
 
     if (add.axis == FALSE) {
         ## if not drawing a second axis, nothing to do but...
-        return(obj1 + as.layer(obj2, axes = NULL,
+        return(obj1 + as.layer(obj2, x.same = TRUE, y.same = FALSE,
+                               axes = NULL,
                                style = if (use.style) style2))
     }
 
@@ -83,15 +84,19 @@ doubleYScale <-
                     lattice.options = yAxPad)
     dummy +
         as.layer(obj1, style = if (use.style) style1,
+                 x.same = TRUE, y.same = FALSE,
                  axes = "y", out = TRUE, opp = FALSE) +
             as.layer(obj2, style = if (use.style) style2,
+                     x.same = TRUE, y.same = FALSE,
                      axes = "y", out = TRUE, opp = TRUE)
 }
 
 
 as.layer.trellis <-
     function(x,
-             axes = c("x", "y"),
+             x.same = TRUE,
+             y.same = TRUE,
+             axes = c(if (!x.same) "x", if (!y.same) "y"),
              opposite = TRUE,
              outside = FALSE,
              ...)
@@ -100,6 +105,17 @@ as.layer.trellis <-
     if (identical(axes, FALSE)) axes <- NULL
     opposite <- rep(opposite, length = 2)
     outside <- rep(outside, length = 2)
+    if (x.same && y.same) {
+        ## simply run the panel function in existing panel viewport
+        return(
+               layer({
+                   packet.number <- min(packet.number(), prod(dim(x)))
+                   do.call(x$panel, trellis.panelArgs(x, packet.number))
+               }, data = list(x = x), ...)
+               )
+    }
+    ## else
+    ## take one or more scales from layered object (so new viewport)
     ## draw panels and axes from this trellis object
     layer({
         packet.number <- min(packet.number(), prod(dim(x)))
@@ -186,6 +202,11 @@ as.layer.trellis <-
                                     format.posixt = x$y.scales$format)
         xscale <- xscale.comps$num.limit
         yscale <- yscale.comps$num.limit
+        ## maybe over-ride with original limits
+        if (x.same)
+            x.scale <- current.panel.limits()$xlim
+        if (y.same)
+            y.scale <- current.panel.limits()$ylim
         ## do panel(); need a new viewport with scales from 'x'
         pushViewport(viewport(xscale = xscale, yscale = yscale))
         do.call(x$panel, trellis.panelArgs(x, packet.number))
@@ -252,7 +273,7 @@ as.layer.trellis <-
             }
         }
         upViewport(2)
-    }, data = list(x = x, axes = axes,
-       opposite = opposite, outside = outside),
+    }, data = list(x = x, x.same = x.same, y.same = y.same,
+       axes = axes, opposite = opposite, outside = outside),
           ...)
 }

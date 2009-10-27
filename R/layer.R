@@ -46,7 +46,9 @@ print.layer <- print.default
     e1.layer <- (inherits(e1, "layer"))
     e2.layer <- (inherits(e2, "layer"))
     if (!e1.layer && !e2.layer) {
-        stop("'+.trellis' only works with layer objects")
+        ## coerce second object to layer
+        e2 <- as.layer(e2)
+        e2.layer <- TRUE
     }
     if (e1.layer && e2.layer) {
         ## just concatenate lists

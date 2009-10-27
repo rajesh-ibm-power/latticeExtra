@@ -1,6 +1,6 @@
 Package: latticeExtra
-Version: 0.6-3
-Date: 2009/10/23
+Version: 0.6-4
+Date: 2009/10/27
 Title: Extra Graphical Utilities Based on Lattice
 Author: Deepayan Sarkar <deepayan.sarkar@r-project.org>, Felix Andrews
         <felix@nfrac.org>
@@ -13,6 +13,6 @@ URL: http://latticeextra.r-forge.r-project.org/
 LazyLoad: yes
 LazyData: no
 License: GPL (>= 2)
-Packaged: 2009-10-26 06:13:20 UTC; andrewsf
+Packaged: 2009-10-26 23:33:36 UTC; andrewsf
 Repository: CRAN
-Date/Publication: 2009-10-26 19:27:39
+Date/Publication: 2009-10-27 07:23:33

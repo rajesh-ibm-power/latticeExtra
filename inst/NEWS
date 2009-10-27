@@ -1,5 +1,9 @@
 
-Changes in Version 0.6-2 (in development)
+Changes in Version 0.6-4
+
+ o as.layer() gains arguments x.same and y.same.
+
+Changes in Version 0.6-2
 
  o new functions 'panel.xblocks', 'panel.qqmath.tails',
    'panel.xyarea' and 'panel.qqmath.xyarea'.
