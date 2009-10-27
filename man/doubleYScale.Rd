@@ -85,6 +85,7 @@ doubleYScale(obj1, obj2, text = c("obj1", "obj2"))
 ## different plot types
 x <- rnorm(60)
 doubleYScale(histogram(x), densityplot(x), use.style = FALSE)
+## (but see ?as.layer for a better way to do this)
 
 ## multi-panel example
 ## a variant of Figure 5.13 from Sarkar (2008)

@@ -49,11 +49,10 @@ flattenPanel(x)
   Alternatively,
   \code{eval(bquote( layer(panel.refline(h = .(myVal))) ))}.
 
-  \code{layer()} is an experimental function and is likely to change. It
-  probably should not be used routinely, since it does not fit well with
+  \code{layer()} is an experimental function. It probably should
+  not be used in package code, since it does not fit well with
   the trellis model, and the implementation is fairly inefficient. A
-  better option for interactive use is to edit the panel function
-  directly.
+  better option for package code is usually a custom panel function.
 
   When the \code{data} argument is \code{TRUE}, an attempt is made to extract
   the object passed as a \code{data} argument in the original lattice
@@ -72,7 +71,10 @@ flattenPanel(x)
   object.
 }
 \author{ Felix Andrews \email{felix@nfrac.org} }
-\seealso{ \code{\link[lattice]{update.trellis}}, \code{\link{as.layer}} }
+\seealso{
+  \code{\link[lattice]{update.trellis}},
+  \code{\link{as.layer}} for overlaying entire plots
+}
 \examples{
 foo <- xyplot(ozone ~ wind, environmental)
 
