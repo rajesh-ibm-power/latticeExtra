@@ -19,6 +19,7 @@ S3method(segplot, formula)
 
 S3method(mapplot, formula)
 
+## TODO: remove this after lattice releases xyplot.ts
 S3method(xyplot, ts)
 S3method(xyplot, stl)
 
@@ -26,8 +27,15 @@ S3method(xyplot, stl)
 export(panel.3dbars, panel.3dpolygon, panel.3dtext)
 export(useOuterStrips, resizePanels)
 export(custom.theme)
+export(custom.theme.2)
 
 ## contributions from Felix Andrews
+
+export(panel.smoother)
+export(panel.quantile)
+export(panel.tskernel)
+
+export(panel.2dsmoother)
 
 export(tileplot, panel.voronoi, panel.levelplot.points)
 
@@ -35,6 +43,8 @@ export(panel.xblocks)
 S3method(panel.xblocks, default)
 S3method(panel.xblocks, ts)
 export(panel.xyarea)
+S3method(panel.xyarea, default)
+S3method(panel.xyarea, ts)
 export(panel.qqmath.xyarea)
 
 export(panel.qqmath.tails)
@@ -45,12 +55,20 @@ export(marginal.plot)
 S3method(c, trellis)
 export(xyplot.list) ## Note: not just an S3 method
 
-export(doubleYScale)
-export(layer, as.layer, flattenPanel)
+export(layer, layer_, glayer, glayer_)
+export(drawLayer, flattenPanel)
 S3method("+", trellis)
+S3method("[", layer)
 S3method(print, layer)
-S3method(as.layer, trellis)
 
+export(as.layer)
+S3method(as.layer, layer)
+S3method(as.layer, trellis)
+export(doubleYScale)
+
+export(asTheEconomist)
+export(theEconomist.theme)
+export(panel.xticksgrid)
 
 ## obsolete, will go away at some point
 

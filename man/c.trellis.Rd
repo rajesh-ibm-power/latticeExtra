@@ -1,7 +1,7 @@
 \name{c.trellis}
 \alias{c.trellis}
 \alias{xyplot.list}
-\title{ Merge trellis objects }
+\title{ Merge trellis objects, using same or different scales }
 \description{
   Combine the panels of multiple trellis objects into one.
 }
@@ -117,7 +117,7 @@ update(pdboth, xlab = c("Proportion", "Freq"))
 ## Conditioned 'quakes' plot combined with histogram.
 qua <- xyplot(lat ~ long | equal.count(depth, 3), quakes,
     aspect = "iso", pch = ".", cex = 2, xlab = NULL, ylab = NULL)
-qua <- c(qua, depth = histogram(quakes$depth))
+qua <- c(qua, depth = histogram(quakes$depth), layout = c(4, 1))
 ## suppress scales on the first 3 panels
 update(qua, scales = list(at = list(NULL, NULL, NULL, NA),
                  y = list(draw = FALSE)))

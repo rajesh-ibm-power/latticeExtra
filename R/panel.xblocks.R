@@ -20,34 +20,35 @@ panel.xblocks.default <-
         last.step <- 0
     ## this will convert factor to character:
     y <- as.vector(y)
-    if (is.null(col)) {
-        ## in general case, assume that 'y' gives the block colours.
-        ## rle treats each NA as unique (does not combine runs of NAs)
-        ## so we will replace NAs with equivalent transparent colour.
+    ## Assume that 'y' gives the block colours (unless 'col given; below).
+    ## rle treats each NA as unique (does not combine runs of NAs)
+    ## so we need to replace NAs with a temporary value.
+    NAval <-
         if (is.character(y)) {
-            y[is.na(y)] <- "transparent"
-        } else {
-            y[is.na(y)] <- 0
-        }
-    } else {
-        ## a single colour was specified for blocks,
-        ## so just take NA / FALSE values as transparent
-        if (is.logical(y)) {
-            y <- !is.na(y) & y
-        } else {
-            y <- !is.na(y)
-        }
-        y <- ifelse(y, col, if (is.character(col)) "transparent" else 0)
-    }
+            ""
+        } else if (is.logical(y)) {
+            FALSE
+        } else -Inf
+    y[is.na(y)] <- NAval
+    ## find runs of constant values
     yrle <- rle(y)
-    idxStart <- cumsum(c(1, yrle$lengths))
-    idxStart <- head(idxStart, -1)
-    idxEnd <- idxStart[-1]
+    ## substitute NA values back in
+    blockCol <- yrle$values
+    blockCol[blockCol == NAval] <- NA
+    ## set block colours if 'col' given
+    if (length(col) > 0) {
+        ok <- !is.na(blockCol)
+        blockCol[ok] <- rep(col, length = sum(ok)) ## rep to avoid warnings
+    }
+    ## work out block geometry
+    idxBounds <- cumsum(c(1, yrle$lengths))
+    idxStart <- head(idxBounds, -1)
+    idxEnd <- tail(idxBounds, -1)
+    idxEnd[length(idxEnd)] <- length(y)
     blockStart <- x[idxStart]
     blockEnd <- x[idxEnd]
-    blockEnd <- c(blockEnd, tail(blockStart, 1) + last.step)
+    blockEnd[length(blockEnd)] <- tail(blockEnd, 1) + last.step
     blockWidth <- blockEnd - blockStart
-    blockCol <- yrle$values
     ## draw it
     grid::grid.rect(x = blockStart, width = blockWidth,
                     y = block.y, height = height,
@@ -56,6 +57,7 @@ panel.xblocks.default <-
                     gp = gpar(fill = blockCol, col = border, ...))
 }
 
+panel.xblocks.zoo <-
 panel.xblocks.ts <- function(x, y = NULL, ...)
 {
     if (!is.null(y)) {
@@ -64,9 +66,3 @@ panel.xblocks.ts <- function(x, y = NULL, ...)
         panel.xblocks.default(as.vector(time(x)), as.vector(x), ...)
     }
 }
-
-#panel.xblocks.zoo <- function (x, ...)
-#{
-#    x <- as.zoo(x)
-#    panel.xblocks.default(time(x), coredata(x), ...)
-#}

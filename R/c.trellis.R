@@ -22,8 +22,10 @@ xyplot.list <-
         stop("FUN returned object of class ",
              toString(class(objs[[ which(!ok)[1] ]])),
              ", not trellis.")
-    do.call("c", c(objs,
+    ans <- do.call("c", c(objs,
                    list(x.same = x.same, y.same = y.same, layout = layout)))
+    ans$call <- match.call()
+    ans
 }
 
 c.trellis <-
