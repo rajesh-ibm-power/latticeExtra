@@ -1,4 +1,26 @@
 
+Changes in Version 0.6-5
+
+ o new panel functions panel.smoother() and panel.quantile().
+   The latter requires the quantreg package.
+
+ o new panel function panel.tskernel().
+
+ o layer() rewritten and now has several new arguments.
+   New convenience functions layer_(), glayer(), etc.
+
+ o new functions theEconomist.theme() and asTheEconomist().
+
+ o custom.theme() gains a `...` argument passed to simpleTheme.
+   Added a variant custom.theme.2() with different defaults.
+
+ o expanded xyplot.ts() and moved it to the lattice package.
+
+ o improved handling of colours in panel.xblocks().
+   Added several more examples to the help page.
+
+ o fixed panel.xblocks() to handle cases of no missing data.
+
 Changes in Version 0.6-4
 
  o as.layer() gains arguments x.same and y.same.

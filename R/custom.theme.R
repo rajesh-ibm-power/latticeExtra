@@ -9,7 +9,8 @@ custom.theme <-
              region = brewer.pal(n = 11, name = "Spectral"),
              reference = "#e8e8e8",
              bg = "transparent",
-             fg = "black")
+             fg = "black",
+             ...)
 {
     theme <-
         list(plot.polygon      = list(col = fill[1], border = fg[1]),
@@ -38,5 +39,18 @@ custom.theme <-
              par.zlab.text     = list(col = fg),
              par.main.text     = list(col = fg),
              par.sub.text      = list(col = fg))
-    modifyList(standard.theme("pdf"), theme)
+    modifyList(modifyList(standard.theme("pdf"), theme), simpleTheme(...))
+}
+
+custom.theme.2 <- function(...)
+{
+    doit <-
+        function(symbol = brewer.pal(n = 9, name = "Set1")[c(2:1, 3:5, 7:9)], ## blue first
+                 fill = brewer.pal(n = 8, name = "Accent"),
+                 region = brewer.pal(n = 11, name = "RdBu"),
+                 ...)
+        {
+            custom.theme(symbol = symbol, fill = fill, region = region, ...)
+        }
+    doit(...)
 }

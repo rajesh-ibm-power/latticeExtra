@@ -3,8 +3,9 @@
 ## GPL version 2 or newer
 
 doubleYScale <-
-    function(obj1, obj2, use.style = TRUE, add.axis = TRUE,
-             add.ylab2 = FALSE, style1 = 1, style2 = 2,
+    function(obj1, obj2, use.style = TRUE,
+             style1 = if (use.style) 1, style2 = if (use.style) 2,
+             add.axis = TRUE, add.ylab2 = FALSE,
              text = NULL, auto.key = if (!is.null(text))
                list(text, points = points, lines = lines, ...),
              points = FALSE, lines = TRUE, ...)
@@ -12,6 +13,8 @@ doubleYScale <-
     stopifnot(inherits(obj1, "trellis"))
     stopifnot(inherits(obj2, "trellis"))
 
+    if (any(style1 == 0)) style1 <- NULL
+    if (any(style2 == 0)) style2 <- NULL
     ## force same x scales
     #xlim1 <- obj1$x.limits
     #if (is.list(xlim1))
@@ -34,13 +37,13 @@ doubleYScale <-
         ## draw both ylabs in their style, if specified
         ylabStyledGrob <- function(label, style) {
             textGrob(label, y = 0.5, rot = 90,
-                     gp = if (isTRUE(style > 0))
+                     gp = if (!is.null(style))
                      gpar(col = trellis.par.get("superpose.line")$col[style]))
         }
         is.characterOrExpression <- function(x)
             is.character(x) || is.expression(x)
 
-        if (use.style && isTRUE(style1 > 0)) {
+        if (!is.null(style1)) {
             ylab1 <- obj1$ylab
             if (is.list(ylab1))
                 ylab1 <- obj1$ylab.default
@@ -53,8 +56,6 @@ doubleYScale <-
                 obj1$ylab <- expression(NULL)
             }
         }
-        if (use.style == FALSE)
-            style2 <- 0
         ylab2 <- obj2$ylab
         if (is.list(ylab2))
             ylab2 <- obj2$ylab.default
@@ -70,8 +71,7 @@ doubleYScale <-
     if (add.axis == FALSE) {
         ## if not drawing a second axis, nothing to do but...
         return(obj1 + as.layer(obj2, x.same = TRUE, y.same = FALSE,
-                               axes = NULL,
-                               style = if (use.style) style2))
+                               axes = NULL, style = style2))
     }
 
     ## need to specify padding to draw second y axis
@@ -83,10 +83,10 @@ doubleYScale <-
                     scales = list(y = list(draw = FALSE)),
                     lattice.options = yAxPad)
     dummy +
-        as.layer(obj1, style = if (use.style) style1,
+        as.layer(obj1, style = style1,
                  x.same = TRUE, y.same = FALSE,
                  axes = "y", out = TRUE, opp = FALSE) +
-            as.layer(obj2, style = if (use.style) style2,
+            as.layer(obj2, style = style2,
                      x.same = TRUE, y.same = FALSE,
                      axes = "y", out = TRUE, opp = TRUE)
 }

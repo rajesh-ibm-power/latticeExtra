@@ -2,10 +2,12 @@
 ## Copyright (c) 2008 Felix Andrews <felix@nfrac.org>
 ##
 
+panel.xyarea <- function(x, ...)
+    UseMethod("panel.xyarea")
 
 ## Plot a series as a filled polygon connected at given origin (on y axis).
 ## With groups, acts like panel.superpose, but with polygon style settings.
-panel.xyarea <-
+panel.xyarea.default <-
     function(x, y, groups = NULL, origin = NULL,
              col = if (is.null(groups)) plot.polygon$col else superpose.polygon$col,
              border = if (is.null(groups)) plot.polygon$border else superpose.polygon$border,
@@ -16,12 +18,17 @@ panel.xyarea <-
 {
     plot.polygon <- trellis.par.get("plot.polygon")
     superpose.polygon <- trellis.par.get("superpose.polygon")
+    x <- as.numeric(x)
+    y <- as.numeric(y)
+    if (length(x) == 0) return()
     if (!is.null(groups)) {
         ## NOTE superpose does not handle 'border' argument, so pass it as col.line
         panel.superpose(x, y, ..., groups = groups, panel.groups = panel.groups,
                         col = col, col.line = border, lty = lty, lwd = lwd,
                         alpha = alpha, origin = origin)
     } else {
+        if (all(is.na(col)) && !missing(col.line))
+            col <- col.line
         xx <- c(head(x,1), x, tail(x,1))
         if (is.null(origin))
             origin <- current.panel.limits()$ylim[1]
@@ -31,9 +38,19 @@ panel.xyarea <-
     }
 }
 
+panel.xyarea.zoo <-
+panel.xyarea.ts <- function(x, y = NULL, ...)
+{
+    if (!is.null(y)) {
+        panel.xyarea.default(x, y, ...)
+    } else {
+        panel.xyarea.default(as.vector(time(x)), as.vector(x), ...)
+    }
+}
+
 ## A slightly modified copy of panel.qqmath
 panel.qqmath.xyarea <-
-    function(x, f.value = NULL, distribution = qnorm, qtype = 7,
+    function(x, y = NULL, f.value = NULL, distribution = qnorm, qtype = 7,
              groups = NULL, ...)
 {
     x <- as.numeric(x)

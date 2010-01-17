@@ -1,11 +1,12 @@
 \name{as.layer}
 \alias{as.layer}
+\alias{as.layer.layer}
 \alias{as.layer.trellis}
-\title{ Overlay panels with different scales }
+\title{ Overlay panels of Trellis plots on same or different scales }
 \description{
-  Allows overlaying of lattice plots with different scales.
-  The overlaid plots include custom axes and may be drawn in a different
-  style.
+  Allows overlaying of Trellis plots, drawn on the same scales or on
+  different scales in each of the x and y dimensions.
+  There are options for custom axes and graphical styles.
 }
 \usage{
 as.layer(x, ...)

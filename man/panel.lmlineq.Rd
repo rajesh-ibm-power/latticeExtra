@@ -1,13 +1,14 @@
 \name{panel.lmlineq}
-%% \Rdversion{1.1}
 \alias{panel.lmlineq}
 \alias{panel.ablineq}
 \title{
-  Draw a line and its equation.
+  Draw a line with a label, by default its equation
 }
 \description{
   This is an extension of the panel functions \code{\link{panel.abline}} and
-  \code{\link{panel.lmline}} to also draw the equation of a line.
+  \code{\link{panel.lmline}} to also draw a label on the line. The
+  default label is the line equation, and optionally the R squared value
+  of its fit to the data points.
 }
 \usage{
 panel.ablineq(a = NULL, b = 0,
@@ -165,7 +166,7 @@ xyplot(ysim ~ xsim) +
                       at = 0.8, pos = 1), style = 2)
 
 update(trellis.last.object(),
-  key = simpleKey(c("intercept", "no intercept"),
+  auto.key = list(text = c("intercept", "no intercept"),
                   points = FALSE, lines = TRUE))
 }
 \keyword{ aplot }

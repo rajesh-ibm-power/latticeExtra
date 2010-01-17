@@ -10,8 +10,9 @@
   as it can be misleading.
 }
 \usage{
-doubleYScale(obj1, obj2, use.style = TRUE, add.axis = TRUE,
-             add.ylab2 = FALSE, style1 = 1, style2 = 2,
+doubleYScale(obj1, obj2, use.style = TRUE,
+             style1 = if (use.style) 1, style2 = if (use.style) 2,
+             add.axis = TRUE, add.ylab2 = FALSE,
              text = NULL, auto.key = if (!is.null(text))
                list(text, points = points, lines = lines, ...),
              points = FALSE, lines = TRUE, ...)
@@ -22,11 +23,15 @@ doubleYScale(obj1, obj2, use.style = TRUE, add.axis = TRUE,
     are taken only from \code{obj1}; only the panel, axis and ylab are
     taken from obj2.
   }
-  \item{use.style}{
-    if TRUE, set plot style (with \code{trellis.par.set}) to different
-    style settings for each series. The settings are taken mainly from
-    \code{trellis.par.get("superpose.line")}. These will also be applied
-    to the y-axes and ylab, if relevant.
+  \item{use.style, style1, style2}{
+    \code{style1} and \code{style2} give the `group number' for obj1
+    and obj2 respectively. The style is taken from these indices into
+    the values of \code{trellis.par.get("superpose.line")}.
+    Therefore these should be integers between 1 and 6;
+    a value of 0 or NULL can be given to leave the default settings.
+    These will also be applied to the y-axes and ylab, if relevant.
+
+    \code{use.style} simply changes the defaults of the style arguments.
   }
   \item{add.axis}{
     if TRUE, draw a second y axis (for the \code{obj2} series) on the
@@ -36,13 +41,6 @@ doubleYScale(obj1, obj2, use.style = TRUE, add.axis = TRUE,
     if TRUE, draw a second y axis label (from \code{obj2$ylab}) on the
     right side of the plot. Note, this will replace any existing key or
     legend on the right side, i.e. with \code{space = "right"}.
-  }
-  \item{style1, style2}{
-    if \code{use.style} is TRUE, these give the `group number' for obj1
-    and obj2 respectively. The style is taken from these indices into
-    the values of \code{trellis.par.get("superpose.line")}.
-    Therefore these should be integers between 1 and 6;
-    a value of 0 can be given to leave the default settings.
   }
   \item{text, auto.key, points, lines, \dots}{
     if non-NULL, add a \code{key} to the display, using entries named by

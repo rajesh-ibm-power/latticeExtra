@@ -1,5 +1,7 @@
 \name{panel.xyarea}
 \alias{panel.xyarea}
+\alias{panel.xyarea.default}
+\alias{panel.xyarea.ts}
 \alias{panel.qqmath.xyarea}
 \title{
   Plot series as filled polygons.
@@ -8,11 +10,15 @@
   Plot series as filled polygons connected at given origin level (on y axis).
 }
 \usage{
-panel.xyarea(x, y, groups = NULL, origin = NULL,
+panel.xyarea(x, ...)
+
+\S3method{panel.xyarea}{default}(x, y, groups = NULL, origin = NULL,
              col, border, lty, lwd, alpha, ...,
              col.line, fill, panel.groups = panel.xyarea)
 
-panel.qqmath.xyarea(x, f.value = NULL, distribution = qnorm,
+\S3method{panel.xyarea}{ts}(x, y = NULL, ...)
+
+panel.qqmath.xyarea(x, y = NULL, f.value = NULL, distribution = qnorm,
                     qtype = 7, groups = NULL, ...)
 }
 \arguments{
@@ -53,7 +59,8 @@ panel.qqmath.xyarea(x, f.value = NULL, distribution = qnorm,
   Felix Andrews \email{felix@nfrac.org}
 }
 \seealso{
-  \code{\link{panel.xyplot}}
+  \code{\link{panel.xyplot}},
+  \code{\link{panel.polygon}}
 }
 \examples{
 xyplot(sunspot.year, panel = panel.xyarea, origin = 0,

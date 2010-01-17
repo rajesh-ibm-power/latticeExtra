@@ -1,4 +1,5 @@
 \name{panel.3dmisc}
+\alias{panel.3dmisc}
 \alias{panel.3dtext}
 \alias{panel.3dbars}
 \alias{panel.3dpolygon}
@@ -29,9 +30,9 @@ panel.3dpolygon(x, y, z, rot.mat = diag(4), distance,
                 ylim.scaled,
                 zlim.scaled,
                 zero.scaled,
-                col = "white", 
-                border = "black", 
-                font, fontface, 
+                col = "white",
+                border = "black",
+                font, fontface,
                 ...)
 
 panel.3dtext(x, y, z, labels = seq_along(x),
@@ -47,16 +48,16 @@ panel.3dtext(x, y, z, labels = seq_along(x),
     arguments controlling projection
   }
   \item{labels}{ character or expression vectors to be uses as labels }
-  \item{xlim, ylim, zlim}{ 
+  \item{xlim, ylim, zlim}{
     limits in the original scale
   }
-  \item{xlim.scaled, ylim.scaled, zlim.scaled}{ 
+  \item{xlim.scaled, ylim.scaled, zlim.scaled}{
     limits after scaling
   }
   \item{zero.scaled}{
     the value of z = 0 after scaling
   }
-  \item{xbase, ybase}{ 
+  \item{xbase, ybase}{
     length of the sides of the bars (which are always centered on the
     \code{x} and \code{y} values).  Can not be vectorized.
   }
