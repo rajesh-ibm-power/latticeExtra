@@ -199,7 +199,7 @@ newdat <- with(quakes, expand.grid(
             gridlon = seq(min(long), max(long), length = 60)))
 newdat$dist <- with(newdat, sqrt((gridlat - -36.87)^2 +
                                  (gridlon - 174.75)^2))
-qua + layer_(panel.contourplot(gridlon, gridlat, dist,
-   contour = TRUE, subscr = TRUE), data = newdat)
+qua + layer_(panel.contourplot(x = gridlon, y = gridlat, z = dist,
+   contour = TRUE, subscripts = TRUE), data = newdat)
 }
 \keyword{ aplot }

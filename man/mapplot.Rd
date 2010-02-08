@@ -56,8 +56,10 @@ panel.mapplot(x, y, map, breaks, colramp, lwd = 0.5, \dots)
   \item{prepanel, panel}{ the prepanel and panel functions }
   \item{aspect}{ aspect ratio}
   \item{breaks, cuts, colramp}{ controls conversion of numeric \code{x}
-    values to a false colo.  \code{colramp} may be a vector of colors or
-    a function that produces colors (such as \code{\link{cm.colors}}) }
+    values to a false color.  \code{colramp} should be
+    a function that produces colors (such as \code{\link{cm.colors}}).
+    If it is \code{NULL}, colors are taken from
+    \code{trellis.par.get("regions")}. }
   \item{legend, colorkey}{ controls legends; usually just a color key
     giving the association between numeric values of \code{x} and
     color.  }
@@ -105,7 +107,13 @@ county.map <-
     map('county', plot = FALSE, fill = TRUE, 
         projection = "azequalarea")
 
-mapplot(county ~ log10(population), ancestry, map = county.map)
+## set a sequential color palette as current theme, and use it
+opar <- trellis.par.get()
+trellis.par.set(custom.theme(region = brewer.pal(9, "Purples"),
+                             alpha.line = 0.5))
+mapplot(county ~ log10(population), ancestry, map = county.map,
+    colramp = NULL)
+trellis.par.set(opar)
 
 \dontrun{
 

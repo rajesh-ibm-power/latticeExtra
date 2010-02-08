@@ -82,16 +82,20 @@ rootogram.formula <-
              ...)
 {
     if (length(x) == 2) ## formula like ~ x
-        densityplot(x, data,
+        foo <-
+            densityplot(x, data,
                     prepanel = prepanel,
                     panel = panel,
                     ylab = ylab,
                     ...)
     else ## formula like y ~ x 
-        xyplot(x, data,
+        foo <-
+            xyplot(x, data,
                prepanel = prepanel,
                panel = panel,
                ylab = ylab,
                ...)
+    foo$call <- sys.call(sys.parent()); foo$call[[1]] <- quote(rootogram)
+    foo
 }
 

@@ -117,7 +117,7 @@ segplot.formula <-
         rng <- lattice:::extend.limits(range(as.numeric(level), finite = TRUE))
         if (missing(at)) at <- do.breaks(rng, cuts + 1)
     }
-    levelplot(x, data, level = level, centers = centers,
+    foo <- levelplot(x, data, level = level, centers = centers,
               ...,
               default.scales = 
               if (horizontal) list(y = list(alternating = FALSE, tck = 0))
@@ -129,6 +129,8 @@ segplot.formula <-
               horizontal = horizontal,
               prepanel = prepanel, 
               panel = panel)
+    foo$call <- sys.call(sys.parent()); foo$call[[1]] <- quote(segplot)
+    foo
 }
 
 

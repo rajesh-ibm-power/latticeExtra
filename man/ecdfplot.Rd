@@ -61,7 +61,6 @@ panel.ecdfplot(x, f.value = NULL, type = "s",
     1}
   \item{type}{ how the plot is rendered; see
     \code{\link[lattice:panel.xyplot]{panel.xyplot}} }
-  \item{}{}
 
   \item{\dots}{ extra arguments, passed on as appropriate.  Standard
     lattice arguments as well as arguments to \code{panel.ecdfplot}

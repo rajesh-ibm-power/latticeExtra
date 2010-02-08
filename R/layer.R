@@ -89,7 +89,7 @@ print.layer <- print.default
 
 "+.trellis" <- function(object, lay)
 {
-    ocall <- sys.call(sys.parent()); #ocall[[1]] <- quote(`+`)
+    ocall <- sys.call(sys.parent()); ocall[[1]] <- quote(`+`)
     stopifnot(inherits(object, "trellis"))
     lay <- as.layer(lay)
     if (inherits(object, "layer")) {
@@ -122,6 +122,7 @@ print.layer <- print.default
         drawLayer(lay[.UNDER == FALSE])
     }
     object <- update(object, panel = newpanel)
+    ## need this to allow further calls to update() to insert arguments:
     object$call <- call("update", ocall)
     object
 }
