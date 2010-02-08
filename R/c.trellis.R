@@ -1,3 +1,4 @@
+
 ##
 ## Copyright (c) 2007 Felix Andrews <felix@nfrac.org>
 ## GPL version 2 or newer
@@ -201,6 +202,10 @@ c.trellis <-
         !is.null(names(objs)))
         obj1$strip <- "strip.default"
     obj1$layout <- layout
-    obj1$call <- call("c", obj1$call, obj2$call)
+    obj1$call <- call("c", obj1$call, obj2$call,
+                      x.same = x.same, y.same = y.same,
+                      layout = layout)
+    ## need this to allow further calls to update() to insert arguments:
+    obj1$call <- call("update", obj1$call)
     obj1
 }

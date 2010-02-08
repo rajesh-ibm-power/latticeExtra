@@ -1,4 +1,5 @@
 \name{USAge}
+\alias{USAge}
 \alias{USAge.table}
 \alias{USAge.df}
 \docType{data}

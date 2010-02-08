@@ -1,5 +1,6 @@
 \name{panel.tskernel}
 \alias{panel.tskernel}
+\alias{simpleSmoothTs}
 \title{
   Plot a smoothed time series.
 }
@@ -11,7 +12,8 @@
 }
 \usage{
 panel.tskernel(x, y, ...,
-    width, c = 1, sides = 2, circular = FALSE,
+    width = NROW(x) \%/\% 10 + 1,
+    c = 1, sides = 2, circular = FALSE,
     kern = kernel("daniell",
            rep(floor((width/sides) / sqrt(c)), c)))
 }
@@ -58,14 +60,15 @@ panel.tskernel(x, y, ...,
   }
 }
 \note{
-  I am not an expert on time series theory.
+  The author is not an expert on time series theory.
 }
 \author{
   Felix Andrews \email{felix@nfrac.org}
 }
 \seealso{
   \code{\link{kernel}},
-  \code{\link{filter}}
+  \code{\link{filter}},
+  \code{\link[lattice]{xyplot.ts}}
 }
 \examples{
 ## a Gaussian-like filter (contrast with c = 1 or c = 2)
@@ -84,13 +87,16 @@ xyplot(EuStockMarkets) +
          theme = simpleTheme(lwd = 2))
 
 ## plot the actual kernels used; note adjustment of width
-devAskNewPage(TRUE)
 width = 100
-for (c in 1:5) {
+kdat <- lapply(1:4, function(c) {
     k <- kernel("daniell", rep(floor(0.5*width / sqrt(c)), c))
-    plot(k)
+    ## demonstrate that the effective bandwidth stays the same:
     message("c: ", c, ", bandwidth: ", bandwidth.kernel(k))
-}
-
+    ## represent the kernel as a time series, for plotting
+    ts(k[-k$m:k$m], start = -k$m)
+})
+names(kdat) <- paste("m =", 1:4)
+xyplot(do.call(ts.union, kdat), type = "h",
+    scales = list(y = list(relation = "same")))
 }
 \keyword{ dplot }

@@ -25,6 +25,6 @@
 }
 \examples{
 data(biocAccess)
-plot(stl(ts(biocAccess$counts[1:(24 * 30)], frequency = 24), "periodic"))
+xyplot(stl(ts(biocAccess$counts[1:(24 * 30)], frequency = 24), "periodic"))
 }
 \keyword{datasets}

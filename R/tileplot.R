@@ -9,7 +9,7 @@ tileplot <-
 {
     foo <- levelplot(x, data = data, aspect = aspect,
                      panel = panel, prepanel = prepanel, ...)
-    foo$call <- match.call()
+    foo$call <- sys.call(sys.parent())
     foo
 }
 

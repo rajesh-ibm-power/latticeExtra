@@ -1,4 +1,14 @@
 
+Changes in Version 0.6-6
+
+ o xyplot.ts actually removed now (forgot to delete it after lattice release).
+ 
+ o new function horizonplot().
+
+ o fixed rescaling bug in panel.tskernel(..., sides = 1).
+
+ o mapplot can now take colramp = NULL to use the current theme.
+
 Changes in Version 0.6-5
 
  o new panel functions panel.smoother() and panel.quantile().

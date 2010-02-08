@@ -77,12 +77,13 @@ panel.xblocks(x, ...)
   Felix Andrews \email{felix@nfrac.org}
 }
 \seealso{
-%  \code{\link{xyplot.ts}},
+  \code{\link[lattice]{xyplot.ts}},
   \code{\link{panel.rect}},
   \code{\link[grid]{grid.rect}}
 }
 \examples{
 ## Example of highlighting peaks in a time series.
+set.seed(0)
 flow <- ts(filter(rlnorm(200, mean = 1), 0.8, method = "r"))
 
 ## using an explicit panel function

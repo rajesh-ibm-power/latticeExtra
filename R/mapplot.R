@@ -34,6 +34,10 @@ mapplot.formula <-
              ## alpha.regions,
              ...)
 {
+    colrampNULL <- is.null(colramp)
+    if (is.null(colramp))
+        colramp <- function(n)
+            colorRampPalette(trellis.par.get("regions")$col)(n)
     ccall <- match.call()
     ccall$data <- data
     ccall$map <- map
@@ -46,8 +50,6 @@ mapplot.formula <-
     ccall$default.scales <- list(x = list(tck = 1), y = list(tck = 1))
     ccall[[1]] <- quote(lattice::dotplot)
     ans <- eval(ccall, parent.frame())
-    ans$call <- sys.call(sys.parent())
-    ans$call[[1]] <- quote(mapplot)
     if (missing(breaks))
     {
         x <- unlist(lapply(ans$panel.args, "[[", "x"))
@@ -58,16 +60,19 @@ mapplot.formula <-
 ##     regions <- trellis.par.get("col.regions")
 ##     if (missing(col.regions)) col.regions <- regions$col
 ##     if (missing(alpha.regions)) alpha.regions <- regions$alpha
-    if (colorkey)
+    if (colorkey) {
+        keydef <- list(at = breaks, draw = FALSE)
+        if (!colrampNULL) keydef$col <- colramp(length(breaks))
         ans <-
             update(ans,
                    breaks = breaks,
                    legend = lattice:::updateList(ans$legend,
                    list(right = 
                         list(fun = draw.colorkey,
-                             args = list(key = list(col = colramp(length(breaks)),
-                                         at = breaks), 
-                             draw = FALSE)))))
+                             args = list(key = keydef)))))
+    }
+    ans$call <- sys.call(sys.parent())
+    ans$call[[1]] <- quote(mapplot)
     ans
 }
 

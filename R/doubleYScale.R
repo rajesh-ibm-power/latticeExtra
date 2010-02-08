@@ -70,25 +70,28 @@ doubleYScale <-
 
     if (add.axis == FALSE) {
         ## if not drawing a second axis, nothing to do but...
-        return(obj1 + as.layer(obj2, x.same = TRUE, y.same = FALSE,
-                               axes = NULL, style = style2))
+        foo <- obj1 + as.layer(obj2, x.same = TRUE, y.same = FALSE,
+                               axes = NULL, style = style2)
+    } else {
+        ## need to specify padding to draw second y axis
+        yAxPad <- list(layout.widths = list(
+                       axis.left = list(x = 2.5, units = "char"),
+                       axis.right = list(x = 3, units = "char")))
+
+        dummy <- update(obj1, panel = function(...) NULL,
+                        scales = list(y = list(draw = FALSE)),
+                        lattice.options = yAxPad)
+        foo <-
+            dummy +
+                as.layer(obj1, style = style1,
+                         x.same = TRUE, y.same = FALSE,
+                         axes = "y", out = TRUE, opp = FALSE) +
+                as.layer(obj2, style = style2,
+                         x.same = TRUE, y.same = FALSE,
+                         axes = "y", out = TRUE, opp = TRUE)
     }
-
-    ## need to specify padding to draw second y axis
-    yAxPad <- list(layout.widths = list(
-                   axis.left = list(x = 2.5, units = "char"),
-                   axis.right = list(x = 3, units = "char")))
-
-    dummy <- update(obj1, panel = function(...) NULL,
-                    scales = list(y = list(draw = FALSE)),
-                    lattice.options = yAxPad)
-    dummy +
-        as.layer(obj1, style = style1,
-                 x.same = TRUE, y.same = FALSE,
-                 axes = "y", out = TRUE, opp = FALSE) +
-            as.layer(obj2, style = style2,
-                     x.same = TRUE, y.same = FALSE,
-                     axes = "y", out = TRUE, opp = TRUE)
+    foo$call <- sys.call(sys.parent())
+    foo
 }
 
 

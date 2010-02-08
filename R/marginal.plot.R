@@ -118,7 +118,6 @@ marginal.plot <-
         catobj <- do.call("c", dotobjs)
         catobj$layout <- layout
         catobj$call <- match.call()
-        if (all(iscat)) return(catobj)
     }
     if (any(!iscat)) {
         ## handle numeric variables
@@ -144,17 +143,22 @@ marginal.plot <-
             rownames(numobj) <- names(x)[!iscat]
         numobj$call <- match.call()
         numobj$layout <- layout
-        if (all(!iscat)) return(numobj)
     }
-    ## if there are both categoricals and numerics,
-    ## merge the trellis objects; keep original var order
-    reIndex <- order(c(which(iscat), which(!iscat)))
-    obj <- update(c(catobj, numobj),
-                  index.cond = list(reIndex), layout = layout)
-    ## force strips when only one panel in each object
-    if (identical(obj$strip, FALSE))
-        obj$strip <- "strip.default"
-    obj$call <- match.call()
+    if (all(iscat)) {
+        obj <- catobj
+    } else if (all(!iscat)) {
+        obj <- numobj
+    } else {
+        ## if there are both categoricals and numerics,
+        ## merge the trellis objects; keep original var order
+        reIndex <- order(c(which(iscat), which(!iscat)))
+        obj <- update(c(catobj, numobj),
+                      index.cond = list(reIndex), layout = layout)
+        ## force strips when only one panel in each object
+        if (identical(obj$strip, FALSE))
+            obj$strip <- "strip.default"
+    }
+    obj$call <- sys.call(sys.parent())
     obj
 }
 

@@ -98,7 +98,8 @@ lmap <-
 ## Plot the sites on a map of Australia
 if (require("maps")) {
   lmap(regions = c("Australia", "Australia:Tasmania"),
-       exact = TRUE, xlim = c(130, 170),
+       exact = TRUE, projection = "rectangular",
+       parameters = 150, xlim = c(130, 170),
        panel = function(...) {
           panel.xyplot(...)
           with(EastAuClimate, {
@@ -121,6 +122,7 @@ siteNames <- factor(row.names(EastAuClimate),
 ## Plot temperature ranges (as bars), color-coded by RainDays
 segplot(siteNames ~ WinterMinTemp + SummerMaxTemp, EastAuClimate,
         level = RainDays, sub = "Color scale: number of rainy days per year",
+        xlab = "Temperature (degrees C)",
         main = paste("Typical temperature range and wetness",
            "of coastal Australian cities", sep = "\n"))
 
