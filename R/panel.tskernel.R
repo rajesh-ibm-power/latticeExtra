@@ -4,15 +4,16 @@ simpleSmoothTs <-
              c = 1, sides = 2, circular = FALSE,
              kern = kernel("daniell", rep(floor((width/sides)/sqrt(c)), c)))
 {
-    x <- as.ts(x)
     if (sides == 2) {
-        i <- -kern$m:kern$m
-        filter <- kern[i]
+        ii <- -kern$m:kern$m
+        filter <- kern[ii]
     } else if (sides == 1) {
-        i <- -kern$m:0
-        filter <- kern[i] / sum(kern[i]) ## normalise
+        ii <- -kern$m:0
+        filter <- kern[ii] / sum(kern[ii]) ## normalise
     } else stop("unrecognised value of 'sides'")
-    filter(x, filter, sides = sides, circular = circular)
+    xf <- x
+    xf[] <- filter(as.matrix(x), filter, sides = sides, circular = circular)
+    xf
 }
 
 panel.tskernel <-
