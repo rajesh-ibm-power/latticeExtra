@@ -19,7 +19,7 @@ panel.scaleArrow(x = unit(0:1, "npc"), y = unit(0:1, "npc"),
 }
 \arguments{
   \item{x, y, default.units}{
-    coordinates of the line ends as \pkg{grid} \code{\link[grid]{unit}}s or
+    coordinates of the line ends as \pkg{grid} \code{\link{unit}}s or
     otherwise interpreted in \code{default.units}.
   }
   \item{digits}{
@@ -32,10 +32,10 @@ panel.scaleArrow(x = unit(0:1, "npc"), y = unit(0:1, "npc"),
     label to place on the mid point of the scale, over-riding the default.
   }
   \item{angle, length, unit, type, ends}{
-    specification of the arrow style; see \code{\link[lattice]{panel.arrows}}.
+    specification of the arrow style; see \code{\link{panel.arrows}}.
   }
   \item{\dots}{
-    further arguments passed to \code{\link[lattice]{panel.text}}.
+    further arguments passed to \code{\link{panel.text}}.
     You will need at least the \code{pos} or \code{adj} arguments.
   }
   \item{col, fill, alpha, lty, lwd}{
@@ -51,7 +51,7 @@ panel.scaleArrow(x = unit(0:1, "npc"), y = unit(0:1, "npc"),
 }
 \seealso{
   \code{\link{panel.abline}},
-  \code{\link[grid]{grid.text}}
+  \code{\link{grid.text}}
 }
 \examples{
 xyplot(EuStockMarkets) +

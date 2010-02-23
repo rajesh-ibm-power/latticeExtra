@@ -1,4 +1,10 @@
 
+Changes in Version 0.6-7 (in development)
+
+ o function simpleSmoothTs (calculations for panel.tskernel).
+
+ o changed panel.xblocks() to show data coverage by default.
+
 Changes in Version 0.6-6
 
  o xyplot.ts actually removed now (forgot to delete it after lattice release).

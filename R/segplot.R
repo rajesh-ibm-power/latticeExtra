@@ -38,6 +38,7 @@ panel.segplot <-
              band.height = 0.6,
              horizontal = TRUE,
              ...,
+             segments.fun = panel.segments,
              centers = NULL,
              pch = 16)
 {
@@ -73,13 +74,13 @@ panel.segplot <-
     else
     {
         if (horizontal)
-            panel.segments(x1, as.numeric(z), x2, as.numeric(z), 
-                           col = col, alpha = alpha, lty = lty, lwd = lwd,
-                           ...)
+            segments.fun(x1, as.numeric(z), x2, as.numeric(z), 
+                         col = col, alpha = alpha, lty = lty, lwd = lwd,
+                         ...)
         else
-            panel.segments(as.numeric(z), x1, as.numeric(z), x2,
-                           col = col, alpha = alpha, lty = lty, lwd = lwd,
-                           ...)
+            segments.fun(as.numeric(z), x1, as.numeric(z), x2,
+                         col = col, alpha = alpha, lty = lty, lwd = lwd,
+                         ...)
 
     }
     if (!is.null(centers))

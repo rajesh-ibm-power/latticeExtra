@@ -70,7 +70,8 @@ ecdfplot.formula <-
               ylab = gettext("Empirical CDF"),
               ...) 
 {
-    ccall <- ocall <- sys.call(sys.parent()); ocall[[1]] <- quote(ecdfplot)
+    ccall <- match.call()
+    ocall <- sys.call(sys.parent()); ocall[[1]] <- quote(ecdfplot) ## for nice $call
     ccall$data <- data
     ccall$prepanel <- prepanel
     ccall$panel <- panel
@@ -85,7 +86,8 @@ ecdfplot.formula <-
 ecdfplot.numeric <- 
     function (x, data = NULL, xlab = deparse(substitute(x)), ...)
 {
-    ccall <- ocall <- sys.call(sys.parent()); ocall[[1]] <- quote(ecdfplot)
+    ccall <- match.call()
+    ocall <- sys.call(sys.parent()); ocall[[1]] <- quote(ecdfplot) ## for nice $call
     if (!is.null(ccall$data))
         warning("explicit 'data' specification ignored")
     ccall$data <- list(x = x)

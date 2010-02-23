@@ -7,7 +7,8 @@ panel.xblocks <- function(x, ...)
     UseMethod("panel.xblocks")
 
 panel.xblocks.default <-
-    function (x, y, ..., height = unit(1, "npc"),
+    function (x, y, ..., gaps = FALSE,
+              height = unit(1, "npc"),
               block.y = unit(0, "npc"), vjust = 0,
               col = NULL, border = NA, name = "xblocks",
               last.step = median(diff(tail(x))))
@@ -20,21 +21,30 @@ panel.xblocks.default <-
         last.step <- 0
     ## this will convert factor to character:
     y <- as.vector(y)
-    ## Assume that 'y' gives the block colours (unless 'col given; below).
-    ## rle treats each NA as unique (does not combine runs of NAs)
+    ## gaps: can't just call is.na() on the input because
+    ## zoo and ts objects lose their time attributes.
+    if (gaps)
+        y <- is.na(y)
+    ## Three cases:
+    ## (1) If y is character, assume it gives the block colours
+    ## -- unless 'col' is given, which over-rides it.
+    ## (2) If y is logical, show blocks of TRUE values.
+    ## (3) If y is numeric, show blocks of non-NA values.
+    if (mode(y) == "numeric") ## includes Date etc
+        y <- !is.na(y)
+    ## Note: rle treats each NA as unique (does not combine runs of NAs)
     ## so we need to replace NAs with a temporary value.
     NAval <-
-        if (is.character(y)) {
-            ""
-        } else if (is.logical(y)) {
-            FALSE
-        } else -Inf
+        if (is.character(y)) "" else FALSE
     y[is.na(y)] <- NAval
-    ## find runs of constant values
+    ## find blocks (runs of constant values)
     yrle <- rle(y)
     ## substitute NA values back in
     blockCol <- yrle$values
     blockCol[blockCol == NAval] <- NA
+    ## for logical series, col default comes from current theme
+    if (is.logical(y) && is.null(col))
+        col <- trellis.par.get("plot.line")$col
     ## set block colours if 'col' given
     if (length(col) > 0) {
         ok <- !is.na(blockCol)
@@ -58,7 +68,8 @@ panel.xblocks.default <-
 }
 
 panel.xblocks.zoo <-
-panel.xblocks.ts <- function(x, y = NULL, ...)
+panel.xblocks.ts <-
+    function(x, y = NULL, ...)
 {
     if (!is.null(y)) {
         panel.xblocks.default(x, y, ...)

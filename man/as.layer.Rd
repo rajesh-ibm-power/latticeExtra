@@ -56,8 +56,21 @@ as.layer(x, ...)
   \code{\link[lattice]{panel.axis}}
 }
 \examples{
+b1 <- barley
+b2 <- barley
+b2$yield <- b2$yield + 10
 
-## all same scales:
+## panels are matched up by packet number
+dotplot(variety ~ yield | site * year, b1) +
+  as.layer(dotplot(variety ~ yield | site * year, b2, col = "red"))
+
+## which gives the same result as:
+dotplot(variety ~ yield | site * year, data = b1, subscripts = TRUE) +
+  layer(panel.dotplot(yield[subscripts], variety[subscripts], col = "red"),
+        data = b2)
+
+
+## example with all same scales (the default):
 xyplot(fdeaths ~ mdeaths) +
   as.layer(xyplot(fdeaths ~ mdeaths, col = 2, subset = ldeaths > 2000))
 

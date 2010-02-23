@@ -12,7 +12,8 @@
 \usage{
 panel.xblocks(x, ...)
 
-\S3method{panel.xblocks}{default}(x, y, ..., height = unit(1, "npc"),
+\S3method{panel.xblocks}{default}(x, y, ..., gaps = FALSE,
+              height = unit(1, "npc"),
               block.y = unit(0, "npc"), vjust = 0,
               col = NULL, border = NA, name = "xblocks",
               last.step = median(diff(tail(x))))
@@ -23,20 +24,28 @@ panel.xblocks(x, ...)
   \item{x, y}{
     In the default method, \code{x} gives the ordinates along the x axis and
     must be in increasing order. \code{y} gives the colour values to plot as
-    contiguous blocks. These may be character (or factor) values (colour
-    names or hex codes), numbers (indexing \code{palette()}), or
-    logicals (where \code{TRUE} is \code{palette(1)} and \code{FALSE} is
-    transparent). Missing values in \code{y} are not plotted.
+    contiguous blocks. If \code{y} is numeric, data coverage is plotted,
+    by converting it into a logical (\code{!is.na(y)}). In this case, or
+    when a logical \code{y} is given, the default block color is
+    taken from the current theme: \code{trellis.par.get("plot.line")$col}.
+    
+    If \code{y} has character (or factor) values, these are interpreted
+    as colors -- and should therefore be colour names or hex
+    codes. Missing values in \code{y} are not plotted. 
+    If \code{col} is given, this over-rides the block colors.
 
-    See also \code{col}, below, which over-rides values of \code{y}.
-
-    In the \code{ts} method, plot values against their \code{time()},
+    The \code{ts} method plots values against their \code{time()},
     unless \code{y} is specified, when it acts just like
     the default method.
   }
   \item{\dots}{
     In the default method, further arguments are graphical parameters
     passed on to \code{\link[grid]{gpar}}.
+  }
+  \item{gaps}{
+    highlights missing values in the data only. This is similar to
+    passing \code{y = is.na(y)}, but one cannot do that to a
+    time series object without losing the time frame attributes.
   }
   \item{height}{
     height of blocks, defaulting to the full panel height. Numeric
@@ -51,17 +60,15 @@ panel.xblocks(x, ...)
     \code{\link[grid]{grid.rect}}.
   }
   \item{col}{
-    if \code{col} is specified, then all blocks are drawn in the given
-    colour. That is, all values of \code{y} are treated the same except
-    \code{NA} / \code{FALSE} / \code{""}.
-
-    If multiple colours are specified they will cycle.
+    if \code{col} is specified, it determines the colors of the blocks
+    defined by \code{y}. If multiple colours are specified they will be
+    repeated to cover the total number of blocks.
   }
   \item{border}{
     border colour.
   }
   \item{name}{
-    a name for the grob (grid object).
+    a name for the grob (\pkg{grid} object).
   }
   \item{last.step}{
     width (in native units) of the final block. Defaults to the median of
@@ -70,7 +77,7 @@ panel.xblocks(x, ...)
 }
 \details{
   Blocks are drawn forward in "time" from the specified x locations,
-  up until the following value. Contiguous blocks are calculated by
+  up until the following value. Contiguous blocks are calculated using
   \code{\link{rle}}.
 }
 \author{
@@ -108,16 +115,13 @@ colnames(z) <- c("A","B","C")
 z[3:4, "B"] <- NA
 z[1, "C"] <- NA
 z
-## Convert to logical time series showing only gaps
-zExists <- !is.na(z)
-attributes(zExists) <- attributes(z)
-zExists
-xyplot(zExists, panel = panel.xblocks, outer = TRUE, layout = c(1,3))
-## Convert to time series of colour names: red indicates missing.
-zCol <- z
-zCol[] <- ifelse(is.na(z), "red", "grey")
-xyplot(zCol, panel = panel.xblocks, outer = TRUE, layout = c(1,3),
+## show data coverage only (highlighting gaps)
+xyplot(z, panel = panel.xblocks,
        scales = list(y = list(draw = FALSE)))
+
+## draw gaps in red
+xyplot(z, type = c("p","s")) +
+  layer_(panel.xblocks(x, y, gaps = TRUE, col = "red"))
 
 ## Example of overlaying blocks from a different series.
 ## Are US presidential approval ratings linked to sunspot activity?
