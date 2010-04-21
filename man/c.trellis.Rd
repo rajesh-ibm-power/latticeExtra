@@ -6,7 +6,7 @@
   Combine the panels of multiple trellis objects into one.
 }
 \usage{
-\S3method{c}{trellis}(..., x.same = NA, y.same = NA,
+\method{c}{trellis}(..., x.same = NA, y.same = NA,
     layout = NULL, recursive = FALSE)
 
 xyplot.list(x, data = NULL, ..., FUN = xyplot,
@@ -39,11 +39,11 @@ xyplot.list(x, data = NULL, ..., FUN = xyplot,
   This mechanism attempts to merge the panels from multiple trellis
   objects into one. The same effect could generally be achieved by
   either a custom panel function (where the display depends on
-  \code{packet.number()}), or using \code{\link[lattice]{print.trellis}}
+  \code{packet.number()}), or using \code{\link{print.trellis}}
   to display multiple trellis objects. However, in some cases it is more
   convenient to use \code{c()}. Furthermore, it can be useful to
   maintain the display as a standard lattice display, rather than a
-  composite using \code{\link[lattice]{print.trellis}}, to simplify
+  composite using \code{\link{print.trellis}}, to simplify
   further interaction.
 
   Many properties of the display, such as titles, legends, axis settings
@@ -64,9 +64,9 @@ xyplot.list(x, data = NULL, ..., FUN = xyplot,
 \author{ Felix Andrews \email{felix@nfrac.org} }
 \seealso{
   \code{\link{marginal.plot}} was the original motivating application,
-  \code{\link[lattice]{print.trellis}},
-  \code{\link[lattice]{update.trellis}},
-  \code{\link[lattice]{trellis.object}}
+  \code{\link{print.trellis}},
+  \code{\link{update.trellis}},
+  \code{\link{trellis.object}}
 }
 \examples{
 
@@ -114,6 +114,7 @@ pdmargin <- barchart(margin.table(postdoc, 1))
 pdboth <- c(pdprops, pdmargin)
 update(pdboth, xlab = c("Proportion", "Freq"))
 
+\dontshow{ .featured_example <- TRUE }
 ## Conditioned 'quakes' plot combined with histogram.
 qua <- xyplot(lat ~ long | equal.count(depth, 3), quakes,
     aspect = "iso", pch = ".", cex = 2, xlab = NULL, ylab = NULL)

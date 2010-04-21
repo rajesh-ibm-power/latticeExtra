@@ -14,6 +14,14 @@
     (2) the sampling is evenly spaced along the specified
     distribution automatically (whereas \code{f.value = ppoints(100)} is
     evenly spaced along the uniform distribution only).
+
+
+  \emph{
+    This function is deprecated as of \pkg{lattice} 0.18-4 (available for
+    R 2.11.0). Use the \code{tails.n} argument of
+    \code{\link{panel.qqmath}} instead.
+  }
+  
 }
 \usage{
 panel.qqmath.tails(x, f.value = NULL, distribution = qnorm,
@@ -38,11 +46,11 @@ panel.qqmath.tails(x, f.value = NULL, distribution = qnorm,
   Felix Andrews \email{felix@nfrac.org}
 }
 \seealso{
-  \code{\link{panel.qqmath}}
+  \code{\link{panel.qqmath}} which should be used instead (as of \pkg{lattice} 0.18-4).
 }
 \examples{
-xx <- rt(10000, df = 10)
-c(panel.qqmath = qqmath(~xx),
-  approx = qqmath(~xx, panel = panel.qqmath.tails))
+
+## see ?panel.qqmath
+
 }
 \keyword{ dplot }

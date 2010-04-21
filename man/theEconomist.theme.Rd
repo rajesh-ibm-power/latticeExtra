@@ -6,7 +6,7 @@
   Generate plots with style like The Economist.
 }
 \description{
-  Uses colours, drawing styles, axis settings, etc, to produce plots
+  Uses colors, drawing styles, axis settings, etc, to produce plots
   inspired by those in The Economist
   magazine. (\url{http://www.economist.com/}).
 }
@@ -38,7 +38,7 @@ theEconomist.theme(win.fontfamily = NULL,
     to draw vertical grid lines rather than the default horizontal.
   }
   \item{zeroline}{
-    colour for a grid line to draw at zero on the x axis (or y axis if
+    color for a grid line to draw at zero on the x axis (or y axis if
     \code{vertical = TRUE}. Set to \code{NA} to omit.
   }
   \item{par.settings}{
@@ -62,7 +62,7 @@ theEconomist.theme(win.fontfamily = NULL,
     on Windows systems, sets the font by name.
   }
   \item{box}{
-    colour for panel boxes, strip outlines, and axis ticks.
+    color for panel boxes, strip outlines, and axis ticks.
   }
   \item{\dots}{
     further arguments passed to \code{\link{simpleTheme}}
@@ -71,7 +71,7 @@ theEconomist.theme(win.fontfamily = NULL,
 }
 \details{
   You can just use \code{par.settings = theEconomist.theme()}, which
-  gives you the colours and styles, but it does not do the
+  gives you the colors and styles, but it does not do the
   grid lines, axis settings, or title settings.
 }
 \references{
@@ -90,6 +90,7 @@ asTheEconomist(xyplot(window(sunspot.year, start = 1900),
   main = "Sunspot cycles", sub = "Number per year",
   scales = list(y = list(relation = "same", axs = "i"))))
 
+\dontshow{ .featured_example <- TRUE }
 trellis.last.object() +
   layer_(panel.xblocks(x, x >= 1980, col = "#6CCFF6", alpha = .5)) +
   layer(panel.text(1988, 180, "Forecast", font = 3, pos = 2))

@@ -32,13 +32,15 @@ custom.theme.2(\dots)
 \value{
 
   A list that can be supplied to
-  \code{\link[lattice:trellis.par.get]{trellis.par.get}} or as the
+  \code{\link{trellis.par.get}} or as the
   \code{theme} argument to
-  \code{\link[lattice:trellis.device]{trellis.device}}.
+  \code{\link{trellis.device}}.
 
 }
 \author{ Deepayan Sarkar }
 \examples{
+set.seed(0)
+
 ## create a plot to demonstrate graphical settings
 obj <-
 xyplot(Sepal.Length + Sepal.Width ~ Petal.Length + Petal.Width, iris,
@@ -47,12 +49,14 @@ xyplot(Sepal.Length + Sepal.Width ~ Petal.Length + Petal.Width, iris,
 obj <- update(obj, legend = list(right =
          list(fun = "draw.colorkey", args = list(list(at = 0:100)))))
 
-## draw with default theme %% NOTE: used by www/generateExamples.R
+\dontshow{ .featured_example <- "style example" }
+## draw with default theme
 obj
 
 ## draw with custom.theme()
 update(obj, par.settings = custom.theme())
 
+\dontshow{ .featured_example <- "custom.theme" }
 ## create a theme with paired colours, filled points, etc
 update(obj, par.settings =
   custom.theme(symbol = brewer.pal(12, "Paired"),

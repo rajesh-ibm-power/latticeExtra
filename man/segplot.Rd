@@ -65,16 +65,16 @@ segplot(x, data, \dots)
   The \code{levelplot} function from the lattice package is used to
   internally to implement this function.  In particular, the colorkey
   mechanism is used as it is, and documentation for
-  \code{\link[lattice]{levelplot}} should be consulted to learn how to
+  \code{\link{levelplot}} should be consulted to learn how to
   fine tune it.
 }
 
 
 \value{
   An object of class \code{"trellis"}. The
-  \code{\link[lattice:update.trellis]{update}} method can be used to
+  \code{\link[=update.trellis]{update}} method can be used to
   update components of the object and the
-  \code{\link[lattice:print.trellis]{print}} method (usually called by
+  \code{\link[=print.trellis]{print}} method (usually called by
   default) will plot it on an appropriate plotting device.
 }
 
@@ -87,9 +87,9 @@ segplot(x, data, \dots)
   suitably. }
 
 \seealso{
-  \code{\link[lattice]{Lattice}},
-  \code{\link[lattice]{levelplot}},
-  \code{\link[lattice]{xyplot}}
+  \code{\link{Lattice}},
+  \code{\link{levelplot}},
+  \code{\link{xyplot}}
 }
 
 
@@ -102,6 +102,7 @@ data(USCancerRates)
 segplot(reorder(factor(county), rate.male) ~ LCL95.male + UCL95.male,
         data = subset(USCancerRates, state == "Washington"))
 
+\dontshow{ .featured_example <- TRUE }
 segplot(reorder(factor(county), rate.male) ~ LCL95.male + UCL95.male,
         data = subset(USCancerRates, state == "Washington"),
         draw.bands = FALSE, centers = rate.male)

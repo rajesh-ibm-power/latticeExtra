@@ -82,8 +82,8 @@ panel.3dtext(x, y, z, labels = seq_along(x),
 
 \author{ Deepayan Sarkar \email{deepayan.sarkar@gmail.com}}
 \seealso{
-  \code{\link[lattice:cloud]{cloud}},
-  \code{\link[lattice:panel.cloud]{panel.cloud}}
+  \code{\link{cloud}},
+  \code{\link{panel.cloud}}
 }
 
 \examples{
@@ -94,6 +94,7 @@ cloud(VADeaths, panel.3d.cloud = panel.3dbars,
       col.facet = "grey", xbase = 0.4, ybase = 0.4,
       screen = list(z = 40, x = -30))
 
+\dontshow{ .featured_example <- TRUE }
 cloud(as.table(prop.table(Titanic, margin = 1:3)[,,,2]),
       type = c("p", "h"),
       zlab = "Proportion\nSurvived",

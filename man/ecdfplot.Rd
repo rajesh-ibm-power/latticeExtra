@@ -56,11 +56,11 @@ panel.ecdfplot(x, f.value = NULL, type = "s",
     within each panel.
   }
   \item{f.value, qtype}{ Defines how quantiles are calculated. See
-    \code{\link[lattice:panel.qqmath]{panel.qqmath}}. }
+    \code{\link{panel.qqmath}}. }
   \item{ref}{ logical, whether a reference line should be drawn at 0 and
     1}
   \item{type}{ how the plot is rendered; see
-    \code{\link[lattice:panel.xyplot]{panel.xyplot}} }
+    \code{\link{panel.xyplot}} }
 
   \item{\dots}{ extra arguments, passed on as appropriate.  Standard
     lattice arguments as well as arguments to \code{panel.ecdfplot}
@@ -77,7 +77,7 @@ panel.ecdfplot(x, f.value = NULL, type = "s",
 }
 \author{ Deepayan Sarkar \email{deepayan.sarkar@r-project.org}}
 \seealso{
-  \code{\link[lattice:qqmath]{qqmath}} for Quantile plots which are
+  \code{\link{qqmath}} for Quantile plots which are
   more generally useful, especially when comparing with a theoretical
   distribution other than uniform.  An ECDF plot is essentially a
   transposed version (i.e., with axes switched) of a uniform quantile

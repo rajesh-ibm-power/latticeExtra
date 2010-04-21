@@ -51,6 +51,7 @@ xyplot.stl <-
                                 strip.levels = TRUE,
                                 shingle.intervals = int))
     }
+    ans$call <- sys.call(sys.parent()); ans$call[[1]] <- quote(xyplot)
     ans
 }
 

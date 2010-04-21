@@ -5,8 +5,8 @@
 }
 \description{
   Plot a quantile regression line with standard error bounds, using the
-  \pkg{quantreg} package. This is based on the \code{\link[ggplot2]{stat_quantile}}
-  function from \pkg{ggplot2}.
+  \pkg{quantreg} package. This is based on the
+  \code{\link[ggplot2]{stat_quantile}} function from \pkg{ggplot2}.
 }
 \usage{
 panel.quantile(x, y, form = y ~ x, method = "rq", ...,
@@ -30,7 +30,6 @@ panel.quantile(x, y, form = y ~ x, method = "rq", ...,
   \item{form, method}{
     the model is constructed (approximately) as
     \code{method(form, tau = tau, data = list(x=x, y=y), ...)}.
-
     See the Examples section for common choices.
   }
   \item{\dots}{
@@ -96,7 +95,7 @@ if (require("splines")) {
 
 xyplot(y ~ x, xy) +
   layer(panel.quantile(x, y, tau = c(.5, .9, .1), superpose = TRUE))
-
+\dontshow{ .featured_example <- TRUE }
 update(trellis.last.object(),
   auto.key = list(text = paste(c(50,90,10), "\% quantile"),
                   points = FALSE, lines = TRUE))

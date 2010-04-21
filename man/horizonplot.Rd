@@ -55,11 +55,11 @@ prepanel.horizonplot(x, y, ..., origin = function(y) na.omit(y)[1])
   }
   \item{par.strip.text}{
     graphical parameters for the strip text; see
-    \code{\link[lattice]{xyplot}}. One notable argument here is
+    \code{\link{xyplot}}. One notable argument here is
     \code{lines}, allowing multi-line text.
   }
   \item{default.scales}{ %,layout
-    see \code{\link[lattice]{xyplot}}.
+    see \code{\link{xyplot}}.
   }
   \item{groups}{
     not applicable to this type of plot.
@@ -98,15 +98,15 @@ prepanel.horizonplot(x, y, ..., origin = function(y) na.omit(y)[1])
   function to choose an appropriate y scale (it is ignored by the
   \code{panel} function). The \code{ylim} argument therefore over-rides
   \code{origin}. The choice of \code{scales$y$relation} is also crucial;
-  see \code{\link[lattice]{xyplot}} and the examples below.
+  see \code{\link{xyplot}} and the examples below.
 }
 
 
 \value{
   An object of class \code{"trellis"}. The
-  \code{\link[lattice:update.trellis]{update}} method can be used to
+  \code{\link[=update.trellis]{update}} method can be used to
   update components of the object and the
-  \code{\link[lattice:print.trellis]{print}} method (usually called by
+  \code{\link[=print.trellis]{print}} method (usually called by
   default) will plot it on an appropriate plotting device.
 }
 
@@ -121,8 +121,8 @@ prepanel.horizonplot(x, y, ..., origin = function(y) na.omit(y)[1])
 }
 
 \seealso{
-  \code{\link[lattice]{Lattice}},
-  \code{\link[lattice]{xyplot.ts}},
+  \code{\link{Lattice}},
+  \code{\link{xyplot.ts}},
   \code{\link{panel.xyarea}}
 }
 
@@ -142,7 +142,7 @@ xyplot(dat, scales = list(y = "same"))
 horizonplot(dat, layout = c(1,12))
 
 ## now use same scales in each panel
-## (so colours represent common ranges across all panels).
+## (so colors represent common ranges across all panels).
 ## This highlights differences across series.
 ## One could potentially draw a colorkey in this case.
 horizonplot(dat, scales = list(y = list(relation = "same")),
@@ -171,6 +171,7 @@ horizonplot(EuStockMarkets, strip.left = TRUE,
   scales = list(y = list(relation = "same")), ylim = c(4000, 5000)) +
 layer(panel.scaleArrow(x = 0.99, col = "grey", srt = 90, cex = 0.75))
 
+\dontshow{ .featured_example <- TRUE }
 ## a cut-and-stack plot; should use "same" y scales!
 horizonplot(sunspots, cut = list(n = 23, overlap = 0),
   scales = list(y = list(relation = "same"), draw = FALSE),

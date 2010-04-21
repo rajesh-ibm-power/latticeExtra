@@ -43,13 +43,13 @@ marginal.plot(x,
   \item{plot.points, ref, cut}{ passed to \code{panel.densityplot}. }
   \item{origin, type}{ passed to \code{panel.dotplot}. }
   \item{xlab, ylab, as.table, subscripts}{
-    see \code{\link[lattice]{xyplot}}.
+    see \code{\link{xyplot}}.
   }
   \item{default.scales, layout, lattice.options}{
-    see \code{\link[lattice]{xyplot}}.
+    see \code{\link{xyplot}}.
   }
-  \item{\dots}{ passed to \code{\link[lattice]{panel.densityplot}} and/or
-    \code{\link[lattice]{panel.dotplot}}. }
+  \item{\dots}{ passed to \code{\link{panel.densityplot}} and/or
+    \code{\link{panel.dotplot}}. }
 }
 \details{
   In the case of mixed numeric and categorical variables,
@@ -60,8 +60,8 @@ marginal.plot(x,
   a trellis object.
 }
 \author{ Felix Andrews \email{felix@nfrac.org} }
-\seealso{ \code{\link[lattice]{panel.dotplot}},
-  \code{\link[lattice]{panel.densityplot}} }
+\seealso{ \code{\link{panel.dotplot}},
+  \code{\link{panel.densityplot}} }
 \examples{
 enviro <- environmental
 ## make an ordered factor (so it will not be reordered)
@@ -69,6 +69,7 @@ enviro$smell <- cut(enviro$ozone, breaks = c(0, 30, 50, Inf),
     labels = c("ok", "hmmm", "yuck"), ordered = TRUE)
 marginal.plot(enviro)
 
+\dontshow{ .featured_example <- TRUE }
 ## using groups
 enviro$is.windy <- factor(enviro$wind > 10,
     levels = c(TRUE, FALSE), labels = c("windy", "calm"))

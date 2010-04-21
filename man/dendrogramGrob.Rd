@@ -35,7 +35,7 @@ dendrogramGrob(x, ord = order.dendrogram(x),
     add one or more rows of rectangles at the base of the dendrogram.
     See details below.  }
   \item{size}{ Total height of the dendrogram in \code{"lines"} (see
-    \code{\link[grid:unit]{unit}})
+    \code{\link{unit}})
   }
   \item{size.add}{ Size of each additional row, also in \code{"lines"} }
   \item{type}{ Whether a child node is joined to its parent  directly
@@ -51,7 +51,7 @@ dendrogramGrob(x, ord = order.dendrogram(x),
   specifying the contents.  Currently, the only supported name is
   \code{"rect"} (which can be repeated), producing rectangles.  The
   components in such a case is a list of graphical parameters, possibly
-  vectorized, that are passed on to \code{\link[grid:gpar]{gpar}}.
+  vectorized, that are passed on to \code{\link{gpar}}.
 }
 \value{
   An object of class \code{"grob"}
@@ -59,7 +59,7 @@ dendrogramGrob(x, ord = order.dendrogram(x),
 \author{ Deepayan Sarkar \email{deepayan.sarkar@r-project.org} }
 
 \seealso{
-  \code{\link{heatmap}}, \code{\link[lattice:levelplot]{levelplot}}
+  \code{\link{heatmap}}, \code{\link{levelplot}}
 }
 
 \examples{
