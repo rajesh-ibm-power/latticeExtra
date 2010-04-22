@@ -40,15 +40,19 @@ panel.lmlineq(x, y, ...)
     \code{\link{lm}}.
     See \code{\link{panel.abline}} for more details.
   }
-  \item{pos, offset, adj, fontfamily}{
+  \item{pos, offset}{
     passed on to \code{\link{panel.text}}.
-
     For \code{pos}: 1 = below, 2 = left, 3 = above, 4 = right,
     and the \code{offset} (in character widths) is applied.
-
-    For \code{adj}: c(0,0) = above right, c(1,0) = above left,
+  }
+  \item{adj}{
+    passed on to \code{\link{panel.text}}.
+    c(0,0) = above right, c(1,0) = above left,
     c(0,1) = below right, c(1,1) = below left;
     offset does not apply when using \code{adj}.
+  }
+  \item{fontfamily}{
+    passed on to \code{\link{panel.text}}.
   }
   \item{at}{
     position of the equation as a fractional distance along the line.
@@ -59,7 +63,6 @@ panel.lmlineq(x, y, ...)
   \item{x, y}{
     position of the equation in native units. If given, this over-rides
     \code{at}.
-
     For \code{panel.lmlineq} this is the data, passed on as \code{lm(y ~ x)}.
   }
   \item{rotate, srt}{
@@ -88,16 +91,18 @@ panel.lmlineq(x, y, ...)
   \item{digits}{
     number of decimal places to show for coefficients in equation.
   }
-  \item{r.squared, sep, sep.end}{
+  \item{r.squared}{
     the \eqn{R^2} statistic to display along with the equation of a line.
     This can be given directly as a number, or \code{TRUE}, in which
     case the function expects a model object (typically
     \code{\link{lm}}) and extracts the \eqn{R^2} statistic from it.
-
-    The \eqn{R^2} value is separated from the equation by \code{sep}, and
-    also \code{sep.end} is added to the end. For example:
-    \code{panel.ablineq(lm(y ~ x), r.squared = TRUE, sep = " (", sep.end
-    = ")")}.
+  }
+  \item{sep, sep.end}{
+    The \eqn{R^2} (\code{r.squared}) value is separated from the
+    equation by the string \code{sep}, and also \code{sep.end} is added
+    to the end. For example: 
+    \code{panel.ablineq(lm(y ~ x), r.squared = TRUE,
+      sep = " (", sep.end = ")")}.
   }
   \item{\dots, col, col.text, col.line}{
     passed on to \code{\link{panel.abline}} and
@@ -165,6 +170,7 @@ xyplot(ysim ~ xsim) +
   layer(panel.ablineq(lm(y ~ x + 0), r.sq = TRUE, rot = TRUE,
                       at = 0.8, pos = 1), style = 2)
 
+\dontshow{ .featured_example <- TRUE }
 update(trellis.last.object(),
   auto.key = list(text = c("intercept", "no intercept"),
                   points = FALSE, lines = TRUE))

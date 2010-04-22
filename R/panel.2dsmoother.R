@@ -23,9 +23,15 @@ panel.2dsmoother <-
     x <- x[subscripts]
     y <- y[subscripts]
     z <- z[subscripts]
-    data <- list(x = x, y = y, z = z)
+    ok <- is.finite(x) & is.finite(y) & is.finite(z)
+    if (sum(ok) < 1) 
+        return()
+    x <- as.numeric(x)[ok]
+    y <- as.numeric(y)[ok]
+    z <- as.numeric(z)[ok]
     mod <- do.call(method,
-                   c(alist(form, data = data), args))
+                   c(alist(form, data = list(x = x, y = y, z = z)),
+                     args))
     ## use the limits of the data, or panel limits, whichever is smaller
     lims <- current.panel.limits()
     xrange <- c(max(min(lims$x), min(x)), min(max(lims$x), max(x)))

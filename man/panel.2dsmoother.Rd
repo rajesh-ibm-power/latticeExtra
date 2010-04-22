@@ -24,7 +24,6 @@ panel.2dsmoother(x, y, z, subscripts = TRUE,
   \item{form, method}{
     the smoothing model is constructed (approximately) as
     \code{method(form, data = list(x=x, y=y, z=z), {args})}.
-
     See the Examples section for common choices.
   }
   \item{subscripts}{
@@ -58,6 +57,7 @@ xyz$z <- with(xyz, x * y + rnorm(100, sd = 1))
 
 levelplot(z ~ x * y, xyz, panel = panel.2dsmoother)
 
+\dontshow{ .featured_example <- TRUE }
 ## showing data points on the same color scale
 levelplot(z ~ x * y, xyz,
           panel = panel.levelplot.points, cex = 1.2) +

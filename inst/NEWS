@@ -1,9 +1,27 @@
 
-Changes in Version 0.6-7 (in development)
+Changes in Version 0.6-10
 
- o function simpleSmoothTs (calculations for panel.tskernel).
+ o support arrows with panel.segplot.
 
- o changed panel.xblocks() to show data coverage by default.
+ o several changes to panel.xblocks().
+
+ o layer() now has a 'magicdots' argument, which is TRUE by default.
+
+ o use of the 'eval' and 'etc' arguments to layer() are now deprecated.
+
+ o new function simpleSmoothTs (calculations as in panel.tskernel).
+
+ o panel.tskernel() gains a new argument 'n' (default 300) to reduce the
+   number of plotted points.
+
+ o panel.qqmath.tails() is now deprecated as its main functionality
+   has been moved into panel.qqmath() (in lattice 0.18-4, from R 2.11.0).
+
+ o glayer() was failing on plots with an existing 'panel.groups'.
+
+ o panel.smoother() now omits non-finite values and converts to numeric.
+
+ o panel.xyarea() (and thus horizonplot()) now handles missing values.
 
 Changes in Version 0.6-6
 

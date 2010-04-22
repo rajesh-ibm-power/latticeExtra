@@ -32,4 +32,10 @@
   \emph{Biology of Blood and Marrow Transplantation} \bold{13--6}
 
 }
+\examples{
+## Figure 3.4 from Sarkar (2008)
+data(gvhd10)
+histogram(~log2(FSC.H) | Days, gvhd10, xlab = "log Forward Scatter",
+          type = "density", nint = 50, layout = c(2, 4))
+}
 \keyword{datasets}

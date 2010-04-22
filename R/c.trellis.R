@@ -194,13 +194,15 @@ c.trellis <-
         obj1 <- update(obj1, scales = scalesSpec)
     }
 
-    ## turn strips on if either object has strips, or names were given
-    if (identical(obj1$strip, FALSE) &&
-        !identical(obj2$strip, FALSE))
-        obj1$strip <- obj2$strip
-    if (identical(obj1$strip, FALSE) &&
-        !is.null(names(objs)))
-        obj1$strip <- "strip.default"
+    if (identical(obj1$strip.left, FALSE)) {
+        ## turn strips on if either object has strips, or names were given
+        if (identical(obj1$strip, FALSE) &&
+            !identical(obj2$strip, FALSE))
+            obj1$strip <- obj2$strip
+        if (identical(obj1$strip, FALSE) &&
+            !is.null(names(objs)))
+            obj1$strip <- "strip.default"
+    }
     obj1$layout <- layout
     obj1$call <- call("c", obj1$call, obj2$call,
                       x.same = x.same, y.same = y.same,

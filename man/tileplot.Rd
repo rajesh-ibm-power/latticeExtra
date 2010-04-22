@@ -14,11 +14,11 @@ tileplot(x, data = NULL, aspect = "iso",
 }
 \arguments{
   \item{x, data}{ formula and data as in
-    \code{\link[lattice]{levelplot}}, except that it expects irregularly
+    \code{\link{levelplot}}, except that it expects irregularly
     spaced points rather than a regular grid. }
   \item{aspect}{ aspect ratio: "iso" is recommended as it reproduces the
     distances used in the triangulation calculations. }
-  \item{panel, prepanel}{ see \code{\link[lattice]{xyplot}}. }
+  \item{panel, prepanel}{ see \code{\link{xyplot}}. }
   \item{\dots}{ further arguments to the panel function, which defaults to
     \code{\link{panel.voronoi}}. }
 }
@@ -26,7 +26,7 @@ tileplot(x, data = NULL, aspect = "iso",
   See \code{\link{panel.voronoi}} for further options and details.
 }
 \author{ Felix Andrews \email{felix@nfrac.org} }
-\seealso{ \code{\link{panel.voronoi}}, \code{\link[lattice]{levelplot}} }
+\seealso{ \code{\link{panel.voronoi}}, \code{\link{levelplot}} }
 \examples{
 xyz <- data.frame(x = rnorm(100), y = rnorm(100), z = rnorm(100))
 tileplot(z ~ x * y, xyz)
@@ -41,6 +41,7 @@ tileplot(z ~ x * y, xyz, xlim = c(-2, 4), ylim = c(-2, 4))
 
 ## insert some missing values
 xyz$z[1:10] <- NA
+\dontshow{ .featured_example <- TRUE }
 ## the default na.rm = FALSE shows missing polygons
 tileplot(z ~ x * y, xyz, border = "black",
   col.regions = grey.colors(100),

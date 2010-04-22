@@ -32,9 +32,14 @@ panel.quantile <-
         x <- environment(form)$x
     if (missing(y))
         y <- environment(form)$y
-    data <- list(x = x, y = y)
+    ok <- is.finite(x) & is.finite(y)
+    if (sum(ok) < 1) 
+        return()
+    x <- as.numeric(x)[ok]
+    y <- as.numeric(y)[ok]
     mod <- do.call(method,
-                   c(alist(form, tau = tau, data = data), list(...)))
+                   c(alist(form, tau = tau, data = list(x = x, y = y)),
+                     list(...)))
     xseq <- seq(min(x), max(x), length = n)
     pred <- predict(mod, data.frame(x = xseq),
                     interval = if (ci) "confidence" else "none",

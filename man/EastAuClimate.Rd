@@ -116,6 +116,7 @@ if (require("maps")) {
 xyplot(WinterMaxTemp ~ Latitude, EastAuClimate, aspect = "xy",
        type = c("p", "a"), ylab = "Temperature (degrees C)")
 
+\dontshow{ .featured_example <- TRUE }
 ## (Make a factor with levels in order - by coastal location)
 siteNames <- factor(row.names(EastAuClimate),
            levels = row.names(EastAuClimate))

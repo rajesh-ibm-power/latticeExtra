@@ -47,7 +47,7 @@ panel.segplot(x, y, z, level = NULL, subscripts,
     parameter settings for \code{"plot.line"} or \code{"plot.polygon"} for
     segments and rectangles respectively.  \code{col} is overridden by
     \code{col.regions} if \code{level} is not null. }
-  \item{col.regions}{ vector of colors as in \code{\link[lattice]{levelplot}} }
+  \item{col.regions}{ vector of colors as in \code{\link{levelplot}} }
   \item{band.height}{ height of rectangles (applicable if
     \code{draw.bands} is \code{TRUE} }
 

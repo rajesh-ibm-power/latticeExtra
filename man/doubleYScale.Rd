@@ -30,7 +30,6 @@ doubleYScale(obj1, obj2, use.style = TRUE,
     Therefore these should be integers between 1 and 6;
     a value of 0 or NULL can be given to leave the default settings.
     These will also be applied to the y-axes and ylab, if relevant.
-
     \code{use.style} simply changes the defaults of the style arguments.
   }
   \item{add.axis}{
@@ -45,7 +44,7 @@ doubleYScale(obj1, obj2, use.style = TRUE,
   \item{text, auto.key, points, lines, \dots}{
     if non-NULL, add a \code{key} to the display, using entries named by
     \code{text}. Further arguments are passed on to
-    \code{\link[lattice]{simpleKey}} at plot time.
+    \code{\link{simpleKey}} at plot time.
   }
 }
 \details{
@@ -75,10 +74,14 @@ obj2 <- xyplot(y^2 ~ x, foo, type = "l")
 doubleYScale(obj1, obj2, add.axis = FALSE)
 ## draw second y axis
 doubleYScale(obj1, obj2)
+\dontshow{ .featured_example <- "doubleYScale" }
 ## ...with second ylab
 doubleYScale(obj1, obj2, add.ylab2 = TRUE)
 ## ...or with a key
 doubleYScale(obj1, obj2, text = c("obj1", "obj2"))
+## ...with custom styles
+update(doubleYScale(obj1, obj2, text = c("obj1", "obj2")),
+  par.settings = simpleTheme(col = c('red','black'), lty = 1:2))
 
 ## different plot types
 x <- rnorm(60)
@@ -92,7 +95,7 @@ data(SeatacWeather)
 temp <- xyplot(min.temp + max.temp ~ day | month,
                data = SeatacWeather, type = "l", layout = c(3, 1))
 rain <- xyplot(precip ~ day | month, data = SeatacWeather, type = "h")
-
+\dontshow{ .featured_example <- "SeatacWeather" }
 doubleYScale(temp, rain, style1 = 0, style2 = 3, add.ylab2 = TRUE,
    text = c("min. T", "max. T", "rain"), columns = 3)
 
