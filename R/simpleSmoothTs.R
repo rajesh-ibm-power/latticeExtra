@@ -17,7 +17,7 @@ simpleSmoothTs.default <-
         ii <- -kern$m:kern$m
         filter <- kern[ii]
     } else if (sides == 1) {
-        ii <- -kern$m:0
+        ii <- 0:kern$m
         filter <- kern[ii] / sum(kern[ii]) ## normalise
     } else stop("unrecognised value of 'sides'")
     x <- as.ts(x)
@@ -28,8 +28,8 @@ simpleSmoothTs.default <-
         reduce <- round(NROW(x) / n)
         if (reduce > 1) {
             ndeltat <- deltat(xf) * reduce
-            ## work-around for bug in aggregate.ts (scheduled for fix in R 2.12)
-            if ((ndeltat > 1) && (getRversion() < "2.12.0"))
+            ## work-around for bug in aggregate.ts
+            if ((ndeltat > 1) && (getRversion() < "2.11.1"))
                 ndeltat <- ndeltat * (1 + getOption("ts.eps")/1000)
             xf <- aggregate(xf, ndeltat = ndeltat, FUN = mean)
             ## and adjust it so that each point is centered compared to the original series

@@ -13,7 +13,7 @@ as.layer(x, ...)
 
 \S3method{as.layer}{trellis}(x, x.same = TRUE, y.same = TRUE,
          axes = c(if (!x.same) "x", if (!y.same) "y"), opposite = TRUE,
-         outside = FALSE, ...)
+         outside = FALSE, theme = x$par.settings, ...)
 }
 \arguments{
   \item{x}{ a trellis object. }
@@ -31,6 +31,7 @@ as.layer(x, ...)
          that space for outside axes will not be allocated
          automatically. May be a vector of length 2 to specify for x and y axes
          separately. }
+  \item{theme}{ passed to \code{\link{layer}}. }
   \item{\dots}{ passed to \code{\link{layer}}: typically
     the \code{style} argument would be specified. }
 }
@@ -74,14 +75,13 @@ dotplot(variety ~ yield | site * year, data = b1, subscripts = TRUE) +
 xyplot(fdeaths ~ mdeaths) +
   as.layer(xyplot(fdeaths ~ mdeaths, col = 2, subset = ldeaths > 2000))
 
-\dontshow{ .featured_example <- TRUE }
 ## same x scales, different y scales:
 xyplot(fdeaths ~ mdeaths) +
   as.layer(bwplot(~ mdeaths, box.ratio = 0.2), y.same = FALSE)
 
 ## same y scales, different x scales:
 xyplot(fdeaths ~ mdeaths) +
-  as.layer(bwplot(mdeaths ~ factor(mdeaths*0), box.ratio = 0.2), x.same = FALSE)
+  as.layer(bwplot(fdeaths ~ factor(mdeaths*0), box.ratio = 0.2), x.same = FALSE)
 
 ## as.layer() is called automatically if two plots are added:
 histogram(~ ldeaths, type = "density") + densityplot(~ ldeaths, lwd = 3)

@@ -1,16 +1,18 @@
 \name{c.trellis}
 \alias{c.trellis}
 \alias{xyplot.list}
+\alias{mergedTrellisLegendGrob}
 \title{ Merge trellis objects, using same or different scales }
 \description{
   Combine the panels of multiple trellis objects into one.
 }
 \usage{
 \method{c}{trellis}(..., x.same = NA, y.same = NA,
-    layout = NULL, recursive = FALSE)
+    layout = NULL, merge.legends = FALSE, recursive = FALSE)
 
 xyplot.list(x, data = NULL, ..., FUN = xyplot,
-    y.same = TRUE, x.same = NA, layout = NULL)
+    y.same = TRUE, x.same = NA, layout = NULL,
+    merge.legends = FALSE)
 }
 \arguments{
   \item{\dots}{ two or more trellis objects. If these are
@@ -28,10 +30,12 @@ xyplot.list(x, data = NULL, ..., FUN = xyplot,
     \code{NA} to leave them alone. }
   \item{layout}{ value for \code{layout} of the new plot; see
     \code{\link{xyplot}}. }
+  \item{merge.legends}{ to keep keys or legends from all plots, not just
+    the first. If multiple legends share the same \code{"space"}, they are
+    packed together horizontally or vertically. }
   \item{recursive}{ for consistency with the generic method, ignored. }
-  \item{x}{ a \code{list}; the function \code{FUN}, which defaults to
-    \code{\link{xyplot}}, will be called on each element of \code{x}, and the
-    resulting plots combined into one. }
+  \item{x}{ a \code{list} of objects to plot individually, and then
+    be combined into one final plot. }
   \item{FUN, data}{ a lattice plot function, to be called on each element of
     the list \code{x}, along with \code{data} and \code{...} }
 }
@@ -46,7 +50,7 @@ xyplot.list(x, data = NULL, ..., FUN = xyplot,
   composite using \code{\link{print.trellis}}, to simplify
   further interaction.
 
-  Many properties of the display, such as titles, legends, axis settings
+  Many properties of the display, such as titles, axis settings
   and aspect ratio will be taken from the first object only.
 
   Note that combining panels from different types of plots does not
@@ -114,14 +118,24 @@ pdmargin <- barchart(margin.table(postdoc, 1))
 pdboth <- c(pdprops, pdmargin)
 update(pdboth, xlab = c("Proportion", "Freq"))
 
-\dontshow{ .featured_example <- TRUE }
 ## Conditioned 'quakes' plot combined with histogram.
 qua <- xyplot(lat ~ long | equal.count(depth, 3), quakes,
     aspect = "iso", pch = ".", cex = 2, xlab = NULL, ylab = NULL)
 qua <- c(qua, depth = histogram(quakes$depth), layout = c(4, 1))
 ## suppress scales on the first 3 panels
 update(qua, scales = list(at = list(NULL, NULL, NULL, NA),
-                 y = list(draw = FALSE)))
+                          y = list(draw = FALSE)))
+
+## Demonstrate merging of legends and par.settings.
+## Note that par.settings can conflict, thus need col.line=...
+mypoints <- 
+    xyplot(1:10 ~ 1:10, groups = factor(rep(1:2, each = 5)),
+        par.settings = simpleTheme(pch = 16), auto.key = TRUE)
+mylines <-
+    xyplot(1:10 ~ 1:10, groups = factor(rep(1:5, each = 2)),
+        type = "l", par.settings = simpleTheme(col.line = 1:5),
+        auto.key = list(lines = TRUE, points = FALSE, columns = 5))
+c(mypoints, mylines)
 
 ## Visualise statistical and spatial distributions
 ## (advanced!)
@@ -132,26 +146,24 @@ form <- StateName ~ Population + Income + Illiteracy +
    `Life Exp` + Murder + `HS Grad` + Frost + sqrt(Area)
 ## construct independent maps of each variable
 statemap <- map("state", plot = FALSE, fill = TRUE)
-statemap$names <- gsub(":.*", "", statemap$names)
-colkey <- draw.colorkey(list(col = heat.colors(100),
-    at = 0:100, labels = list(labels = c("min","max"), at = c(0,100))))
+colkey <- draw.colorkey(list(col = heat.colors(100), at = 0:100,
+    labels = list(labels = c("min","max"), at = c(0,100))))
 panel.mapplot.each <- function(x, breaks, ...)
-   panel.mapplot(x = x, breaks = quantile(x), ...)
+    panel.mapplot(x = x, breaks = quantile(x), ...)
 vmaps <- mapplot(form, vars, map = statemap, colramp = heat.colors,
-  panel = panel.mapplot.each, colorkey = FALSE,
-  legend = list(right = list(fun = colkey)), xlab = NULL)
+    panel = panel.mapplot.each, colorkey = FALSE,
+    legend = list(right = list(fun = colkey)), xlab = NULL)
 ## construct independent densityplots of each variable
-vdens <- densityplot(form[-2], vars, outer = TRUE,
-   prepanel = function(...)
-      list(xlim = c(0, max(prepanel.default.densityplot(...)$xlim))),
-   scales = list(relation = "free", x = list(axs = "i")),
-   cex = 0.5, ref = TRUE)
+vdens <- densityplot(form[-2], vars, outer = TRUE, cut = 0, 
+    scales = list(relation = "free"), ylim = c(0, NA),
+    cex = 0.5, ref = TRUE) +
+  layer(panel.axis("top", half = FALSE, text.cex = 0.7))
 ## combine panels from both plots
 combo <- c(vmaps, vdens)
 ## rearrange in pairs
 n <- length(vars)
 npairs <- rep(1:n, each = 2) + c(0, n)
 update(combo[npairs], scales = list(draw = FALSE),
-       layout = c(4, 4), between = list(x = c(0, 0.5), y = 0.5))
+    layout = c(4, 4), between = list(x = c(0, 0.5), y = 0.5))
 }
 \keyword{ aplot }

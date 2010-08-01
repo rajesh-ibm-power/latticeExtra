@@ -15,41 +15,76 @@
 horizonplot(x, data, \dots)
 
 \S3method{horizonplot}{default}(x, data = NULL, \dots,
-            panel = panel.horizonplot,
-            prepanel = prepanel.horizonplot,
-            strip = FALSE, strip.left = TRUE,
-            par.strip.text = list(cex = 0.6),
-            groups = NULL,
-            default.scales =
-              list(y = list(relation = "sliced", axs = "i", 
-                            draw = FALSE, tick.number = 2)))
+    horizonscale = NA,
+    origin = function(y) na.omit(y)[1],
+    colorkey = FALSE, legend = NULL,
+    panel = panel.horizonplot,
+    prepanel = prepanel.horizonplot,
+    col.regions =
+    c("#B41414","#E03231","#F7A99C","#9FC8DC","#468CC8","#0165B3"),
+    strip = FALSE, strip.left = TRUE,
+    par.strip.text = list(cex = 0.6),
+    colorkey.digits = 3,
+    groups = NULL,
+    default.scales =
+      list(y = list(relation = "free", axs = "i", 
+                    draw = FALSE, tick.number = 2)))
 
-panel.horizonplot(x, y, ..., origin,
-            border = NA, col.regions = regions$col)
+panel.horizonplot(x, y, ..., border = NA, col.regions =
+    c("#B41414","#E03231","#F7A99C","#9FC8DC","#468CC8","#0165B3"),
+    origin)
 
-prepanel.horizonplot(x, y, ..., origin = function(y) na.omit(y)[1])
+prepanel.horizonplot(x, y, ..., horizonscale = NA,
+    origin = function(y) na.omit(y)[1])
 }
 
 \arguments{
   \item{x, y}{ Argument on which argument dispatch is carried
     out. Typically this will be a multivariate time series.
-
     In the panel and prepanel functions, these are the data
     coordinates. 
   }
-  \item{data}{ Not used (at least, not used by \code{xyplot.ts}). }
+  \item{data}{
+    Not used (at least, not used by \code{xyplot.ts}).
+  }
   \item{\dots}{
     further arguments.  Arguments to \code{xyplot} as
     well as to the default panel function \code{\link{panel.horizonplot}}
     can be supplied directly to \code{horizonplot}.
-
     In typical usage, the method of \code{xyplot} called will be
     \code{\link{xyplot.ts}}.
+  }
+  \item{horizonscale}{
+    the scale of each color segment. There are 3 positive
+    segments and 3 negative segments. If this is a given as a
+    number then all panels will have comparable distances, though not
+    necessarily the same actual values (similar in concept to
+    \code{scales$relation = "sliced"}). If \code{NA}, as it is by
+    default, then the scale is chosen in each panel to cover the range
+    of the data (unless overridden by \code{ylim}); see Details.
+  }
+  \item{origin}{
+    the baseline y value for the first (positive) segment
+    (i.e. the value at which red changes to blue). This can be a
+    number, which is then fixed across all panels, or it can be a
+    function, which is evaluated with the \code{y} values in each
+    panel. The default is the first non-missing y value in each
+    panel. See the Details section.
+  }
+  \item{colorkey, legend}{
+    if \code{colorkey = TRUE} a suitable color scale bar is constructed
+    using the values of \code{origin} and \code{horizonscale}. Further
+    options can be passed to \code{colorkey} in list form, as with
+    \code{\link{levelplot}}. 
   }
   \item{panel}{ function to render the graphic given the data.  This is
     the function that actually implements the display.  }
   \item{prepanel}{ function determining range of the data rectangle from
     data to be used in a panel. }
+  \item{col.regions}{
+    color scale, with at least 6 colors. This should be a divergent
+    color scale (typically with white as the central color).
+  }
   \item{strip, strip.left}{
     by default strips are only drawn on the left, to save space.
   }
@@ -58,28 +93,18 @@ prepanel.horizonplot(x, y, ..., origin = function(y) na.omit(y)[1])
     \code{\link{xyplot}}. One notable argument here is
     \code{lines}, allowing multi-line text.
   }
-  \item{default.scales}{ %,layout
-    see \code{\link{xyplot}}.
+  \item{colorkey.digits}{
+    digits for rounding values in colorkey labels.
+  }
+  \item{default.scales}{
+    sets default values of \code{scales}; leave this alone, pass
+    \code{scales} instead.
   }
   \item{groups}{
     not applicable to this type of plot.
   }
-  \item{origin}{
-    the baseline y value for the first (positive) segment. This can be a
-    number, which is then fixed across all panels, or it can be a
-    function, which is evaluated with the \code{y} values in each
-    panel. The default is the first non-missing y value in each
-    panel.
-
-    See the Details section.
-  }
   \item{border}{
     border color for the filled polygons, defaults to no border.
-  }
-  \item{col.regions}{
-    color scale, taken by default from the current theme,
-    \code{trellis.par.get("regions")$col}. This should be a divergent
-    color scale (with white as the central color).
   }
 }
 
@@ -93,12 +118,36 @@ prepanel.horizonplot(x, y, ..., origin = function(y) na.omit(y)[1])
   in red) for data below the baseline. See the article referenced below
   for an introduction to Horizon plots.
 
+  There are three different cases of using this function:
+  \enumerate{
+    \item \code{horizonscale} unspecified (default case): then each
+     panel will have different scales, and the colors represent
+     deviations from the origin up to the maximum deviation from the
+     origin in that panel. If \code{origin} is specified then that will
+     be constant across panels; otherwise it defaults to the initial
+     value.
+   \item \code{horizonscale} specified but \code{origin} unspecified:
+     the origin defaults to the initial value in each panel, and colors
+     represent deviations from it in steps of \code{horizonscale} (up to
+     3 steps each way).
+   \item both \code{horizonscale} and \code{origin} specified: each
+     panel will have the same scales, and colors represent fixed ranges
+     of values. 
+  }
+
+  In each of these cases the \code{colorkey} is labelled slightly
+  differently (see examples).
+}
+
+\section{Warning}{
   Note that the y scale in each panel defines the actual origin and
-  scale used. The \code{origin} argument is only used in the \code{prepanel}
-  function to choose an appropriate y scale (it is ignored by the
-  \code{panel} function). The \code{ylim} argument therefore over-rides
-  \code{origin}. The choice of \code{scales$y$relation} is also crucial;
-  see \code{\link{xyplot}} and the examples below.
+  scale used. The \code{origin} and \code{horizonscale} arguments are
+  only used in the \code{prepanel} function to choose an appropriate y
+  scale. The \code{ylim} argument therefore over-rides 
+  \code{origin} and \code{horizonscale}. This also implies that choices
+  of \code{scales$y$relation} other than \code{"free"} may have
+  unexpected effects, particularly \code{"sliced"}, as these change the
+  y limits from those requested by the prepanel function.
 }
 
 
@@ -135,47 +184,67 @@ colnames(dat) <- paste("series", LETTERS[1:12])
 ## show simple line plot first, for reference.
 xyplot(dat, scales = list(y = "same"))
 
-## horizonplot:
-## draw each series with a different baseline;
-## ('origin' default is the first data value in each series).
-## This highlights deviations within each series.
-horizonplot(dat, layout = c(1,12))
+## these layers show scale and origin in each panel...
+infolayers <-
+  layer(panel.scaleArrow(x = 0.99, digits = 1, col = "grey",
+                         srt = 90, cex = 0.7)) +
+  layer(lim <- current.panel.limits(),
+    panel.text(lim$x[1], lim$y[1], round(lim$y[1],1), font = 2,
+        cex = 0.7, adj = c(-0.5,-0.5), col = "#9FC8DC"))
 
-## now use same scales in each panel
-## (so colors represent common ranges across all panels).
-## This highlights differences across series.
-## One could potentially draw a colorkey in this case.
-horizonplot(dat, scales = list(y = list(relation = "same")),
-            origin = 0, layout = c(1,12)) +
-  layer(panel.scaleArrow(x = .99, pos = 2))
+## Case 1: each panel has a different origin and scale:
+## ('origin' default is the first data value in each series).
+horizonplot(dat, layout = c(1,12), colorkey = TRUE) +
+  infolayers
+ 
+## Case 2: fixed scale but different origin (baseline):
+## (similar in concept to scales = "sliced")
+horizonplot(dat, layout = c(1,12), horizonscale = 10, colorkey = TRUE) +
+  infolayers
+
+## Case 3: fixed scale and constant origin (all same scales):
+horizonplot(dat, layout = c(1,12), origin = 0, horizonscale = 10, colorkey = TRUE) +
+  infolayers
+
+## same effect using ylim (but colorkey does not know limits):
+horizonplot(dat, layout = c(1,12), ylim = c(0, 10), colorkey = TRUE) +
+  infolayers
+
+## same scales with full coverage of color scale:
+horizonplot(dat, layout = c(1,12), origin = 0,
+            scales = list(y = list(relation = "same")),
+            colorkey = TRUE, colorkey.digits = 1) +
+  infolayers
+
 
 ## illustration of the cut points used in the following plot
 xyplot(EuStockMarkets, scales = list(y = "same"),
   panel = function(x, y, ...) {
-    rgn <- trellis.par.get("regions")$col
-    col <- rgn[1 + (length(rgn)-1) * 0:7/7]
-    for (i in c(-4:-1, 3:0)) {
+    col <-
+    c("#B41414","#E03231","#F7A99C","#9FC8DC","#468CC8","#0165B3")
+    for (i in c(-3:-1, 2:0)) {
       if (i >= 0)
         yi <- pmax(4000, pmin(y, 4000 + 1000 * (i+1)))
       if (i < 0)
         yi <- pmin(4000, pmax(y, 4000 + 1000 * i))
       panel.xyarea(x, yi, origin = 4000,
-        col = col[i+5], border = NA)
+        col = col[i+4], border = NA)
     }
     panel.lines(x, y)
     panel.abline(h = 4000, lty = 2)
   })
 
 ## compare with previous plot
-horizonplot(EuStockMarkets, strip.left = TRUE,
-  scales = list(y = list(relation = "same")), ylim = c(4000, 5000)) +
-layer(panel.scaleArrow(x = 0.99, col = "grey", srt = 90, cex = 0.75))
+horizonplot(EuStockMarkets, strip.left = TRUE, 
+            scales = list(y = list(relation = "same")),
+            origin = 4000, horizonscale = 1000, colorkey = TRUE) +
+  infolayers
 
-\dontshow{ .featured_example <- TRUE }
-## a cut-and-stack plot; should use "same" y scales!
+## a cut-and-stack plot; use constant y scales!
 horizonplot(sunspots, cut = list(n = 23, overlap = 0),
-  scales = list(y = list(relation = "same"), draw = FALSE),
-  origin = 100, strip.left = FALSE, layout = c(1,23)) +
+  scales = list(draw = FALSE, y = list(relation = "same")),
+  origin = 100, colorkey = TRUE,
+  strip.left = FALSE, layout = c(1,23)) +
 layer(grid::grid.text(round(x[1]), x = 0, just = "left"))
 }
 \keyword{hplot}

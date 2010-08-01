@@ -41,7 +41,6 @@ tileplot(z ~ x * y, xyz, xlim = c(-2, 4), ylim = c(-2, 4))
 
 ## insert some missing values
 xyz$z[1:10] <- NA
-\dontshow{ .featured_example <- TRUE }
 ## the default na.rm = FALSE shows missing polygons
 tileplot(z ~ x * y, xyz, border = "black",
   col.regions = grey.colors(100),

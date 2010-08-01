@@ -25,7 +25,7 @@ mapplot(x, data, \dots)
 
 
 prepanel.mapplot(x, y, map, \dots)
-panel.mapplot(x, y, map, breaks, colramp, lwd = 0.5, \dots)
+panel.mapplot(x, y, map, breaks, colramp, exact = FALSE, lwd = 0.5, \dots)
 
 
 }
@@ -60,6 +60,11 @@ panel.mapplot(x, y, map, breaks, colramp, lwd = 0.5, \dots)
     a function that produces colors (such as \code{\link{cm.colors}}).
     If it is \code{NULL}, colors are taken from
     \code{trellis.par.get("regions")}. }
+  \item{exact}{ the default \code{exact = FALSE} allows the given
+    \code{y} values to match sub-regions of \code{map},
+    i.e. region names with a qualifier following \code{":"}, like
+    \code{"michigan:north", "michigan:south"}. These will both match a
+    \code{y} value of \code{"Michigan"}. }
   \item{legend, colorkey}{ controls legends; usually just a color key
     giving the association between numeric values of \code{x} and
     color.  }
@@ -86,21 +91,25 @@ panel.mapplot(x, y, map, breaks, colramp, lwd = 0.5, \dots)
 library(maps)
 library(mapproj)
 
+## Note: Alaska, Hawaii and others are not included in county map;
+## this generates warnings with both USCancerRates and ancestry.
 
 data(USCancerRates)
 
-\dontshow{ .featured_example <- "USCancerRates" }
+suppressWarnings(print(
 mapplot(rownames(USCancerRates) ~ log(rate.male) + log(rate.female),
         data = USCancerRates,
         map = map("county", plot = FALSE, fill = TRUE,
                   projection = "mercator"))
+))
 
+suppressWarnings(print(
 mapplot(rownames(USCancerRates) ~ log(rate.male) + log(rate.female),
         data = USCancerRates,
         map = map("county", plot = FALSE, fill = TRUE,
                   projection = "tetra"),
         scales = list(draw = FALSE))
-
+))
 
 data(ancestry)
 
@@ -108,13 +117,14 @@ county.map <-
     map('county', plot = FALSE, fill = TRUE, 
         projection = "azequalarea")
 
-\dontshow{ .featured_example <- "mapplot" }
 ## set a sequential color palette as current theme, and use it
 opar <- trellis.par.get()
 trellis.par.set(custom.theme(region = brewer.pal(9, "Purples"),
                              alpha.line = 0.5))
+suppressWarnings(print(
 mapplot(county ~ log10(population), ancestry, map = county.map,
     colramp = NULL)
+))
 trellis.par.set(opar)
 
 \dontrun{

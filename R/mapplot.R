@@ -6,11 +6,24 @@ prepanel.mapplot <- function(x, y, map, ...) {
 
 panel.mapplot <-
     function(x, y, map, breaks, colramp,
-             lwd = 0.5, ...)
+             exact = FALSE, lwd = 0.5, ...)
 {
-    names(x) <- as.character(y)
+    names(x) <- tolower(as.character(y))
+    mapnames <- tolower(map$names)
+    mapval <- x[mapnames]
+    xmatched <- names(x) %in% mapnames
+    if (any(!xmatched) && !exact) {
+        ## lump sub-regions together (strip name after ':')
+        mapnames <- gsub(":.*$", "", mapnames)
+        ## only replace values which did not match exactly
+        mapval <- ifelse(is.na(mapval), x[mapnames], mapval)
+        xmatched <- xmatched | (names(x) %in% mapnames)
+    }
+    if (any(!xmatched))
+        warning(sum(!xmatched), " unmatched regions: ",
+                toString(y[!xmatched], width = 60))
     interval <-
-        cut(x[map$names], breaks = breaks,
+        cut(mapval, breaks = breaks,
             labels = FALSE, include.lowest = TRUE)
     col.regions <- colramp(length(breaks) - 1)
     col <- col.regions[interval]

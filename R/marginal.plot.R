@@ -13,8 +13,8 @@ marginal.plot <-
              groups = NULL,
              reorder = !is.table(x),
              plot.points = FALSE,
-             ref = TRUE, cut = 1,
-             origin = 0,
+             ref = TRUE, cut = 0,
+             origin = 0, #ylim = c(0, NA), this only supported in R >= 2.11
              xlab = NULL, ylab = NULL,
              type = c("p", if (is.null(groups)) "h"),
              ...,
@@ -108,14 +108,14 @@ marginal.plot <-
                            subscripts = TRUE,
                            ...,
                            type = type,
-                           origin = origin,
+                           origin = origin, #ylim = ylim,
                            as.table = as.table,
                            default.scales = default.scales,
                            lattice.options = lattice.options,
                            xlab = xlab, ylab = ylab)
                })
         ## merge the list of trellis objects into one
-        catobj <- do.call("c", dotobjs)
+        catobj <- do.call("c", c(dotobjs, merge.legends = FALSE))
         catobj$layout <- layout
         catobj$call <- match.call()
     }
@@ -133,7 +133,7 @@ marginal.plot <-
                         groups = groups,
                         ...,
                         plot.points = plot.points,
-                        ref = ref, cut = cut,
+                        ref = ref, cut = cut, #ylim = ylim,
                         as.table = as.table,
                         default.scales = default.scales,
                         lattice.options = lattice.options,
@@ -152,7 +152,7 @@ marginal.plot <-
         ## if there are both categoricals and numerics,
         ## merge the trellis objects; keep original var order
         reIndex <- order(c(which(iscat), which(!iscat)))
-        obj <- update(c(catobj, numobj),
+        obj <- update(c(catobj, numobj, merge.legends = FALSE),
                       index.cond = list(reIndex), layout = layout)
         ## force strips when only one panel in each object
         if (identical(obj$strip, FALSE))
