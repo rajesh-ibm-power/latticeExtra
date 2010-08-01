@@ -23,11 +23,25 @@ S3method(xyplot, stl)
 
 
 export(panel.3dbars, panel.3dpolygon, panel.3dtext)
-export(useOuterStrips, resizePanels)
+export(useOuterStrips, resizePanels, combineLimits)
 export(custom.theme)
 export(custom.theme.2)
 
+export(xscale.components.logpower)
+export(yscale.components.logpower)
+export(xscale.components.fractions)
+export(yscale.components.fractions)
+export(xscale.components.log10ticks)
+export(yscale.components.log10ticks)
+export(xscale.components.log10.3)
+export(yscale.components.log10.3)
+export(xscale.components.subticks)
+export(yscale.components.subticks)
+
 ## contributions from Felix Andrews
+
+export(mergedTrellisLegendGrob)
+export(panel.key)
 
 export(horizonplot)
 S3method(horizonplot, default)
@@ -74,21 +88,17 @@ S3method(as.layer, layer)
 S3method(as.layer, trellis)
 export(doubleYScale)
 
-export(asTheEconomist)
+export(ggplot2like)
+export(ggplot2like.opts)
+export(axis.grid)
+
 export(theEconomist.theme)
-export(panel.xticksgrid)
+export(theEconomist.opts)
+export(theEconomist.axis)
+export(asTheEconomist)
 
-## obsolete, will go away at some point
 
-export(gplot, gplotArgs, "gplotArgs<-")
-
-S3method(gplot, default)
-S3method(gplotArgs, default)
-S3method(gplotArgs, data.frame)
-
-S3method("gplotArgs<-", default)
-S3method("gplotArgs<-", data.frame)
-
+export(panel.ellipse)
 
 
 ### Local variables:

@@ -170,7 +170,6 @@ xyplot(ysim ~ xsim) +
   layer(panel.ablineq(lm(y ~ x + 0), r.sq = TRUE, rot = TRUE,
                       at = 0.8, pos = 1), style = 2)
 
-\dontshow{ .featured_example <- TRUE }
 update(trellis.last.object(),
   auto.key = list(text = c("intercept", "no intercept"),
                   points = FALSE, lines = TRUE))

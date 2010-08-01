@@ -11,8 +11,8 @@ marginal.plot(x,
               groups = NULL,
               reorder = !is.table(x),
               plot.points = FALSE,
-              ref = TRUE, cut = 1,
-              origin = 0,
+              ref = TRUE, cut = 0,
+              origin = 0, %ylim = c(0, NA),
               xlab = NULL, ylab = NULL,
               type = c("p", if (is.null(groups)) "h"),
               ...,
@@ -69,7 +69,6 @@ enviro$smell <- cut(enviro$ozone, breaks = c(0, 30, 50, Inf),
     labels = c("ok", "hmmm", "yuck"), ordered = TRUE)
 marginal.plot(enviro)
 
-\dontshow{ .featured_example <- TRUE }
 ## using groups
 enviro$is.windy <- factor(enviro$wind > 10,
     levels = c(TRUE, FALSE), labels = c("windy", "calm"))

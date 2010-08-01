@@ -15,7 +15,7 @@ doubleYScale(obj1, obj2, use.style = TRUE,
              add.axis = TRUE, add.ylab2 = FALSE,
              text = NULL, auto.key = if (!is.null(text))
                list(text, points = points, lines = lines, ...),
-             points = FALSE, lines = TRUE, ...)
+             points = FALSE, lines = TRUE, ..., under = FALSE)
 }
 \arguments{
   \item{obj1, obj2}{
@@ -46,6 +46,9 @@ doubleYScale(obj1, obj2, use.style = TRUE,
     \code{text}. Further arguments are passed on to
     \code{\link{simpleKey}} at plot time.
   }
+  \item{under}{
+    if TRUE, draw \code{obj2} under \code{obj1}.
+  }
 }
 \details{
   Panels from the trellis object \code{obj2} will be drawn in the
@@ -74,7 +77,6 @@ obj2 <- xyplot(y^2 ~ x, foo, type = "l")
 doubleYScale(obj1, obj2, add.axis = FALSE)
 ## draw second y axis
 doubleYScale(obj1, obj2)
-\dontshow{ .featured_example <- "doubleYScale" }
 ## ...with second ylab
 doubleYScale(obj1, obj2, add.ylab2 = TRUE)
 ## ...or with a key
@@ -95,7 +97,7 @@ data(SeatacWeather)
 temp <- xyplot(min.temp + max.temp ~ day | month,
                data = SeatacWeather, type = "l", layout = c(3, 1))
 rain <- xyplot(precip ~ day | month, data = SeatacWeather, type = "h")
-\dontshow{ .featured_example <- "SeatacWeather" }
+
 doubleYScale(temp, rain, style1 = 0, style2 = 3, add.ylab2 = TRUE,
    text = c("min. T", "max. T", "rain"), columns = 3)
 

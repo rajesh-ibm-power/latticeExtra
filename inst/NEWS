@@ -1,4 +1,49 @@
 
+Changes in Version 0.6-14
+
+ o new combineLimits() function for per-row and per-column limits.
+
+ o new functions xscale.components.* and yscale.components.*
+   where * is in {logpower,fractions,log10ticks,log10.3,subticks}.
+
+ o horizonplot substantially revised, with an argument 'horizonscale'
+   (actually for prepanel), "free" scales and colorkey support. 
+   Also the default colors are better now (thanks to Joseph Guillaume).
+
+ o new functions ggplot2like(), ggplot2like.opts() and axis.grid().
+
+ o new functions theEconomist.opts() and theEconomist.axis().
+
+ o panel.mapplot() now takes an 'exact' argument, similar to map().
+
+ o new function panel.key().
+
+ o c.trellis() and doubleYScale() now have an option to merge legends.
+
+ o c.trellis(), as.layer() and doubleYScale() now try to combine 
+   'par.settings' from multiple plots.
+
+ o doubleYScale() now accepts an 'under' argument (applies to 2nd plot).
+
+ o marginal.plot() now has a default cut = 0.
+
+ o layer() failed on expressions with missing arguments, like x[,1].
+
+ o removed the deprecated arguments to layer(), 'eval' and 'etc'.
+
+ o simpleSmoothTs() and panel.tskernel() used an incorrect (reversed)
+   filter in the case of sides = 1 and c > 1.
+
+ o as.layer() was not keeping existing scales if x.same or y.same = FALSE.
+
+ o xyplot.list() now applies 'FUN' directly, avoiding some evaluation issues.
+
+ o the 'style' argument to layer() now applies to the "superpose" styles
+   also, which fixes some cases with xyplot.ts.
+
+ o the 'zoo' methods for panel.xblocks() and panel.xyarea() now use 
+   coredata() rather than as.vector(), so can keep factors intact.
+
 Changes in Version 0.6-10
 
  o support arrows with panel.segplot.

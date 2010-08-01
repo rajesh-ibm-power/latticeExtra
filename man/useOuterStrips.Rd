@@ -55,7 +55,6 @@ library(lattice)
 
 mtcars$HP <- equal.count(mtcars$hp)
 
-\dontshow{ .featured_example <- "useOuterStrips" }
 useOuterStrips(xyplot(mpg ~ disp | HP + factor(cyl), mtcars))
 
 useOuterStrips(xyplot(mpg ~ disp | factor(cyl) + HP, mtcars),

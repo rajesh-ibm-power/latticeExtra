@@ -8,7 +8,7 @@
 \alias{flattenPanel}
 \alias{[.layer}
 \alias{print.layer}
-\title{ Add layers to a Trellis plot, optionally using a new data source }
+\title{ Add layers to a lattice plot, optionally using a new data source }
 \description{
   A mechanism to add new layers to a trellis object, optionally using a
   new data source. This is an alternative to modifying the
@@ -17,8 +17,7 @@
 \usage{
 layer(..., data, magicdots, exclude,
       packets, rows, columns, groups,
-      style, force, theme, under, superpose, 
-      eval, etc) ## these 2 deprecated
+      style, force, theme, under, superpose)
 
 layer_(...)
 glayer(...)
@@ -100,17 +99,6 @@ flattenPanel(object)
     \code{\link{panel.superpose}}. This defaults to \code{TRUE} in the
     convenience functions \code{glayer()} and \code{glayer_()}.
   }
-  \item{eval, etc}{
-    These two arguments are now Deprecated and should not be used in new
-    code. Rather than using \code{eval}, use \code{data}. It is not
-    necessary to use \code{etc} because that happens automatically with
-    \code{magicdots}. 
-    if \code{eval = TRUE}, arguments given in the layer code will be
-    evaluated  immediately (in the calling environment). 
-    If \code{etc = TRUE} then all remaining (un-named) panel function
-    arguments are added on to the call. If \code{etc} is a character
-    vector then only those named arguments are passed through.
-  }
   \item{object}{ a trellis object. }
   \item{lay}{ a layer object. }
 }
@@ -181,7 +169,7 @@ foo <- foo + layer(panel.abline(h = 0)) +
              layer(panel.lmline(x, y, lty = 2))
 
 ## underlay a flat color
-foo <- foo + layer(panel.fill(grey(.98)), under = TRUE)
+foo <- foo + layer(panel.fill(grey(.95)), under = TRUE)
 foo
 
 ## layers can access the panel function arguments
@@ -207,12 +195,12 @@ dotplot(VADeaths, type = "o") + glayer(str(list(...)))
 
 
 ## layers with superposed styles
-zoip <- xyplot(ozone ~ wind | equal.count(temperature, 2),
-        data = environmental) +
+xyplot(ozone ~ wind | equal.count(temperature, 2),
+       data = environmental) +
    layer(panel.loess(x, y, span = 0.5), style = 1) +
-   layer(panel.loess(x, y, span = 1.0), style = 2)
-update(zoip, auto.key = list(text = c("span = 0.5", "span = 1.0"),
-   title = "loess smooth", lines = TRUE, points = FALSE))
+   layer(panel.loess(x, y, span = 1.0), style = 2) +
+   layer(panel.key(c("span = 0.5", "span = 1.0"), corner = c(1,.98),
+                   lines = TRUE, points = FALSE), packets = 1)
 
 ## note that styles come from the settings in effect in the plot,
 ## which is not always what you want:
@@ -242,7 +230,6 @@ layer(ltext(tapply(y, x, max), lab = abbreviate(levels(x)),
 qua <- xyplot(lat ~ long | cut(depth, 2), quakes,
     aspect = "iso", pch = ".", cex = 2)
 qua
-\dontshow{ .featured_example <- TRUE }
 ## add layer showing distance from Auckland
 newdat <- with(quakes, expand.grid(
             gridlat = seq(min(lat), max(lat), length = 60),

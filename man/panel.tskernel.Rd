@@ -89,7 +89,6 @@ simpleSmoothTs(x, ...)
   \code{\link{xyplot.ts}}
 }
 \examples{
-\dontshow{ .featured_example <- TRUE }
 ## a Gaussian-like filter (contrast with c = 1 or c = 2)
 xyplot(sunspot.year) +
 layer(panel.tskernel(x, y, width = 20, c = 3, col = 1, lwd = 2))

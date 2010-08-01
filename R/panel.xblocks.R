@@ -75,11 +75,19 @@ panel.xblocks.default <-
                     gp = gpar(fill = blockCol, col = border, ...))
 }
 
-panel.xblocks.zoo <-
 panel.xblocks.ts <-
     function(x, y = x, ...)
 {
     if (!is.function(y))
         y <- as.vector(y)
-    panel.xblocks.default(time(x), y, ...)
+    panel.xblocks(as.vector(time(x)), y, ...)
 }
+
+panel.xblocks.zoo <-
+    function(x, y = x, ...)
+{
+    if (!is.function(y))
+        y <- coredata(y)
+    panel.xblocks(index(x), y, ...)
+}
+

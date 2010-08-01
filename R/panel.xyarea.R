@@ -31,10 +31,11 @@ panel.xyarea.default <-
             col <- col.line
         if (is.null(origin))
             origin <- current.panel.limits()$ylim[1]
+        stopifnot(is.numeric(origin))
         ## need to split up the series into chunks without any missing values
         ## (because NAs split the polygon)
         xy <- data.frame(x = x, y = y)
-        ok <- complete.cases(xy)
+        ok <- is.finite(x) & is.finite(y)
         runs <- rle(ok)
         ## assign unique values to each chunk, and NAs between (dropped by 'split')
         runs$values[runs$values == TRUE] <- seq_len(sum(runs$values))
@@ -53,14 +54,15 @@ panel.xyarea.default <-
     }
 }
 
-panel.xyarea.zoo <-
-panel.xyarea.ts <- function(x, y = NULL, ...)
+panel.xyarea.ts <- function(x, y = x, ...)
 {
-    if (!is.null(y)) {
-        panel.xyarea.default(x, y, ...)
-    } else {
-        panel.xyarea.default(time(x), as.vector(x), ...)
-    }
+    panel.xyarea(as.vector(time(x)), y, ...)
+}
+
+panel.xyarea.zoo <-
+    function(x, y = x, ...)
+{
+    panel.xyarea(index(x), coredata(y), ...)
 }
 
 ## A slightly modified copy of panel.qqmath
