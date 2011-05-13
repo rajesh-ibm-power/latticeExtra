@@ -14,12 +14,18 @@ panel.3dbars <-
              zero.scaled,
              col = "black",
              lty = 1, lwd = 1,
-             alpha,
+             alpha = 1,
              ...,
              col.facet = "white",
              alpha.facet = 1)
 {
-    stopifnot(length(col.facet) == 1)
+    n <- length(z)
+    col <- rep(col, length = n)
+    col.facet <- rep(col.facet, length = n)
+    alpha <- rep(alpha, length = n)
+    alpha.facet <- rep(alpha.facet, length = n)
+    lty <- rep(lty, length = n)
+    lwd <- rep(lwd, length = n)
     id <-
         ((x >= xlim.scaled[1]) & (x <= xlim.scaled[2]) &
          (y >= ylim.scaled[1]) & (y <= ylim.scaled[2]) &
@@ -70,12 +76,12 @@ panel.3dbars <-
                          xlim = xlim, xlim.scaled = xlim.scaled,
                          ylim = ylim, ylim.scaled = ylim.scaled,
                          zlim = zlim, zlim.scaled = zlim.scaled,
-                         col = col, lty = lty, lwd = lwd,
-                         alpha = alpha,
+                         col = col[i], lty = lty[i], lwd = lwd[i],
+                         alpha = alpha[i],
                          ...,
                          at = c(0, 1), # dummy
-                         col.regions = col.facet,
-                         alpha.regions = alpha.facet)
+                         col.regions = col.facet[i],
+                         alpha.regions = alpha.facet[i])
         }
     }
 }

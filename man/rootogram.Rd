@@ -46,6 +46,9 @@ panel.rootogram(x, y = table(x),
 
     A similar interpretation holds for \code{x} and \code{y} in
     \code{prepanel.rootogram} and \code{panel.rootogram}.
+
+    Note that the data are assumed to arise from a discrete distribution
+    with some probability mass function.  See details below.
   }
 
   \item{data}{ For the \code{"formula"} method, a data frame containing
@@ -80,17 +83,42 @@ panel.rootogram(x, y = table(x),
 }
 
 \details{
-  This function implements Tukey's hanging rootograms.  Also consider
-  the \code{rootogram} function in the \code{vcd} package, especially if
-  the number of unique values is small.  }
+
+  This function implements Tukey's hanging rootograms.  As implemented,
+  \code{rootogram} assumes that the data arise from a discrete
+  distribution (either supplied in raw form, when \code{y} is
+  unspecified, or in terms of the frequency distribution) with some
+  unknown probability mass function (p.m.f.).  The purpose of the plot
+  is to check whether the supplied theoretical p.m.f. \code{dfun} is a
+  reasonable fit for the data.
+
+  It is reasonable to consider rootograms for continuous data by
+  discretizing it (similar to a histogram), but this must be done by the
+  user before calling \code{rootogram}.  An example is given below.
+
+  Also consider the \code{rootogram} function in the \code{vcd} package,
+  especially if the number of unique values is small.
+
+}
 
 \value{
-  \code{rootogram} produces an object of class \code{"trellis"}. The
+
+  \code{rootogram} produces an object of class \code{"trellis"}.  The
   \code{update} method can be used to update components of the object and
   the \code{print} method (usually called by default) will plot it on an
   appropriate plotting device.
 
 }
+
+\references{
+
+  John W. Tukey (1972) Some graphic and semi-graphic displays. In
+  T. A. Bancroft (Ed) \emph{Statistical Papers in Honor of George
+  W. Snedecor}, pp. 293--316.  Available online at
+  \url{http://www.edwardtufte.com/tufte/tukey}
+
+}
+
 \author{ Deepayan Sarkar \email{deepayan.sarkar@gmail.com}}
 \seealso{
   \code{\link{xyplot}}
@@ -144,6 +172,35 @@ update(p[rep(1, length(lambdav))],
        },
        xlab = "",
        sub = "Random sample from Poisson(50)")
+
+
+## Example using continuous data
+
+xnorm <- rnorm(1000)
+
+## 'discretize' by binning and replacing data by bin midpoints
+
+h <- hist(xnorm, plot = FALSE)
+
+## Option 1: Assume bin probabilities proportional to dnorm()
+
+norm.factor <- sum(dnorm(h$mids, mean(xnorm), sd(xnorm)))
+
+rootogram(counts ~ mids, data = h,
+          dfun = function(x) {
+              dnorm(x, mean(xnorm), sd(xnorm)) / norm.factor
+          })
+
+## Option 2: Compute probabilities explicitly using pnorm()
+
+pdisc <- diff(pnorm(h$breaks, mean = mean(xnorm), sd = sd(xnorm)))
+pdisc <- pdisc / sum(pdisc)
+
+rootogram(counts ~ mids, data = h,
+          dfun = function(x) {
+              f <- factor(x, levels = h$mids)
+              pdisc[f]
+          })
 
 }
 

@@ -70,6 +70,6 @@ levelplot(z ~ x * y, xyz,
 ## GAM smoother with smoothness by cross validation
 if (require("mgcv"))
   levelplot(z ~ x * y, xyz, panel = panel.2dsmoother,
-            form = z ~ s(x) + s(y), method = "gam")
+            form = z ~ s(x, y), method = "gam")
 }
 \keyword{ dplot }

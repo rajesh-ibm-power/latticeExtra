@@ -217,6 +217,14 @@ horizonplot(dat, layout = c(1,12), origin = 0,
   infolayers
 
 
+## use ylab rather than strip.left, for readability.
+## also shade any times with missing data values.
+horizonplot(dat, horizonscale = 10, colorkey = TRUE,
+            layout = c(1,12), strip.left = FALSE,
+            ylab = list(rev(colnames(dat)), rot = 0, cex = 0.7)) +
+  layer_(panel.fill(col = "gray90"), panel.xblocks(..., col = "white"))
+
+
 ## illustration of the cut points used in the following plot
 xyplot(EuStockMarkets, scales = list(y = "same"),
   panel = function(x, y, ...) {
@@ -235,9 +243,8 @@ xyplot(EuStockMarkets, scales = list(y = "same"),
   })
 
 ## compare with previous plot
-horizonplot(EuStockMarkets, strip.left = TRUE, 
-            scales = list(y = list(relation = "same")),
-            origin = 4000, horizonscale = 1000, colorkey = TRUE) +
+horizonplot(EuStockMarkets, colorkey = TRUE,
+            origin = 4000, horizonscale = 1000) +
   infolayers
 
 ## a cut-and-stack plot; use constant y scales!

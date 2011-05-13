@@ -8,7 +8,7 @@ panel.xyarea <- function(x, ...)
 ## Plot a series as a filled polygon connected at given origin (on y axis).
 ## With groups, acts like panel.superpose, but with polygon style settings.
 panel.xyarea.default <-
-    function(x, y, groups = NULL, origin = NULL,
+    function(x, y, groups = NULL, origin = NULL, horizontal = FALSE,
              col = if (is.null(groups)) plot.polygon$col else superpose.polygon$col,
              border = if (is.null(groups)) plot.polygon$border else superpose.polygon$border,
              lty = if (is.null(groups)) plot.polygon$lty else superpose.polygon$lty,
@@ -25,17 +25,33 @@ panel.xyarea.default <-
         ## NOTE superpose does not handle 'border' argument, so pass it as col.line
         panel.superpose(x, y, ..., groups = groups, panel.groups = panel.groups,
                         col = col, col.line = border, lty = lty, lwd = lwd,
-                        alpha = alpha, origin = origin)
+                        alpha = alpha, origin = origin, horizontal = horizontal)
     } else {
-        if (all(is.na(col)) && !missing(col.line))
+        if (!missing(col.line))
             col <- col.line
-        if (is.null(origin))
-            origin <- current.panel.limits()$ylim[1]
+        if (horizontal == TRUE) {
+            ## actually means origin is vertical. for consistency with panel.xyplot.
+            xlim <- current.panel.limits()$xlim
+            if (is.null(origin))
+                origin <- xlim[1]
+            infi <- is.infinite(x)
+            x[infi] <- ifelse(x[infi] > 0, max(xlim), min(xlim))
+        } else {
+            ## default case; origin is horizontal
+            ylim <- current.panel.limits()$ylim
+            if (is.null(origin))
+                origin <- ylim[1]
+            infi <- is.infinite(y)
+            y[infi] <- ifelse(y[infi] > 0, max(ylim), min(ylim))
+        }
         stopifnot(is.numeric(origin))
         ## need to split up the series into chunks without any missing values
         ## (because NAs split the polygon)
         xy <- data.frame(x = x, y = y)
-        ok <- is.finite(x) & is.finite(y)
+        ## order by ordinate values
+        ord <- if (horizontal) order(xy$y) else order(xy$x)
+        xy <- xy[ord,]
+        ok <- complete.cases(xy)
         runs <- rle(ok)
         ## assign unique values to each chunk, and NAs between (dropped by 'split')
         runs$values[runs$values == TRUE] <- seq_len(sum(runs$values))
@@ -46,8 +62,15 @@ panel.xyarea.default <-
             x <- xyi$x
             y <- xyi$y
             ## drop ends of series to the origin; the polygon will be joined up at that level
-            xx <- c(head(x,1), x, tail(x,1))
-            yy <- c(origin, y, origin)
+            if (horizontal == TRUE) {
+                ## non-default case
+                yy <- c(head(y,1), y, tail(y,1))
+                xx <- c(origin, x, origin)
+            } else {
+                ## default case
+                xx <- c(head(x,1), x, tail(x,1))
+                yy <- c(origin, y, origin)
+            }
             ## we need to catch the 'fill' argument from panel.superpose, otherwise over-rides 'col'
             panel.polygon(xx, yy, alpha = alpha, col = col, border = col.line, lty = lty, lwd = lwd, ...)
         }, ...)

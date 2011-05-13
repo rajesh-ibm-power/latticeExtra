@@ -51,8 +51,9 @@ panel.segplot(x, y, z, level = NULL, subscripts,
   \item{band.height}{ height of rectangles (applicable if
     \code{draw.bands} is \code{TRUE} }
 
-  \item{\dots}{ other arguments, passed to \code{panel.rect} (when
-    \code{draw.bands=TRUE}) or \code{segments.fun} (otherwise) as
+  \item{\dots}{ Other arguments, passed on to \code{panel.rect} (when
+    \code{draw.bands=TRUE}), \code{segments.fun} (otherwise),
+    \code{panel.points} (if \code{centers} is not \code{NULL}), etc. as
     appropriate. }
 
   \item{segments.fun}{ function used to plot segments when

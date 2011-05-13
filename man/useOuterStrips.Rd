@@ -36,6 +36,11 @@ useOuterStrips(x,
   on the top and left boundaries of the panel layout, rather than on top
   of every panel, as is the usual behaviour.
 
+  If the original \code{"trellis"} object \code{x} includes non-default
+  \code{strip} and \code{strip.left} arguments, they will be ignored.
+  To provide customized strip behaviour, specify the custom strip
+  functions directly as arguments to \code{useOuterStrips}.
+  
 }
 
 \value{
