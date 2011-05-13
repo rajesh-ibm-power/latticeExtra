@@ -45,12 +45,18 @@ combineLimits(x, margin.x = 2L, margin.y = 1L,
 }
 
 \details{
-  \code{combineLimits} modifies a \code{"trellis"} object to ... FIXME
 
-  Useful mainly for plots with two conditioning variables with the
-  default layout (columns and rows correspond to the first and second
-  conditioning variables), when per-row and per-column limits are
-  desired.
+  \code{combineLimits} is useful mainly for plots with two conditioning
+  variables with the default layout (columns and rows correspond to the
+  first and second conditioning variables), when per-row and per-column
+  limits are desired.
+
+  The lattice approach does not tie levels of the conditioning variables
+  to the plot layout, so it is possible that all panels in a row (or
+  column) do not represent the same level.  It should be noted that
+  \code{combineLimits} actually combines limits across levels, and not
+  across rows and columns.  Results are likely to be misleading unless
+  the default layout is used.
 
 }
 

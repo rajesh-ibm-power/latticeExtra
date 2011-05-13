@@ -61,11 +61,17 @@ panel.3dtext(x, y, z, labels = seq_along(x),
     length of the sides of the bars (which are always centered on the
     \code{x} and \code{y} values).  Can not be vectorized.
   }
-  \item{col, lty, lwd, alpha, border}{ graphical parameters }
+  \item{col, lty, lwd, alpha, border}{
+    Graphical parameters for the border lines.  These can be vectors, in
+    which case each component will be associated with one bar in
+    \code{panel.3dbars}. 
+  }
   \item{font, fontface}{ unused graphical parameters, present in the
     argument list only so that they can be captured and ignored  }
-  \item{col.facet, alpha.facet}{ graphical parameters for sides of the
-    bars
+  \item{col.facet, alpha.facet}{
+    Graphical parameters for surfaces of the bars . These can be
+    vectors, in which case each component will be associated with one
+    bar.
   }
   \item{\dots}{
     extra arguments, passed on as appropriate.
@@ -93,6 +99,16 @@ library(lattice)
 cloud(VADeaths, panel.3d.cloud = panel.3dbars,
       col.facet = "grey", xbase = 0.4, ybase = 0.4,
       screen = list(z = 40, x = -30))
+
+cloud(VADeaths, panel.3d.cloud = panel.3dbars,
+      xbase = 0.4, ybase = 0.4, zlim = c(0, max(VADeaths)),
+      scales = list(arrows = FALSE, just = "right"), xlab = NULL, ylab = NULL,
+      col.facet = level.colors(VADeaths, at = do.breaks(range(VADeaths), 20),
+                               col.regions = terrain.colors,
+                               colors = TRUE),
+      colorkey = list(col = terrain.colors, at = do.breaks(range(VADeaths), 20)),
+      screen = list(z = 40, x = -30))
+
 
 cloud(as.table(prop.table(Titanic, margin = 1:3)[,,,2]),
       type = c("p", "h"),

@@ -1,4 +1,15 @@
 
+Changes in Version 0.6-15 (under development)
+
+ o panel.xyarea() gains a 'horizontal' argument.
+
+ o layer() now works with splom.
+
+ o panel.ellipse() [was introduced previously but not mentioned here].
+
+ o changes to panel.smoother,quantile,xyarea to work with the new 
+   'col' default in panel.superpose(): now "black" rather than NA.
+
 Changes in Version 0.6-14
 
  o new combineLimits() function for per-row and per-column limits.

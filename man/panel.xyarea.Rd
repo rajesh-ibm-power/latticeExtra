@@ -13,7 +13,7 @@
 \usage{
 panel.xyarea(x, ...)
 
-\method{panel.xyarea}{default}(x, y, groups = NULL, origin = NULL,
+\method{panel.xyarea}{default}(x, y, groups = NULL, origin = NULL, horizontal = FALSE,
              col, border, lty, lwd, alpha, ...,
              col.line, fill, panel.groups = panel.xyarea)
 
@@ -33,6 +33,13 @@ panel.qqmath.xyarea(x, y = NULL, f.value = NULL, distribution = qnorm,
   \item{origin}{
     level on y axis to connect the start and end of the series.
     If \code{NULL}, the polygon is filled to the bottom of the panel.
+    It is flipped if \code{horizontal = TRUE}.
+  }
+  \item{horizontal}{
+    if this is set to \code{TRUE}, then the origin is a level on the x
+    axis, rather than the default which is on the y axis. This is the
+    opposite of what you might expect, but is for consistency with
+    \code{panel.xyplot}. 
   }
   \item{col, border, lty, lwd, alpha, col.line}{
     graphical parameters taken from

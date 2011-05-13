@@ -14,7 +14,7 @@ panel.smoother <-
              pch, cex, font, fontface, fontfamily)
 {
     plot.line <- trellis.par.get("plot.line")
-    if (all(is.na(col)) && !missing(col.line))
+    if (!missing(col.line))
         col <- col.line
     ## allow 'form' to be passed as the first argument
     missing.x <- missing(x)

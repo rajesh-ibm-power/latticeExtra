@@ -134,7 +134,7 @@ print.layer <- print.default
         return(structure(c(unclass(object), unclass(lay)),
                          class = c("layer", "trellis")))
     }
-    panel <- if (toString(object$call[[1]]) == "splom")
+    panel <- if ("panel" %in% names(object$panel.args.common))
         object$panel.args.common$panel
     else object$panel
     panel <- if (is.function(panel)) panel
@@ -149,35 +149,37 @@ print.layer <- print.default
     ## a flag to indicate this panel function has layers
     ## (used by flattenPanel and undoLayer)
     .is.a.layer <- TRUE
-    newpanel <- function(..., subscripts = TRUE) {
+    newpanel <- function(...) {
         .UNDER <- unlist(lapply(lay, attr, "under"))
-        ## underlayers only
-        drawLayer(lay[.UNDER])
+        ## underlaying items only
+        drawLayer(lay[.UNDER], list(...))
         ## original panel function:
-        panel(..., subscripts = subscripts)
-        ## overlayers only
-        drawLayer(lay[.UNDER == FALSE])
+        panel(...)
+        ## overlaying items only
+        drawLayer(lay[.UNDER == FALSE], list(...))
     }
-    object <- update(object, panel = newpanel)
+    if ("panel" %in% names(object$panel.args.common))
+        object$panel.args.common$panel <- newpanel
+    else object$panel <- newpanel
     ## need this to allow further calls to update() to insert arguments:
     object$call <- call("update", ocall)
     object
 }
 
-drawLayer <- function(lay)
+drawLayer <- function(lay, panelArgs = trellis.panelArgs())
 {
     lay <- as.layer(lay)
     .UNDER <- unlist(lapply(lay, attr, "under"))
     ## underlayers, in reverse order
     for (.ITEM in rev(lay[.UNDER]))
-        drawLayerItem(.ITEM)
+        drawLayerItem(.ITEM, panelArgs)
     ## overlayers
     for (.ITEM in lay[.UNDER == FALSE])
-        drawLayerItem(.ITEM)
+        drawLayerItem(.ITEM, panelArgs)
     invisible()
 }
 
-drawLayerItem <- function(layer.item)
+drawLayerItem <- function(layer.item, panelArgs)
 {
     stopifnot(is.expression(layer.item))
     ## check that any restrictions on packets/rows/columns are met
@@ -240,10 +242,10 @@ drawLayerItem <- function(layer.item)
     ## call panel.superpose for group layers
     if (isTRUE(attr(layer.item, "superpose"))) {
         do.call("panel.superpose",
-                modifyList(trellis.panelArgs(),
+                modifyList(panelArgs,
                   list(panel.groups = drawLayerItemPerGroup)))
     } else {
-        do.call("drawLayerItemPerGroup", trellis.panelArgs())
+        do.call("drawLayerItemPerGroup", panelArgs)
     }
 }
 

@@ -25,7 +25,7 @@ glayer_(...)
 
 \S3method{+}{trellis}(object, lay)
 
-drawLayer(lay)
+drawLayer(lay, panelArgs = trellis.panelArgs())
 
 flattenPanel(object)
 }
@@ -101,6 +101,7 @@ flattenPanel(object)
   }
   \item{object}{ a trellis object. }
   \item{lay}{ a layer object. }
+  \item{panelArgs}{ list of arguments to the panel function. }
 }
 \details{
   The \code{layer} mechanism is a method for augmenting a panel
