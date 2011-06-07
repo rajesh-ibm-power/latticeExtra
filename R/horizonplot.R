@@ -100,7 +100,7 @@ panel.horizonplot <-
             next
         yi <- yi - baseline
         yi <- origin + pmax(pmin(yi, scale), 0)
-        panel.xyarea(x, yi, border = border, col = col[i], ...)
+        panel.xyarea(x, yi, border = border, col = col[i], col.line = col[i], ...)
     }
 }
 
