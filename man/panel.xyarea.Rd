@@ -14,8 +14,8 @@
 panel.xyarea(x, ...)
 
 \method{panel.xyarea}{default}(x, y, groups = NULL, origin = NULL, horizontal = FALSE,
-             col, border, lty, lwd, alpha, ...,
-             col.line, fill, panel.groups = panel.xyarea)
+             col, col.line, border, lty, lwd, alpha, ...,
+             fill, panel.groups = panel.xyarea)
 
 \method{panel.xyarea}{ts}(x, y = x, ...)
 \method{panel.xyarea}{zoo}(x, y = x, ...)
@@ -41,11 +41,11 @@ panel.qqmath.xyarea(x, y = NULL, f.value = NULL, distribution = qnorm,
     opposite of what you might expect, but is for consistency with
     \code{panel.xyplot}. 
   }
-  \item{col, border, lty, lwd, alpha, col.line}{
+  \item{col, col.line, border, lty, lwd, alpha}{
     graphical parameters taken from
     \code{trellis.par.get("plot.polygon")} or
     \code{trellis.par.get("superpose.polygon")} (when groups defined).
-    \code{col.line} overrides \code{border}.
+    \code{col.line} overrides \code{col}.
   }
   \item{\dots}{
     further arguments passed on to \code{\link{panel.polygon}}.
@@ -83,7 +83,7 @@ xyplot(ts.union(data = sunspot.year, lag10 = lag(sunspot.year, 10)),
   panel.groups = function(..., group.number) {
     if (group.number == 1)
       panel.xyarea(...) else panel.xyplot(...)
-  },
+  }, border = NA, 
   par.settings = simpleTheme(col = c("grey", "black"), lwd = c(5,2)))
 
 ## missing values are handled by splitting the series
@@ -97,7 +97,7 @@ qqmath(~ data, make.groups(baseline = rnorm(100),
   groups = which, distribution = qunif,
   panel = panel.qqmath.xyarea, xlim = 0:1,
   auto.key = list(points = FALSE, rectangles = TRUE),
-  par.settings = simpleTheme(col = c("grey", "transparent"),
-                             border = c(NA, "black"), lwd = 2))
+  par.settings = simpleTheme(col = c("blue", "green"),
+                             alpha = 0.5))
 }
 \keyword{ dplot }

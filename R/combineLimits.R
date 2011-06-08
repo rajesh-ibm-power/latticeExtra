@@ -35,10 +35,14 @@ combineLimits <-
         limits <- array(limits, dim = dim(x))
         for (i in seq_len(prod(dim(x))))
         {
-            index.combine <- index.entry <- Rows(indices, i)
+            ## index.combine <- index.entry <- Rows(indices, i)
+            index.combine <- Rows(indices, i)
             index.combine[margin] <- list(TRUE)
-            limits[[i]] <-
-                range(do.call("[", c(list(limits), index.combine)), finite = TRUE)
+            ## limits[[i]] <-
+            ##     range(do.call("[", c(list(limits), index.combine)), finite = TRUE)
+            
+            li <- unlist(do.call("[", c(list(limits), index.combine)))
+            limits[[i]] <- if(all(is.na(li))) li else range(li, finite = TRUE)
         }
         if (extend) lapply(limits, lattice:::extend.limits)
         else limits
