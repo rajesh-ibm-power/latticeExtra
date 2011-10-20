@@ -1,14 +1,5 @@
-Changes in Version 0.6-18
 
- o combineLimits() fixed to work with empty panels
-
-Changes in Version 0.6-15
-
- o graphical parameters vectorized in panel.3dbars().
-
- o new panel function panel.ellipse().
-
-Changes in Version 0.6-15
+Changes in Version 0.6-15 (under development)
 
  o panel.xyarea() gains a 'horizontal' argument.
 

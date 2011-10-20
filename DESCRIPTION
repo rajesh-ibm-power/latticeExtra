@@ -1,6 +1,6 @@
 Package: latticeExtra
-Version: 0.6-18
-Date: 2011/06/07
+Version: 0.6-19
+Date: 2011/10/20
 Title: Extra Graphical Utilities Based on Lattice
 Author: Deepayan Sarkar <deepayan.sarkar@r-project.org>, Felix Andrews
         <felix@nfrac.org>
@@ -11,8 +11,8 @@ Imports: lattice (>= 0.18-1), grid
 Suggests: maps, mapproj, deldir, tripack, quantreg, zoo, MASS, mgcv
 URL: http://latticeextra.r-forge.r-project.org/
 LazyLoad: yes
-LazyData: no
+LazyData: yes
 License: GPL (>= 2)
-Packaged: 2011-06-07 13:01:06 UTC; deepayan
+Packaged: 2011-10-19 17:17:15 UTC; deepayan
 Repository: CRAN
-Date/Publication: 2011-06-08 07:03:57
+Date/Publication: 2011-10-20 08:48:08

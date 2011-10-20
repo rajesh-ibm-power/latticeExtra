@@ -77,6 +77,11 @@ dendrogramGrob <-
              type = c("rectangle", "triangle"),
              ...)
 {
+    ## Note: We use dendrapply() a couple of times.  The return value
+    ## is unused (we are only interested in side-effects), but certain
+    ## types of return values of FUN can make dendrapply() go into an
+    ## infinite loop.  To be safe, we return original node.
+
     if (size <= 0) return(textGrob(label = NULL))
     type <- match.arg(type)
     native.height <- attr(x, "height")
@@ -88,7 +93,11 @@ dendrogramGrob <-
     ## leaves--), but we're more tolerant
 
     nnodes <- 0
-    dendrapply(xpos, function(x) { if (!is.leaf(x)) nnodes <<- nnodes + 1 })
+    dendrapply(xpos,
+               function(x) {
+                   if (!is.leaf(x)) nnodes <<- nnodes + 1
+                   x
+               })
     xseg <- vector(mode = "list", length = nnodes)
 
     ## FIXME: add something similar to have nodes drawn as points
@@ -109,6 +118,7 @@ dendrogramGrob <-
                                                 ...)
                                }))
         }
+        x
     }
     dendrapply(xpos, getSegments)
     all.segs <- do.call(rbind, xseg)
