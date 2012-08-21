@@ -148,7 +148,7 @@ as.layer.trellis <-
                                     at = x$x.scales$at,
                                     used.at = x$x.used.at,
                                     num.limit = x$x.num.limit,
-                                    labels = x$x.scales$lab,
+                                    labels = x$x.scales$labels,
                                     logsc = x$x.scales$log,
                                     abbreviate = x$x.scales$abbr,
                                     minlength = x$x.scales$minl,
@@ -167,9 +167,9 @@ as.layer.trellis <-
                                     used.at = x$x.used.at[[packet.number]],
                                     num.limit = x$x.num.limit[[packet.number]],
                                     labels =
-                                    if (is.list(x$x.scales$lab))
-                                    x$x.scales$lab[[packet.number]]
-                                    else x$x.scales$lab,
+                                    if (is.list(x$x.scales$labels))
+                                    x$x.scales$labels[[packet.number]]
+                                    else x$x.scales$labels,
                                     logsc = x$x.scales$log,
                                     abbreviate = x$x.scales$abbr,
                                     minlength = x$x.scales$minl,
@@ -187,7 +187,7 @@ as.layer.trellis <-
                                     at = x$y.scales$at,
                                     used.at = x$y.used.at,
                                     num.limit = x$y.num.limit,
-                                    labels = x$y.scales$lab,
+                                    labels = x$y.scales$labels,
                                     logsc = x$y.scales$log,
                                     abbreviate = x$y.scales$abbr,
                                     minlength = x$y.scales$minl,
@@ -206,9 +206,9 @@ as.layer.trellis <-
                                     used.at = x$y.used.at[[packet.number]],
                                     num.limit = x$y.num.limit[[packet.number]],
                                     labels =
-                                    if (is.list(x$y.scales$lab))
-                                    x$y.scales$lab[[packet.number]]
-                                    else x$y.scales$lab,
+                                    if (is.list(x$y.scales$labels))
+                                    x$y.scales$labels[[packet.number]]
+                                    else x$y.scales$labels,
                                     logsc = x$y.scales$log,
                                     abbreviate = x$y.scales$abbr,
                                     minlength = x$y.scales$minl,

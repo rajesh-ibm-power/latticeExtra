@@ -88,6 +88,7 @@ segplot(x, data, \dots)
 
 \seealso{
   \code{\link{Lattice}},
+  \code{\link{panel.segplot}},
   \code{\link{levelplot}},
   \code{\link{xyplot}}
 }

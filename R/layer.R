@@ -118,7 +118,7 @@ glayer_ <- function(...)
 }
 
 ## to avoid print.trellis
-print.layer <- print.default
+print.layer <- function(x, ...) print.default(x, ...)
 
 ## to avoid [.trellis and to keep the class attribute
 "[.layer" <- function (x, i, ...)
