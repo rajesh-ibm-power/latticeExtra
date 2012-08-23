@@ -40,6 +40,7 @@ panel.segplot <-
              lty = if (draw.bands) plot.polygon$lty else plot.line$lty,
              lwd = if (draw.bands) plot.polygon$lwd else plot.line$lwd,
              border = if (draw.bands) plot.polygon$border else "transparent",
+             col.symbol = col, alpha.symbol = alpha,
              col.regions = regions$col,
              band.height = 0.6,
              horizontal = TRUE,
@@ -94,10 +95,12 @@ panel.segplot <-
         if (horizontal)
             panel.points(x = as.numeric(centers[subscripts]),
                          y = as.numeric(z),
+                         col = col.symbol, alpha = alpha.symbol,
                          pch = pch, ...)
         else
             panel.points(y = as.numeric(centers[subscripts]),
                          x = as.numeric(z),
+                         col = col.symbol, alpha = alpha.symbol,
                          pch = pch, ...)
 
     }

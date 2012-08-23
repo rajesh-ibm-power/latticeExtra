@@ -92,6 +92,15 @@ levelplot(x[row.ord, col.ord],
                          side = "top",
                          type = "triangle"))))
 
+
+## Version with unsorted rows.
+
+## For illustration, MPG ploted again at foot of dendrogram
+
+mpg <- x["mpg", col.ord]
+mpg.col <- level.colors(mpg, at = do.breaks(range(mpg), 10),
+                        col.regions = terrain.colors)
+
 levelplot(x[, col.ord],
           aspect = "iso",
           scales = list(x = list(rot = 90)),
@@ -102,6 +111,7 @@ levelplot(x[, col.ord],
                     args =
                     list(x = dd.col, ord = col.ord,
                          side = "right",
+                         add = list(rect = list(fill = mpg.col)),
                          size = 10)),
                top =
                list(fun = dendrogramGrob,

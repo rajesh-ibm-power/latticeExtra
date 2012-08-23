@@ -1,4 +1,6 @@
 
+## also available in lattice, but not exported
+is.characterOrExpression <- function (x) is.character(x) || is.expression(x)
 
 .arrayIndices <- function(d, i)
     ## Suppose we have an array 'x' with dimension 'd'.  We can index
@@ -30,7 +32,10 @@ combineLimits <-
     if (length(dim(x)) == 1L)
         warning("Only one conditioning variable; nothing interesting will happen.")
     indices <- .arrayIndices(dim(x), seq_len(prod(dim(x))))
-    modifyLimits <- function(limits, margin)
+    ## For regular `numeric' scales, all we need is to modify
+    ## $[xy].scales.  But for `factor' scales, we need to leave
+    ## $[xy].scales alone, and instead modify $[xy].used.at and $[xy].num.limit
+    modifyLimits <- function(limits, margin, ext)
     {
         limits <- array(limits, dim = dim(x))
         for (i in seq_len(prod(dim(x))))
@@ -44,18 +49,42 @@ combineLimits <-
             li <- unlist(do.call("[", c(list(limits), index.combine)))
             limits[[i]] <- if(all(is.na(li))) li else range(li, finite = TRUE)
         }
-        if (extend) lapply(limits, lattice:::extend.limits)
+        if (ext) lapply(limits, lattice:::extend.limits)
         else limits
+    }
+    modifyUsed <- function(used.at, margin)
+    {
+        used.at <- array(used.at, dim = dim(x))
+        for (i in seq_len(prod(dim(x))))
+        {
+            index.combine <- Rows(indices, i)
+            index.combine[margin] <- list(TRUE)
+            li <- unlist(do.call("[", c(list(used.at), index.combine)))
+            used.at[[i]] <- sort(unique(li))
+        }
+        used.at
     }
     if (x$x.scales$relation != "free" && x$y.scales$relation != "free")
         warning("Function only has effect for scales with 'relation=\"free\"'.")
     if (x$x.scales$relation == "free" && length(margin.x))
     {
-        x$x.limits <- modifyLimits(x$x.limits, margin.x)
+        if (is.characterOrExpression(x$x.limits[[1]]))
+        {
+            x$x.used.at <- modifyUsed(x$x.used.at, margin.x)
+            x$x.num.limit <- modifyLimits(x$x.num.limit, margin.x, ext = FALSE)
+        }
+        else
+            x$x.limits <- modifyLimits(x$x.limits, margin.x, ext = extend)
     }
     if (x$y.scales$relation == "free" && length(margin.y))
     {
-        x$y.limits <- modifyLimits(x$y.limits, margin.y)
+        if (is.characterOrExpression(x$y.limits[[1]]))
+        {
+            x$y.used.at <- modifyUsed(x$y.used.at, margin.y)
+            x$y.num.limit <- modifyLimits(x$y.num.limit, margin.y, ext = FALSE)
+        }
+        else
+            x$y.limits <- modifyLimits(x$y.limits, margin.y, ext = extend)
     }
     if (adjust.labels)
     {

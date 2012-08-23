@@ -15,6 +15,7 @@ panel.segplot(x, y, z, level = NULL, subscripts,
               col, alpha, 
               lty, lwd,
               border,
+              col.symbol = col, alpha.symbol = alpha,
               col.regions = regions$col,
               band.height = 0.6,
               horizontal = TRUE, 
@@ -43,10 +44,15 @@ panel.segplot(x, y, z, level = NULL, subscripts,
   \item{at}{ values of \code{level} where color code changes }
   \item{draw.bands}{ logical, whether to draw rectangles instead of
     lines }
-  \item{col, alpha, lty, lwd, border}{ graphical parameters.  Defaults to
-    parameter settings for \code{"plot.line"} or \code{"plot.polygon"} for
-    segments and rectangles respectively.  \code{col} is overridden by
-    \code{col.regions} if \code{level} is not null. }
+  \item{col, alpha, lty, lwd, border}{ Graphical parameters for the
+    segment.  Defaults to parameter settings for \code{"plot.line"} or
+    \code{"plot.polygon"} for segments and rectangles respectively.
+    \code{col} is overridden by \code{col.regions} if \code{level} is
+    not null. }
+  \item{col.symbol, alpha.symbol}{ Graphical parameters for the point if
+    \code{centers} are plotted.  Defaults to the corresponding
+    parameters for the segment.
+  }
   \item{col.regions}{ vector of colors as in \code{\link{levelplot}} }
   \item{band.height}{ height of rectangles (applicable if
     \code{draw.bands} is \code{TRUE} }
@@ -66,7 +72,7 @@ panel.segplot(x, y, z, level = NULL, subscripts,
 }
 \value{
   For \code{prepanel.segplot} a list with components \code{xlim} and
-  \code{ylim}
+  \code{ylim}.
 }
 
 \author{ Deepayan Sarkar \email{deepayan.sarkar@r-project.org} }

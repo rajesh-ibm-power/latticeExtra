@@ -22,10 +22,10 @@ panel.voronoi <-
              col.regions = regions$col, alpha.regions = regions$alpha)
 {
     if (use.tripack) {
-        if (!require("tripack", quiet = TRUE))
+        if (!require("tripack", quietly = TRUE))
             stop("The use.tripack option requires the tripack package")
     } else {
-        if (!require("deldir", quiet = TRUE))
+        if (!require("deldir", quietly = TRUE))
             stop("This function requires the deldir package")
     }
     ## find subset of points to use

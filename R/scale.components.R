@@ -7,6 +7,7 @@ xscale.components.logpower <- function(lim, ...) {
     ans$bottom$labels$labels <- parse(text = ans$bottom$labels$labels)
     ans
 }
+
 yscale.components.logpower <- function(lim, ...) {
     ans <- yscale.components.default(lim, ...)
     ans$left$labels$labels <- parse(text = ans$left$labels$labels)
@@ -37,12 +38,62 @@ yscale.components.fractions <- function(lim, logsc = FALSE, ...) {
     ans
 }
 
-logTicks <- function (lim, loc = c(1, 5)) {
+## compute nice log-ticks.  This is a version from the Lattice book
+## that is not very sophisticated.
+
+logTicksOld <- function (lim, loc = c(1, 5)) {
     ii <- floor(log10(range(lim))) + c(-1, 2)
     main <- 10^(ii[1]:ii[2])
     r <- as.numeric(outer(loc, main, "*"))
     r[lim[1] <= r & r <= lim[2]]
 }
+
+## A more sophisticated version that uses the same algorithm used in
+## traditional graphics, via axisTicks() - new in R 2.14.0
+
+logTicks <- function (lim, loc = NULL) {
+    if (is.null(loc)) axisTicks(log10(lim), log=TRUE)
+    else logTicksOld(lim, loc)
+}
+
+xscale.components.log <- function(lim, logsc = FALSE, at = NULL, loc = NULL, ...) {
+    ans <- xscale.components.default(lim = lim, logsc = logsc, at = at, ...)
+    if (is.null(at)) return(ans)
+    if (identical(logsc, FALSE)) return(ans)
+    logbase <- logsc
+    if (identical(logbase, TRUE)) logbase <- 10
+    if (identical(logbase, "e")) logbase <- exp(1)
+    tick.at <- logTicks(logbase^lim, loc = loc)
+    ans$bottom$ticks$at <- log(tick.at, logbase)
+    ans$bottom$labels$at <- log(tick.at, logbase)
+    ans$bottom$labels$labels <- as.character(tick.at)
+    ans
+}
+
+yscale.components.log <- function(lim, logsc = FALSE, at = NULL, loc = NULL, ...) {
+    ans <- yscale.components.default(lim = lim, logsc = logsc, at = at, ...)
+    if (is.null(at)) return(ans)
+    if (identical(logsc, FALSE)) return(ans)
+    logbase <- logsc
+    if (identical(logbase, TRUE)) logbase <- 10
+    if (identical(logbase, "e")) logbase <- exp(1)
+    tick.at <- logTicks(logbase^lim, loc = loc)
+    ans$left$ticks$at <- log(tick.at, logbase)
+    ans$left$labels$at <- log(tick.at, logbase)
+    ans$left$labels$labels <- as.character(tick.at)
+    ans
+}
+
+xscale.components.log10.3 <- function(lim, logsc = FALSE, at = NULL, ...) {
+    xscale.components.log(lim, logsc = logsc, at = at, loc = c(1, 3)) 
+}
+
+yscale.components.log10.3 <- function(lim, logsc = FALSE, at = NULL, ...) {
+    yscale.components.log(lim, logsc = logsc, at = at, loc = c(1, 3))
+}
+
+
+# major + minor ticks for powers of 10
 
 xscale.components.log10ticks <- function(lim, logsc = FALSE, at = NULL, ...) {
     ans <- xscale.components.default(lim = lim, logsc = logsc, at = at, ...)
@@ -82,33 +133,6 @@ yscale.components.log10ticks <- function(lim, logsc = FALSE, at = NULL, ...) {
     ans
 }
 
-xscale.components.log10.3 <- function(lim, logsc = FALSE, at = NULL, ...) {
-    ans <- xscale.components.default(lim = lim, logsc = logsc, at = at, ...)
-    if (is.null(at)) return(ans)
-    if (identical(logsc, FALSE)) return(ans)
-    logbase <- logsc
-    if (identical(logbase, TRUE)) logbase <- 10
-    if (identical(logbase, "e")) logbase <- exp(1)
-    tick.at <- logTicks(logbase^lim, loc = c(1, 3))
-    ans$bottom$ticks$at <- log(tick.at, logbase)
-    ans$bottom$labels$at <- log(tick.at, logbase)
-    ans$bottom$labels$labels <- as.character(tick.at)
-    ans 
-}
-
-yscale.components.log10.3 <- function(lim, logsc = FALSE, at = NULL, ...) {
-    ans <- yscale.components.default(lim = lim, logsc = logsc, at = at, ...)
-    if (is.null(at)) return(ans)
-    if (identical(logsc, FALSE)) return(ans)
-    logbase <- logsc
-    if (identical(logbase, TRUE)) logbase <- 10
-    if (identical(logbase, "e")) logbase <- exp(1)
-    tick.at <- logTicks(logbase^lim, loc = c(1, 3))
-    ans$left$ticks$at <- log(tick.at, logbase)
-    ans$left$labels$at <- log(tick.at, logbase)
-    ans$left$labels$labels <- as.character(tick.at)
-    ans 
-}
 
 ## major + minor ticks (e.g. for date/time axes):
 
