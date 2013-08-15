@@ -4,6 +4,7 @@ import(grid)
 import(lattice)
 
 importFrom(stats, as.formula)
+importFrom(RColorBrewer, brewer.pal)
 
 export(dendrogramGrob) ## FIXME: add some variant of heatmap
 

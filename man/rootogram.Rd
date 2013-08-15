@@ -14,12 +14,14 @@ rootogram(x, \dots)
           ylab = expression(sqrt(P(X == x))),
           prepanel = prepanel.rootogram,
           panel = panel.rootogram,
-          ...)
+          ...,
+          probability = TRUE)
 
 prepanel.rootogram(x, y = table(x),
                    dfun = NULL,
                    transformation = sqrt,
                    hang = TRUE,
+                   probability = TRUE,
                    \dots)
 
 panel.rootogram(x, y = table(x),
@@ -30,6 +32,7 @@ panel.rootogram(x, y = table(x),
                 alpha = plot.line$alpha,
                 transformation = sqrt,
                 hang = TRUE,
+                probability = TRUE,
                 \dots)
 
 }
@@ -76,6 +79,10 @@ panel.rootogram(x, y = table(x),
     freuqncies should \dQuote{hang} from the curve representing the
     theoretical probabilities. }
 
+  \item{probability}{ A logical flag, controlling whether the y-values
+    are to be standardized to be probabilities by dividing by their sum.
+  }
+  
   \item{\dots}{ extra arguments, passed on as appropriate.  Standard
     lattice arguments as well as arguments to \code{panel.rootogram}
     can be supplied directly in the high level \code{rootogram} call.

@@ -80,9 +80,9 @@ mapplot.formula <-
             update(ans,
                    breaks = breaks,
                    legend = lattice:::updateList(ans$legend,
-                   list(right = 
-                        list(fun = draw.colorkey,
-                             args = list(key = keydef)))))
+                                                 list(right = 
+                                                      list(fun = draw.colorkey,
+                                                           args = list(key = keydef)))))
     }
     ans$call <- sys.call(sys.parent())
     ans$call[[1]] <- quote(mapplot)

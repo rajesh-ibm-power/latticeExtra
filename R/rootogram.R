@@ -7,11 +7,13 @@ prepanel.rootogram <-
              dfun = NULL,
              transformation = sqrt,
              hang = TRUE,
+             probability = TRUE,
              ...)
 {
     plot.line <- trellis.par.get("plot.line")
     stopifnot(is.function(dfun))
-    yy <- transformation(y / sum(y))
+    if (probability) y <- y / sum(y)
+    yy <- transformation(y)
     xx <- sort(unique(x))
     dotArgs <- list(...)
     dfunArgs <- names(formals(dfun))
@@ -36,12 +38,14 @@ panel.rootogram <-
              alpha = plot.line$alpha,
              transformation = sqrt,
              hang = TRUE,
+             probability = TRUE,
              ...)
 {
     plot.line <- trellis.par.get("plot.line")
     ref.line <- trellis.par.get("reference.line")
     stopifnot(is.function(dfun))
-    yy <- transformation(y / sum(y))
+    if (probability) y <- y / sum(y)
+    yy <- transformation(y)
     xx <- sort(unique(x))
     dotArgs <- list(...)
     dfunArgs <- names(formals(dfun))
@@ -79,22 +83,26 @@ rootogram.formula <-
              ylab = expression(sqrt(P(X == x))),
              prepanel = prepanel.rootogram,
              panel = panel.rootogram,
-             ...)
+             ...,
+             probability = TRUE)
 {
+    if (!probability && missing(ylab)) ylab <- NULL
     if (length(x) == 2) ## formula like ~ x
         foo <-
             densityplot(x, data,
-                    prepanel = prepanel,
-                    panel = panel,
-                    ylab = ylab,
-                    ...)
+                        prepanel = prepanel,
+                        panel = panel,
+                        ylab = ylab,
+                        ...,
+                        probability = probability)
     else ## formula like y ~ x 
         foo <-
             xyplot(x, data,
-               prepanel = prepanel,
-               panel = panel,
-               ylab = ylab,
-               ...)
+                   prepanel = prepanel,
+                   panel = panel,
+                   ylab = ylab,
+                   ...,
+                   probability = probability)
     foo$call <- sys.call(sys.parent()); foo$call[[1]] <- quote(rootogram)
     foo
 }
