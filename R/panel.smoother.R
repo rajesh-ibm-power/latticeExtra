@@ -33,7 +33,6 @@ panel.smoother <-
         return()
     x <- as.numeric(x)[ok]
     y <- as.numeric(y)[ok]
-    data <- list(x = x, y = y)
     mod <- do.call(method,
                    c(alist(form, data = list(x = x, y = y)),
                      list(...)))

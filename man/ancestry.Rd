@@ -22,9 +22,9 @@
 \source{
 
   U.S. Census Bureau.  The ancestry data were extracted from Summary
-  File 3:
+  File 3, available from
   
-  \url{http://factfinder.census.gov/jsp/saff/SAFFInfo.jsp?_pageId=sp4_decennial_sf3}
+  \url{http://www.census.gov/census2000/sumfile3.html}
   
   which is based on the \sQuote{long form} questionnaire (asked to 1 in
   6 households surveyed).

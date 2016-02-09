@@ -127,6 +127,7 @@ print.layer <- function(x, ...) print.default(x, ...)
 "+.trellis" <- function(object, lay)
 {
     ocall <- sys.call(sys.parent()); ocall[[1]] <- quote(`+`)
+    if (missing(object) || missing(lay)) stop("Only one argument supplied to binary operator + which requires two.")
     stopifnot(inherits(object, "trellis"))
     lay <- as.layer(lay)
     if (inherits(object, "layer")) {

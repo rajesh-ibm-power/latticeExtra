@@ -3,7 +3,7 @@
 \alias{horizonplot.default}
 \alias{panel.horizonplot}
 \alias{prepanel.horizonplot}
-\title{ Plot many time series in parallel }
+\title{Plot many time series in parallel}
 
 \description{
   Plot many time series in parallel by cutting the y range into segments
@@ -15,27 +15,30 @@
 horizonplot(x, data, \dots)
 
 \S3method{horizonplot}{default}(x, data = NULL, \dots,
-    horizonscale = NA,
-    origin = function(y) na.omit(y)[1],
-    colorkey = FALSE, legend = NULL,
-    panel = panel.horizonplot,
-    prepanel = prepanel.horizonplot,
-    col.regions =
-    c("#B41414","#E03231","#F7A99C","#9FC8DC","#468CC8","#0165B3"),
-    strip = FALSE, strip.left = TRUE,
-    par.strip.text = list(cex = 0.6),
-    colorkey.digits = 3,
-    groups = NULL,
-    default.scales =
-      list(y = list(relation = "free", axs = "i", 
-                    draw = FALSE, tick.number = 2)))
+            nbands = 3L,
+            horizonscale = NA,
+            origin = function(y) na.omit(y)[1],
+            colorkey = FALSE, legend = NULL,
+            panel = panel.horizonplot,
+            prepanel = prepanel.horizonplot,
+            col.regions = brewer.pal(n = 2 * nbands, name = "RdYlBu"),
+            strip = FALSE, strip.left = TRUE,
+            par.strip.text = list(cex = 0.6),
+            colorkey.digits = 3,
+            layout = c(1, NA),
+            groups = NULL,
+            default.scales =
+              list(y = list(relation = "free", axs = "i", 
+                            draw = FALSE, tick.number = 2)))
 
-panel.horizonplot(x, y, ..., border = NA, col.regions =
-    c("#B41414","#E03231","#F7A99C","#9FC8DC","#468CC8","#0165B3"),
-    origin)
+panel.horizonplot(x, y, ..., border = NA,
+                  nbands = 3L,
+                  col.regions = brewer.pal(n = 2 * nbands, name = "RdYlBu"),
+                  origin)
 
 prepanel.horizonplot(x, y, ..., horizonscale = NA,
-    origin = function(y) na.omit(y)[1])
+                     nbands = 3L,
+                     origin = function(y) na.omit(y)[1])
 }
 
 \arguments{
@@ -54,6 +57,8 @@ prepanel.horizonplot(x, y, ..., horizonscale = NA,
     In typical usage, the method of \code{xyplot} called will be
     \code{\link{xyplot.ts}}.
   }
+  \item{nbands}{ Integer giving the number of discrete color bands used
+    (for both negative and positive deviations from the origin). }
   \item{horizonscale}{
     the scale of each color segment. There are 3 positive
     segments and 3 negative segments. If this is a given as a
@@ -95,6 +100,11 @@ prepanel.horizonplot(x, y, ..., horizonscale = NA,
   }
   \item{colorkey.digits}{
     digits for rounding values in colorkey labels.
+  }
+  \item{layout}{
+    Numeric vector of length 2 (or 3) specifying number of columns and
+    rows (and pages) in the plot. The default is to have one column and
+    as many rows as there are panels.
   }
   \item{default.scales}{
     sets default values of \code{scales}; leave this alone, pass

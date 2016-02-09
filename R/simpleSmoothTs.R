@@ -49,10 +49,10 @@ simpleSmoothTs.zoo <-
         ## find indices of aggregated time series in the original data
         ii <- findInterval(time(xtsf), time(xts))
         ## extract elements of time index corresponding to aggregated series
-        ans <- zoo(as.matrix(xtsf), time(x)[ii])
+        ans <- zoo::zoo(as.matrix(xtsf), time(x)[ii])
     } else {
         ans <- x
-        coredata(ans) <- coredata(xtsf)
+        zoo::coredata(ans) <- zoo::coredata(xtsf)
     }
     ans
 }

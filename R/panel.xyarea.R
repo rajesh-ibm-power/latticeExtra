@@ -83,10 +83,9 @@ panel.xyarea.ts <- function(x, y = x, ...)
     panel.xyarea(as.vector(time(x)), y, ...)
 }
 
-panel.xyarea.zoo <-
-    function(x, y = x, ...)
+panel.xyarea.zoo <- function(x, y = x, ...)
 {
-    panel.xyarea(index(x), coredata(y), ...)
+    panel.xyarea(zoo::index(x), zoo::coredata(y), ...)
 }
 
 ## A slightly modified copy of panel.qqmath

@@ -78,16 +78,14 @@ panel.xblocks.default <-
 panel.xblocks.ts <-
     function(x, y = x, ...)
 {
-    if (!is.function(y))
-        y <- as.vector(y)
+    if (!is.function(y)) y <- as.vector(y)
     panel.xblocks(as.vector(time(x)), y, ...)
 }
 
 panel.xblocks.zoo <-
     function(x, y = x, ...)
 {
-    if (!is.function(y))
-        y <- coredata(y)
-    panel.xblocks(index(x), y, ...)
+    if (!is.function(y)) y <- zoo::coredata(y)
+    panel.xblocks(zoo::index(x), y, ...)
 }
 

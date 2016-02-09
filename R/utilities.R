@@ -23,11 +23,13 @@ useOuterStrips <-
     dimx <- dim(x)
     stopifnot(inherits(x, "trellis"))
     stopifnot(length(dimx) == 2)
+    as.table <- x$as.table
+    
     opar <- if (is.null(x$par.settings)) list() else x$par.settings
     par.settings <-
         modifyList(opar,
                    list(layout.heights =
-                        if (x$as.table) list(strip = c(strip.lines, rep(0, dimx[2]-1)))
+                        if (as.table) list(strip = c(strip.lines, rep(0, dimx[2]-1)))
                         else list(strip = c(rep(0, dimx[2]-1), strip.lines)),
                         layout.widths =
                         list(strip.left = c(strip.left.lines, rep(0, dimx[1]-1)))))
@@ -39,14 +41,15 @@ useOuterStrips <-
         if (is.function(strip))
         {
             function(which.given, which.panel, var.name, ...) {
-                if (which.given == 1)
+                row.to.keep <- if (as.table) 1 else nrow(trellis.currentLayout())
+                if (which.given == 1 && current.row() == row.to.keep)
                     strip(which.given = 1,
                           which.panel = which.panel[1],
                           var.name = var.name[1],
                           ...)
             }
         }
-        else strip
+        else strip # This could reasonable happen only if strip == FALSE
     if (is.character(strip.left))
         strip.left <- get(strip.left)
     if (is.logical(strip.left) && strip.left)
@@ -55,7 +58,7 @@ useOuterStrips <-
         if (is.function(strip.left))
         {
             function(which.given, which.panel, var.name, ...) {
-                if (which.given == 2)
+                if (which.given == 2 && current.column() == 1)
                     strip.left(which.given = 1,
                                which.panel = which.panel[2],
                                var.name = var.name[2],

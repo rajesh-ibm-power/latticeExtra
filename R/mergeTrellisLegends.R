@@ -33,7 +33,7 @@ mergedTrellisLegendGrob <-
     if (is.null(b))
         return(a)
     if (!inherits(a$fun, "grob")) {
-        fun <- a$fun
+        ## fun <- a$fun
         if (is.character(a$fun)) a$fun <- as.symbol(a$fun)
         a$fun <- eval(as.call(c(a$fun, a$args)), getNamespace("lattice"))
     }

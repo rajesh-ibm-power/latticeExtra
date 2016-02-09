@@ -2,10 +2,9 @@
 \alias{useOuterStrips}
 \title{ Put Strips on the Boundary of a Lattice Display }
 \description{
-
   Try to update a \code{"trellis"} object so that strips are only
   shown on the top and left boundaries when printed, instead of in every
-  panel as is usual.  This is only meaningful when there are exactly tow
+  panel as is usual.  This is only meaningful when there are exactly two
   conditioning variables.
 
 }

@@ -50,9 +50,9 @@ data(USAge.df)
 
 \source{
 
-  \url{http://www.census.gov/popest/archives/pre-1980/PE-11.html}
-  U.S. Census Bureau, Population Division. Internet Release date:
-  October 1, 2004
+  U.S. Census Bureau website:
+
+  \url{http://www.census.gov/popest/data/national/asrh/pre-1980/PE-11.html}
 
   The data were available as individual files for year, with varying
   levels for the margins.  The preprocessing steps used to reduce the

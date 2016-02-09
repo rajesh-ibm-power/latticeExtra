@@ -1,5 +1,5 @@
 
-
+### Some obsolete experimental stuff. Remove at some point.
 
 
 ### Now, the question is, (1) whether to have the method for data
@@ -169,24 +169,12 @@ panel.df <- # combines above 2, should be called
                       units = units),
                  dots = list(...))
         }
-    pargs <- do.call("process.args", value)
+    pargs <- do.call(process.args, value)
     attr(x, "ginfo") <- pargs$ginfo
     if (length(pargs$dots) > 0)
         attr(x, "gplot.args") <- pargs$dots
     x
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ## S3 method
@@ -347,7 +335,7 @@ gplotArgs.data.frame <-
     else if (dvarTypes$resp == "factor" && dvarTypes$cov == "numeric")
         plotFun.constructed <- "dotplot"
     else {
-        str(dvarTypes)
+        ## str(dvarTypes)
         stop("unsupported combination")
     }
 

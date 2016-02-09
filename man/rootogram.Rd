@@ -33,6 +33,7 @@ panel.rootogram(x, y = table(x),
                 transformation = sqrt,
                 hang = TRUE,
                 probability = TRUE,
+                type = "l", pch = 16,
                 \dots)
 
 }
@@ -82,6 +83,14 @@ panel.rootogram(x, y = table(x),
   \item{probability}{ A logical flag, controlling whether the y-values
     are to be standardized to be probabilities by dividing by their sum.
   }
+
+  \item{type}{ A character vector consisting of one or both of
+    \code{"p"} and \code{"l"}. If \code{"p"} is included, the evaluated
+    values of \code{dfun} will be denoted by points, and if \code{"l"}
+    is included, they will be joined by lines. }
+
+  \item{pch}{ The plotting character to be used for the \code{"p"}
+    type. }
   
   \item{\dots}{ extra arguments, passed on as appropriate.  Standard
     lattice arguments as well as arguments to \code{panel.rootogram}

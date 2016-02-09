@@ -124,7 +124,7 @@ dendrogramGrob <-
     all.segs <- do.call(rbind, xseg)
     ## number of additional indicators
     nadd <- length(add)
-    nleaf <- length(ord)
+    ## nleaf <- length(ord)
     native.unit <- 1 / diff(native.xscale) # side of one square
     
     switch(side,

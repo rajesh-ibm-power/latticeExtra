@@ -65,7 +65,7 @@ panel.quantile(x, y, form = y ~ x, method = "rq", ...,
   }
 }
 \details{
-  It is recommended to look at \code{vignette("rq",package="quantreg")}.
+  It is recommended to look at \code{vignette("rq", package="quantreg")}.
 }
 \author{
   Felix Andrews \email{felix@nfrac.org}
@@ -78,7 +78,7 @@ panel.quantile(x, y, form = y ~ x, method = "rq", ...,
   \code{\link[ggplot2]{stat_quantile}}
 }
 \examples{
-library("quantreg")
+## library("quantreg")
 
 set.seed(1)
 xy <- data.frame(x = runif(100), y = rt(100, df = 5))

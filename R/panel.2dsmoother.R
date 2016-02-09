@@ -38,7 +38,7 @@ panel.2dsmoother <-
     yrange <- c(max(min(lims$y), min(y)), min(max(lims$y), max(y)))
     xseq <- seq(xrange[1], xrange[2], length = n)
     yseq <- seq(yrange[1], yrange[2], length = n)
-    zseq <- seq(min(z), max(z), length = n)
+    ## zseq <- seq(min(z), max(z), length = n)
     grid <- expand.grid(x = xseq, y = yseq)
     fit <- predict(mod, grid)
     panel.levelplot(x = grid$x, y = grid$y, z = fit, subscripts = TRUE,

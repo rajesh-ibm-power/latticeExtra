@@ -21,12 +21,14 @@ panel.voronoi <-
              ...,
              col.regions = regions$col, alpha.regions = regions$alpha)
 {
+    ## We need either tripack (better? but weird license) or
+    ## deldir. Go with deldir unless explicitly requested.
     if (use.tripack) {
-        if (!require("tripack", quietly = TRUE))
-            stop("The use.tripack option requires the tripack package")
+        if (!requireNamespace("tripack", quietly = TRUE))
+            stop("The 'use.tripack=TRUE' option requires the 'tripack' package to be installed.")
     } else {
-        if (!require("deldir", quietly = TRUE))
-            stop("This function requires the deldir package")
+        if (!requireNamespace("deldir", quietly = TRUE))
+            stop("This function requires the 'deldir' package to be installed.")
     }
     ## find subset of points to use
     x0 <- x[subscripts]
@@ -67,7 +69,7 @@ panel.voronoi <-
         ## add dummy points to ensure that voronoi polygons are finite
         dummies <- data.frame(x = c(-1,-1,1,1), y = c(-1,1,-1,1)) * 10 * max(abs(xy))
         xy <- rbind(xy, dummies)
-        tiles <- voronoi.polygons(voronoi.mosaic(xy, duplicate = "error"))
+        tiles <- tripack::voronoi.polygons(tripack::voronoi.mosaic(xy, duplicate = "error"))
     } else {
         ## NB: the 'rw' argument as subset of data is bad because
         ## need to take corresponding subset of z !
@@ -78,7 +80,7 @@ panel.voronoi <-
         #x <- x[set]
         #y <- y[set]
         #z <- z[set]
-        tiles <- tile.list(deldir(x, y, rw = bounds))
+        tiles <- deldir::tile.list(deldir::deldir(x, y, rw = bounds))
         tiles <- lapply(tiles, function(p) as.data.frame(p[c("x", "y")]))
     }
     ## draw it as one composite polygon

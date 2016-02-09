@@ -112,10 +112,9 @@ xyplot(flow ~ flowdates, type = "l") +
 
 ## highlight values above and below thresholds.
 ## blue, gray, red colors:
-rgb <- hcl(c(0, 0, 260), c = c(100, 0, 100), l = c(90, 90, 90))
-xyplot(flow) +
-  layer_(panel.xblocks(time(flow),
-         cut(flow, c(0,15,30,Inf), labels = rgb)))
+bgr <- hcl(c(0, 0, 260), c = c(100, 0, 100), l = c(90, 90, 90))
+dflow <- cut(flow, c(0,15,30,Inf), labels = bgr)
+xyplot(flow) + layer_(panel.xblocks(time(flow), dflow))
 
 ## Example of highlighting gaps (NAs) in time series.
 ## set up example data

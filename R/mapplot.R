@@ -89,12 +89,3 @@ mapplot.formula <-
     ans
 }
 
-
-
-## mapplot(rownames(USCancerRates) ~ log(rate.male) + log(rate.female),
-##         USCancerRates, outer = TRUE,
-##         ## colramp = cm.colors,
-##         map = county.map)
-
-##         ## scales = list(draw = FALSE), xlab = "", ylab = "",
-
