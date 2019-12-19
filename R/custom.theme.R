@@ -4,9 +4,9 @@
 ## colors from RColorBrewer
 
 custom.theme <-
-    function(symbol = brewer.pal(n = 8, name = "Dark2"),
-             fill = brewer.pal(n = 12, name = "Set3"),
-             region = brewer.pal(n = 11, name = "Spectral"),
+    function(symbol = RColorBrewer::brewer.pal(n = 8, name = "Dark2"),
+             fill = RColorBrewer::brewer.pal(n = 12, name = "Set3"),
+             region = RColorBrewer::brewer.pal(n = 11, name = "Spectral"),
              reference = "#e8e8e8",
              bg = "transparent",
              fg = "black",
@@ -39,15 +39,16 @@ custom.theme <-
              par.zlab.text     = list(col = fg),
              par.main.text     = list(col = fg),
              par.sub.text      = list(col = fg))
-    modifyList(modifyList(standard.theme("pdf"), theme), simpleTheme(...))
+    modifyList(modifyList(standard.theme("pdf"), theme),
+               simpleTheme(...))
 }
 
 custom.theme.2 <- function(...)
 {
     doit <-
-        function(symbol = brewer.pal(n = 9, name = "Set1")[c(2:1, 3:5, 7:9)], ## blue first
-                 fill = brewer.pal(n = 8, name = "Accent"),
-                 region = brewer.pal(n = 11, name = "RdBu"),
+        function(symbol = RColorBrewer::brewer.pal(n = 9, name = "Set1")[c(2:1, 3:5, 7:9)], ## blue first
+                 fill = RColorBrewer::brewer.pal(n = 8, name = "Accent"),
+                 region = RColorBrewer::brewer.pal(n = 11, name = "RdBu"),
                  ...)
         {
             custom.theme(symbol = symbol, fill = fill, region = region, ...)

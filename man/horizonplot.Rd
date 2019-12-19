@@ -21,7 +21,7 @@ horizonplot(x, data, \dots)
             colorkey = FALSE, legend = NULL,
             panel = panel.horizonplot,
             prepanel = prepanel.horizonplot,
-            col.regions = brewer.pal(n = 2 * nbands, name = "RdYlBu"),
+            col.regions = hcl.colors(2 * nbands, palette="RdYlBu"),
             strip = FALSE, strip.left = TRUE,
             par.strip.text = list(cex = 0.6),
             colorkey.digits = 3,
@@ -33,7 +33,7 @@ horizonplot(x, data, \dots)
 
 panel.horizonplot(x, y, ..., border = NA,
                   nbands = 3L,
-                  col.regions = brewer.pal(n = 2 * nbands, name = "RdYlBu"),
+                  col.regions = hcl.colors(2 * nbands, palette="RdYlBu"),
                   origin)
 
 prepanel.horizonplot(x, y, ..., horizonscale = NA,

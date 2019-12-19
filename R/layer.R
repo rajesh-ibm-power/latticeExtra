@@ -25,6 +25,12 @@ layer <-
         ## pass on only those arguments not named in each call
         foo <- as.expression(lapply(foo, magicDots, exclude = exclude))
     }
+    ## FIXME: should we have 
+    ##
+    ## if (missing(data)) data <- parent.frame()
+    ##
+    ## ?  See tests/layer.R for a non-obvious failure. But not sure
+    ## how best to fix.
     mostattributes(foo) <-
         list(data = data,
              under = under,

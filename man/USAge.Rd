@@ -50,13 +50,15 @@ data(USAge.df)
 
 \source{
 
-  U.S. Census Bureau website:
+  U.S. Census Bureau website: \url{http://www.census.gov/}
 
-  \url{http://www.census.gov/popest/data/national/asrh/pre-1980/PE-11.html}
-
-  The data were available as individual files for year, with varying
-  levels for the margins.  The preprocessing steps used to reduce the
-  data to the form given here are described in the scripts directory.
+  %% Original URL
+  %% \url{http://www.census.gov/popest/data/national/asrh/pre-1980/PE-11.html} is no longer valid
+  
+  The data were available as individual files for each year, with
+  varying levels for the margins.  The preprocessing steps used to
+  reduce the data to the form given here are described in the scripts
+  directory.
   
 }
 

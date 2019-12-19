@@ -16,8 +16,13 @@ panel.quantile <-
              type, col.line, col.symbol, fill,
              pch, cex, font, fontface, fontfamily)
 {
-    ## library("quantreg")
-    ## stopifnot(require("quantreg"))
+    if (method %in% c("rq", "rqss") &&
+        !requireNamespace("quantreg", quietly=TRUE))
+        stop("The 'quantreg' package is required for methods \"rq\" and \"rqss\".")
+    methodFun <- switch(method,
+                        rq = quantreg::rq,
+                        rqss = quantreg::rqss,
+                        method)
     plot.line <- trellis.par.get("plot.line")
     if (!missing(col.line)) col <- col.line
     ## allow 'form' to be passed as the first argument
@@ -34,8 +39,7 @@ panel.quantile <-
     if (sum(ok) < 1) return()
     x <- as.numeric(x)[ok]
     y <- as.numeric(y)[ok]
-    if (method != "rq") stop("Only method='rq' is supported.")
-    mod <- do.call(quantreg::rq,
+    mod <- do.call(method,
                    c(alist(form, tau = tau, data = list(x = x, y = y)),
                      list(...)))
     xseq <- seq(min(x), max(x), length = n)
@@ -50,7 +54,7 @@ panel.quantile <-
         pred <- pred[, "fit", drop = FALSE]
     }
     if (superpose) {
-        for (i in seq_len(NCOL(pred))) {
+        for (i in 1:NCOL(pred)) {
             line <- Rows(trellis.par.get("superpose.line"), i)
             panel.lines(xseq, pred[,i], col = line$col, alpha = line$alpha,
                         lty = line$lty, lwd = line$lwd)

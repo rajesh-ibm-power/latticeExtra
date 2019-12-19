@@ -54,7 +54,7 @@
 \source{
   Sites were chosen by hand from maps on the Bureau of Meteorology
   website. The data were extracted manually from web pages under
-  \url{http://www.bom.gov.au/climate/averages/}
+  \url{http://www.bom.gov.au/climate/}
   and processed to extract a subset of statistics.
   - by Felix Andrews \email{felix@nfrac.org}
 

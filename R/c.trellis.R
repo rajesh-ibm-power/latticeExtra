@@ -1,6 +1,5 @@
 
-##
-## Copyright (c) 2007 Felix Andrews <felix@nfrac.org>
+## Copyright (C) 2007 Felix Andrews <felix@nfrac.org>
 ## GPL version 2 or newer
 
 
@@ -185,10 +184,13 @@ c.trellis <-
     obj1$panel.args <- c(obj1$panel.args, obj2$panel.args)
     obj1$packet.sizes <- c(obj1$packet.sizes, obj2$packet.sizes)
     ## some prepanel functions require a 'subscripts' argument in each 'panel.args'
-    if ("subscripts" %in% c(names(formals(obj1$prepanel.default)),
-                            names(formals(obj1$prepanel)))) {
-        for (i in seq_along(obj1$panel.args)) {
-            if ("subscripts" %in% names(obj1$panel.args[[i]]) == FALSE) {
+    fargNames <- function(f) if (is.null(f)) NULL else names(formals(f))
+    if ("subscripts" %in% c(fargNames(obj1$prepanel.default), fargNames(obj1$prepanel)))
+    {
+        for (i in seq_along(obj1$panel.args))
+        {
+            if (!("subscripts" %in% names(obj1$panel.args[[i]])))
+            {
                 obj1$panel.args[[i]]$subscripts <- TRUE
             }
         }

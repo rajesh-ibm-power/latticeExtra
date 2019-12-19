@@ -9,11 +9,13 @@
   for ungrouped displays.
 }
 \usage{
-custom.theme(symbol = brewer.pal(n = 8, name = "Dark2"),
-             fill = brewer.pal(n = 12, name = "Set3"),
-             region = brewer.pal(n = 11, name = "Spectral"),
+custom.theme(symbol = RColorBrewer::brewer.pal(n = 8, name = "Dark2"),
+             fill = RColorBrewer::brewer.pal(n = 12, name = "Set3"),
+             region = RColorBrewer::brewer.pal(n = 11, name = "Spectral"),
              reference = "#e8e8e8",
-             bg = "transparent", fg = "black", \dots)
+             bg = "transparent",
+             fg = "black",
+             \dots)
 
 ## different defaults ("Set1", "Accent", "RdBu"):
 custom.theme.2(\dots)
@@ -58,9 +60,9 @@ update(obj, par.settings = custom.theme())
 
 ## create a theme with paired colours, filled points, etc
 update(obj, par.settings =
-  custom.theme(symbol = brewer.pal(12, "Paired"),
-               fill = brewer.pal(12, "Paired"),
-               region = brewer.pal(9, "Blues"),
+  custom.theme(symbol = RColorBrewer::brewer.pal(12, "Paired"),
+               fill = RColorBrewer::brewer.pal(12, "Paired"),
+               region = RColorBrewer::brewer.pal(9, "Blues"),
                bg = "grey90", fg = "grey20", pch = 16))
 
 ## draw with custom.theme.2()

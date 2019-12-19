@@ -13,7 +13,7 @@ theEconomist.theme <-
          superpose.symbol = list(col = c("#00526D", "#00A3DB", "#7A2713", "#939598", "#6CCFF6"), pch = 16),
          plot.polygon = list(col = "#00526D"),
          superpose.polygon = list(col = c("#5F92A8", "#00526D", "#6CCFF6", "#00A3DB", "#A7A9AC")),
-         regions = list(col = colorRampPalette(brewer.pal(9, "Blues"))(100)),
+         regions = list(col = colorRampPalette(RColorBrewer::brewer.pal(9, "Blues"))(100)),
          reference.line = list(col = if (with.bg) "white" else "#aaaaaa", lwd = 1.75),
          dot.line = list(col = if (with.bg) "white" else "#aaaaaa", lwd = 1.75),
          add.line = list(col = "#ED1C24", lwd = 1.5),

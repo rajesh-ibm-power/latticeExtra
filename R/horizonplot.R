@@ -13,7 +13,7 @@ horizonplot.default <-
              colorkey = FALSE, legend = NULL,
              panel = panel.horizonplot,
              prepanel = prepanel.horizonplot,
-             col.regions = brewer.pal(n = 2 * nbands, name = "RdYlBu"),
+             col.regions = hcl.colors(2 * nbands, palette="RdYlBu"),
              strip = FALSE, strip.left = TRUE,
              par.strip.text = list(cex = 0.6),
              colorkey.digits = 3,
@@ -78,7 +78,7 @@ horizonplot.default <-
 panel.horizonplot <-
     function(x, y, ..., border = NA,
              nbands = 3L,
-             col.regions = brewer.pal(n = 2 * nbands, name = "RdYlBu"),
+             col.regions = hcl.colors(2 * nbands, palette="RdYlBu"),
              origin) ## catch origin, don't pass to panel.xyarea!
 {
     origin <- current.panel.limits()$ylim[1]

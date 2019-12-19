@@ -22,15 +22,13 @@
   }
 }
 \source{
-  \url{http://www.ficcs.org/}
+  \url{http://web.archive.org/web/20070427103026/http://www.ficcs.org/software.html#Data_Files}
 }
 \references{
-
   Brinkman, R.R., et al. (2007).  High-Content Flow Cytometry and
   Temporal Data Analysis for Defining a
   Cellular Signature of Graft-Versus-Host Disease.
   \emph{Biology of Blood and Marrow Transplantation} \bold{13--6}
-
 }
 \examples{
 ## Figure 3.4 from Sarkar (2008)

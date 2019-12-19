@@ -19,7 +19,7 @@ mapplot(x, data, \dots)
         aspect = "iso",
         legend = NULL,
         breaks, cuts = 30,
-        colramp = colorRampPalette(brewer.pal(n = 11, name = "Spectral")),
+        colramp = colorRampPalette(hcl.colors(n = 11, palette = "Spectral")),
         colorkey = TRUE,
         \dots)
 
@@ -119,11 +119,11 @@ county.map <-
 
 ## set a sequential color palette as current theme, and use it
 opar <- trellis.par.get()
-trellis.par.set(custom.theme(region = brewer.pal(9, "Purples"),
+trellis.par.set(custom.theme(region = rev(hcl.colors(9, "Purp")),
                              alpha.line = 0.5))
 suppressWarnings(print(
 mapplot(county ~ log10(population), ancestry, map = county.map,
-    colramp = NULL)
+    colramp = NULL, border = "transparent")
 ))
 trellis.par.set(opar)
 

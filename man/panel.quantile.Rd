@@ -28,9 +28,13 @@ panel.quantile(x, y, form = y ~ x, method = "rq", ...,
     can be passed as the first argument (i.e. \code{x}).
   }
   \item{form, method}{
-    the model is constructed (approximately) as
+    Formula and the name of a modeling function (as a character
+    string). The model is constructed (approximately) as
     \code{method(form, tau = tau, data = list(x=x, y=y), ...)}.
-    See the Examples section for common choices.
+    Currently, \code{method} is expected to be either \code{"rq"} or
+    \code{"rqss"}, and for these the corresponding functions in the
+    \pkg{quantreg} package is used. In principle, any other function
+    that supports the same interface can also be specified by name.
   }
   \item{\dots}{
     further arguments passed on to the model function (\code{method}),
@@ -83,24 +87,25 @@ panel.quantile(x, y, form = y ~ x, method = "rq", ...,
 set.seed(1)
 xy <- data.frame(x = runif(100), y = rt(100, df = 5))
 xyplot(y ~ x, xy) +
-  layer(panel.quantile(x, y, tau = c(.95, .5, .05)))
+    layer(panel.quantile(x, y, tau = c(.95, .5, .05)))
 
 if (require("splines")) {
-  xyplot(y ~ x, xy) +
-    layer(panel.quantile(y ~ ns(x, 3), tau = 0.9))
+    xyplot(y ~ x, xy) +
+        layer(panel.quantile(y ~ ns(x, 3), tau = 0.9))
 
-  xyplot(y ~ x, xy) +
-    layer(panel.quantile(y ~ ns(x, 3), tau = 0.9, ci = TRUE))
+    xyplot(y ~ x, xy) +
+        layer(panel.quantile(y ~ ns(x, 3), tau = 0.9, ci = TRUE))
 }
 
 xyplot(y ~ x, xy) +
-  layer(panel.quantile(x, y, tau = c(.5, .9, .1), superpose = TRUE))
+    layer(panel.quantile(x, y, tau = c(.5, .9, .1), superpose = TRUE))
+
 update(trellis.last.object(),
-  auto.key = list(text = paste(c(50,90,10), "\% quantile"),
+       auto.key = list(text = paste(c(50,90,10), "\% quantile"),
                   points = FALSE, lines = TRUE))
 
-## seems not to work...
-#xyplot(y ~ x, xy) +
-#  layer(panel.quantile(y ~ qss(x, lambda=1), method = "rqss"))
+xyplot(y ~ x, xy) +
+    layer(panel.quantile(y ~ qss(x, lambda=1), method = "rqss"))
+
 }
 \keyword{ dplot }

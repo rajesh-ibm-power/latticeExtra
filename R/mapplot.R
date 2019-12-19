@@ -41,7 +41,7 @@ mapplot.formula <-
              aspect = "iso",
              legend = NULL,
              breaks, cuts = 30,
-             colramp = colorRampPalette(brewer.pal(n = 11, name = "Spectral")),
+             colramp = colorRampPalette(hcl.colors(n = 11, palette = "Spectral")),
              colorkey = TRUE,
              ## col.regions,
              ## alpha.regions,
